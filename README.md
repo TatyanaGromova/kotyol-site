@@ -90,7 +90,7 @@ Hero (оффер + видео + CTA)
 
 ### Мобильная версия
 
-![Mobile](./screenshots/mobile.png)
+<img src="./screenshots/mobile.png" width="300" alt="Мобильная версия сайта">
 
 ---
 
