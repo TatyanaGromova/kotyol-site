@@ -141,11 +141,12 @@ if (lightbox && lightboxImage && lightboxClose) {
   });
 }
 
-// Карусель «Наши работы» (логика как у circular-testimonials: 3 карточки, gap, автоплей).
+// Карусель «Наши работы»: одно крупное фото без наслоения + ряд миниатюр для выбора.
 (function initWorksCarousel() {
   const root = document.getElementById("worksCarousel");
   const ring = document.getElementById("worksRing");
-  if (!root || !ring) return;
+  const thumbsHost = document.getElementById("worksThumbs");
+  if (!root || !ring || !thumbsHost) return;
 
   const frames = Array.from(ring.querySelectorAll(".works-carousel__frame"));
   const titleEl = document.getElementById("worksSlideTitle");
@@ -161,23 +162,28 @@ if (lightbox && lightboxImage && lightboxClose) {
   const len = frames.length;
   if (len === 0) return;
 
-  frames.forEach((frame) => {
+  const thumbButtons = [];
+
+  frames.forEach((frame, i) => {
     const img = frame.querySelector("img");
     const t = frame.dataset.workTitle;
     if (img && t) img.alt = `Фото объекта: ${t}`;
-  });
 
-  function calculateGap(width) {
-    const minWidth = 1024;
-    const maxWidth = 1456;
-    const minGap = 92;
-    const maxGap = 108;
-    let g;
-    if (width <= minWidth) g = minGap;
-    else if (width >= maxWidth) g = Math.max(minGap, maxGap + 0.055 * (width - maxWidth));
-    else g = minGap + (maxGap - minGap) * ((width - minWidth) / (maxWidth - minWidth));
-    return Math.min(g, Math.max(56, width * 0.15));
-  }
+    const tb = document.createElement("button");
+    tb.type = "button";
+    tb.className = "works-carousel__thumb";
+    tb.setAttribute("role", "tab");
+    tb.setAttribute("aria-label", t || `Слайд ${i + 1}`);
+    tb.setAttribute("aria-selected", i === activeIndex ? "true" : "false");
+    const ti = document.createElement("img");
+    ti.src = frame.dataset.image || "";
+    ti.alt = "";
+    ti.setAttribute("aria-hidden", "true");
+    tb.appendChild(ti);
+    tb.addEventListener("click", () => goTo(i));
+    thumbsHost.appendChild(tb);
+    thumbButtons.push(tb);
+  });
 
   function clearAutoplay() {
     if (autoplayTimer) {
@@ -206,82 +212,36 @@ if (lightbox && lightboxImage && lightboxClose) {
     });
   }
 
-  function applyTransforms() {
-    const w = ring.offsetWidth || 1200;
-    const gap = calculateGap(w);
-    const maxStickUp = gap * 0.62;
-
-    if (reducedMotion.matches) {
-      frames.forEach((frame, index) => {
-        const isActive = index === activeIndex;
-        frame.classList.toggle("works-carousel__frame--active", isActive);
-        frame.classList.remove("works-carousel__frame--side");
-        frame.style.zIndex = isActive ? "5" : "0";
-        frame.style.opacity = isActive ? "1" : "0";
-        frame.style.visibility = isActive ? "visible" : "hidden";
-        frame.style.pointerEvents = isActive ? "auto" : "none";
-        frame.style.filter = "none";
-        frame.style.transform = "translate3d(0,0,0) scale(1)";
-      });
-      return;
-    }
-
-    const activeZ = 72;
-    const sideZ = -56;
-    const sideScale = 0.76;
-    const sideRotate = 24;
-
+  function applyFrames() {
     frames.forEach((frame, index) => {
-      const isActive = index === activeIndex;
-      const isLeft = (activeIndex - 1 + len) % len === index;
-      const isRight = (activeIndex + 1) % len === index;
+      frame.classList.toggle("works-carousel__frame--active", index === activeIndex);
+    });
+  }
 
-      frame.classList.toggle("works-carousel__frame--active", isActive);
-      frame.classList.toggle("works-carousel__frame--side", isLeft || isRight);
-
-      frame.style.transition =
-        "transform 0.75s cubic-bezier(0.33, 1, 0.32, 1), opacity 0.45s ease, filter 0.45s ease";
-
-      if (isActive) {
-        frame.style.zIndex = "5";
-        frame.style.opacity = "1";
-        frame.style.visibility = "visible";
-        frame.style.pointerEvents = "auto";
-        frame.style.filter = "none";
-        frame.style.transform = `translate3d(0px, 0px, ${activeZ}px) scale(1) rotateY(0deg)`;
-      } else if (isLeft) {
-        frame.style.zIndex = "2";
-        frame.style.opacity = "0.9";
-        frame.style.visibility = "visible";
-        frame.style.pointerEvents = "auto";
-        frame.style.filter = "brightness(0.94) saturate(0.92)";
-        frame.style.transform = `translate3d(-${gap}px, -${maxStickUp}px, ${sideZ}px) scale(${sideScale}) rotateY(${sideRotate}deg)`;
-      } else if (isRight) {
-        frame.style.zIndex = "2";
-        frame.style.opacity = "0.9";
-        frame.style.visibility = "visible";
-        frame.style.pointerEvents = "auto";
-        frame.style.filter = "brightness(0.94) saturate(0.92)";
-        frame.style.transform = `translate3d(${gap}px, -${maxStickUp}px, ${sideZ}px) scale(${sideScale}) rotateY(-${sideRotate}deg)`;
-      } else {
-        frame.style.zIndex = "0";
-        frame.style.opacity = "0";
-        frame.style.visibility = "hidden";
-        frame.style.pointerEvents = "none";
-        frame.style.filter = "none";
-        frame.style.transform = "translate3d(0px, 0px, -120px) scale(0.72) rotateY(0deg)";
+  function updateThumbs() {
+    thumbButtons.forEach((tb, i) => {
+      const on = i === activeIndex;
+      tb.classList.toggle("is-active", on);
+      tb.setAttribute("aria-selected", on ? "true" : "false");
+      if (on) {
+        tb.scrollIntoView({
+          inline: "center",
+          block: "nearest",
+          behavior: reducedMotion.matches ? "auto" : "smooth",
+        });
       }
     });
   }
 
   function applyState() {
     if (descEl) descEl.classList.add("is-switching");
-    applyTransforms();
+    applyFrames();
     updatePanel();
+    updateThumbs();
     window.requestAnimationFrame(() => {
       window.setTimeout(() => {
         if (descEl) descEl.classList.remove("is-switching");
-      }, 120);
+      }, 100);
     });
   }
 
@@ -300,10 +260,11 @@ if (lightbox && lightboxImage && lightboxClose) {
     goTo(activeIndex + 1);
   }
 
-  frames.forEach((frame, index) => {
+  frames.forEach((frame) => {
     frame.addEventListener("click", () => {
-      if (index === activeIndex) return;
-      goTo(index);
+      if (!frame.classList.contains("works-carousel__frame--active")) return;
+      const path = frame.dataset.image;
+      if (path) openLightbox(path);
     });
   });
 
@@ -326,12 +287,6 @@ if (lightbox && lightboxImage && lightboxClose) {
       e.preventDefault();
       handleNext();
     }
-  });
-
-  let resizeRaf = 0;
-  window.addEventListener("resize", () => {
-    cancelAnimationFrame(resizeRaf);
-    resizeRaf = requestAnimationFrame(() => applyTransforms());
   });
 
   reducedMotion.addEventListener("change", () => {

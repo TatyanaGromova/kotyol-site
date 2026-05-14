@@ -1210,53 +1210,115 @@ img { max-width: 100%; display: block; }
 .works-carousel__stage {
   position: relative;
   width: 100%;
-  min-height: clamp(240px, 54vw, 380px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  min-height: 0;
 }
 .works-carousel__ring {
   position: relative;
   width: 100%;
-  height: clamp(240px, 54vw, 380px);
-  perspective: 1600px;
-  perspective-origin: 50% 45%;
-  transform-style: preserve-3d;
+  max-width: min(100%, 440px);
+  aspect-ratio: 4 / 3;
+  margin: 0 auto;
   isolation: isolate;
 }
 .works-carousel__frame {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
+  inset: 0;
   margin: auto;
   width: 100%;
-  max-width: min(100%, 400px);
   height: 100%;
-  max-height: 360px;
+  max-width: 100%;
+  max-height: 100%;
   padding: 0;
   border: 0;
   border-radius: 24px;
   overflow: hidden;
-  cursor: pointer;
+  cursor: default;
   background: #e8eef2;
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
   transform-origin: center center;
-  transform-style: preserve-3d;
   transition:
-    transform 0.75s cubic-bezier(0.33, 1, 0.32, 1),
     opacity 0.45s ease,
-    box-shadow 0.45s ease,
-    filter 0.45s ease;
-  will-change: transform, opacity;
+    visibility 0s linear 0.45s,
+    box-shadow 0.35s ease;
+  will-change: opacity;
 }
 .works-carousel__frame.works-carousel__frame--active {
+  cursor: pointer;
+  transition:
+    opacity 0.35s ease,
+    visibility 0s linear 0s,
+    box-shadow 0.35s ease;
+  opacity: 1;
+  visibility: visible;
   box-shadow:
-    0 20px 50px rgba(15, 23, 42, 0.22),
-    0 0 0 1px rgba(255, 255, 255, 0.35);
-  z-index: 5;
+    0 18px 44px rgba(15, 23, 42, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.4);
+  z-index: 2;
 }
-.works-carousel__frame.works-carousel__frame--side {
-  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
+.works-carousel__frame:not(.works-carousel__frame--active) {
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
 }
+.works-carousel__thumbs {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  width: 100%;
+  max-width: min(100%, 440px);
+  margin: 0 auto;
+  padding: 6px 4px 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+.works-carousel__thumbs::-webkit-scrollbar {
+  height: 6px;
+}
+.works-carousel__thumbs::-webkit-scrollbar-thumb {
+  background: rgba(255, 107, 61, 0.45);
+  border-radius: 10px;
+}
+.works-carousel__thumb {
+  flex: 0 0 auto;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.1);
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.works-carousel__thumb:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+}
+.works-carousel__thumb.is-active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(255, 107, 61, 0.25);
+}
+.works-carousel__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+.works-carousel__thumb:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 .works-carousel__frame img {
   width: 100%;
   height: 100%;
@@ -1343,10 +1405,9 @@ img { max-width: 100%; display: block; }
 
 @media (prefers-reduced-motion: reduce) {
   .works-carousel__frame {
-    transition: opacity 0.25s ease;
+    transition: opacity 0.2s ease;
   }
-  .works-carousel__frame.works-carousel__frame--active,
-  .works-carousel__frame.works-carousel__frame--side {
+  .works-carousel__frame.works-carousel__frame--active {
     box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
   }
 }
@@ -2164,13 +2225,10 @@ img { max-width: 100%; display: block; }
     justify-items: center;
   }
 
-  .works-carousel__stage {
-    min-height: 220px;
-  }
   .works-carousel__ring {
-    height: min(56vw, 280px);
+    max-width: 100%;
   }
-  .works-carousel__frame {
+  .works-carousel__thumbs {
     max-width: 100%;
   }
   .works-carousel__open {
