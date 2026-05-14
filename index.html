@@ -477,12 +477,18 @@
             <li>Выполняем сервисное обслуживание.</li>
           </ul>
         </div>
-        <div class="official__doc">
-          <img loading="lazy" src="images/documents.png" alt="Документы и согласования" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';" />
-          <div class="official__doc-fallback">
-            <i class="bi bi-file-earmark-text"></i>
-            <p>Прозрачный процесс и понятные документы на каждом этапе.</p>
-          </div>
+        <div class="official__doc" aria-label="Документы и прозрачный процесс">
+          <img
+            class="official__doc-bg"
+            loading="lazy"
+            src="images/why-us-documents.jpg"
+            alt=""
+            onerror="this.onerror=null;this.src='images/why-us-documents.png';"
+          />
+          <div class="official__doc-gradient" aria-hidden="true"></div>
+          <p class="official__doc-caption">
+            Прозрачный процесс и понятные документы на каждом этапе
+          </p>
         </div>
       </div>
     </section>
