@@ -1284,10 +1284,37 @@ img { max-width: 100%; display: block; }
 
 .reveal {
   opacity: 0;
-  transform: translateY(26px);
-  transition: opacity .75s ease, transform .75s ease;
+  transform: translate3d(0, 28px, 0);
+  transition:
+    opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.reveal.active { opacity: 1; transform: translateY(0); }
+.reveal.active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Варианты направления (опционально: class="reveal reveal--from-left") */
+.reveal--from-left {
+  transform: translate3d(-24px, 0, 0);
+}
+.reveal--from-right {
+  transform: translate3d(24px, 0, 0);
+}
+.reveal--from-left.active,
+.reveal--from-right.active {
+  transform: translate3d(0, 0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal--from-left,
+  .reveal--from-right {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
 
 @keyframes pulse {
   0%, 100% { box-shadow: 0 12px 24px rgba(255, 107, 61, .35); transform: translateY(0); }

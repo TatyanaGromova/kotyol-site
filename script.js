@@ -9,19 +9,43 @@ if (menuToggle && navMenu) {
   });
 }
 
-// Анимация появления блоков при прокрутке.
-const revealElements = document.querySelectorAll(".reveal");
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add("active");
-      revealObserver.unobserve(entry.target);
-    });
-  },
-  { threshold: 0.18 }
-);
-revealElements.forEach((element) => revealObserver.observe(element));
+// Анимация появления блоков при прокрутке (аналог идеи story-scroll / GSAP ScrollTrigger,
+// без React и без тяжёлых библиотек — только IntersectionObserver + CSS transitions).
+function initScrollReveal() {
+  const revealElements = document.querySelectorAll(".reveal");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const activateAll = () => {
+    revealElements.forEach((el) => el.classList.add("active"));
+  };
+
+  if (reducedMotion.matches) {
+    activateAll();
+    return;
+  }
+
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("active");
+        revealObserver.unobserve(entry.target);
+      });
+    },
+    {
+      threshold: 0.12,
+      rootMargin: "0px 0px -6% 0px",
+    }
+  );
+
+  revealElements.forEach((element) => revealObserver.observe(element));
+
+  reducedMotion.addEventListener("change", () => {
+    if (reducedMotion.matches) activateAll();
+  });
+}
+
+initScrollReveal();
 
 // Счетчики достижений в hero.
 const counters = document.querySelectorAll("[data-counter]");
