@@ -323,6 +323,183 @@ if (lightbox && lightboxImage && lightboxClose) {
   startAutoplay();
 })();
 
+// Круговая 3D-галерея «Наши услуги» (адаптация circular-gallery: скролл + автоповорот + drag).
+(function initServicesRing() {
+  const root = document.getElementById("servicesRing");
+  const track = document.getElementById("servicesRingTrack");
+  const stage = root?.querySelector(".services-ring__stage");
+  if (!root || !track || !stage) return;
+
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+  if (reduced.matches) {
+    root.classList.add("services-ring--flat");
+    return;
+  }
+
+  const panels = Array.from(root.querySelectorAll(".services-ring__panel"));
+  const count = panels.length || 7;
+  const step = 360 / count;
+  const btnPrev = document.getElementById("servicesRingPrev");
+  const btnNext = document.getElementById("servicesRingNext");
+
+  let userDeg = 0;
+  let autoDeg = 0;
+  let isScrolling = false;
+  let scrollTimer = null;
+  let rafId = 0;
+
+  let dragPointer = false;
+  let dragStartX = 0;
+  let dragStartUser = 0;
+  let lastTouchX = 0;
+
+  function scrollProgress() {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    return h > 0 ? window.scrollY / h : 0;
+  }
+
+  function scrollDegrees() {
+    return scrollProgress() * 220;
+  }
+
+  function updateRadius() {
+    const w = stage.offsetWidth || 400;
+    const tz = Math.min(340, Math.max(190, w * 0.38));
+    root.style.setProperty("--ring-tz", `${tz}px`);
+  }
+
+  function totalAngle() {
+    return scrollDegrees() + autoDeg + userDeg;
+  }
+
+  function apply() {
+    const angle = totalAngle();
+    track.style.transform = `translate(-50%, -50%) rotateY(${-angle}deg)`;
+    for (let i = 0; i < count; i += 1) {
+      const panel = panels[i];
+      const itemAngle = i * step;
+      let d = (((itemAngle - angle) % 360) + 360) % 360;
+      if (d > 180) d = 360 - d;
+      panel.style.opacity = String(Math.max(0.32, 1 - d / 180));
+    }
+  }
+
+  function tick() {
+    if (!isScrolling) autoDeg += 0.035;
+    updateRadius();
+    apply();
+    rafId = window.requestAnimationFrame(tick);
+  }
+
+  function stopTick() {
+    if (rafId) window.cancelAnimationFrame(rafId);
+    rafId = 0;
+  }
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      isScrolling = true;
+      window.clearTimeout(scrollTimer);
+      scrollTimer = window.setTimeout(() => {
+        isScrolling = false;
+      }, 160);
+    },
+    { passive: true }
+  );
+
+  stage.addEventListener(
+    "wheel",
+    (e) => {
+      e.preventDefault();
+      userDeg += e.deltaY * 0.055;
+    },
+    { passive: false }
+  );
+
+  stage.addEventListener("mousedown", (e) => {
+    if (e.button !== 0) return;
+    dragPointer = true;
+    dragStartX = e.clientX;
+    dragStartUser = userDeg;
+    stage.style.cursor = "grabbing";
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (!dragPointer) return;
+    userDeg = dragStartUser + (e.clientX - dragStartX) * 0.32;
+  });
+
+  window.addEventListener("mouseup", () => {
+    if (!dragPointer) return;
+    dragPointer = false;
+    stage.style.cursor = "";
+  });
+
+  stage.addEventListener(
+    "touchstart",
+    (e) => {
+      if (!e.touches[0]) return;
+      dragPointer = true;
+      lastTouchX = e.touches[0].clientX;
+    },
+    { passive: true }
+  );
+
+  stage.addEventListener(
+    "touchmove",
+    (e) => {
+      if (!dragPointer || !e.touches[0]) return;
+      const x = e.touches[0].clientX;
+      userDeg += (x - lastTouchX) * 0.45;
+      lastTouchX = x;
+    },
+    { passive: true }
+  );
+
+  stage.addEventListener("touchend", () => {
+    dragPointer = false;
+  });
+
+  function nudge(delta) {
+    userDeg += delta;
+  }
+
+  if (btnPrev) btnPrev.addEventListener("click", () => nudge(-step));
+  if (btnNext) btnNext.addEventListener("click", () => nudge(step));
+
+  root.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      nudge(-step);
+    }
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      nudge(step);
+    }
+  });
+
+  let resizeT = 0;
+  window.addEventListener("resize", () => {
+    window.clearTimeout(resizeT);
+    resizeT = window.setTimeout(updateRadius, 80);
+  });
+
+  reduced.addEventListener("change", () => {
+    if (reduced.matches) {
+      stopTick();
+      root.classList.add("services-ring--flat");
+    } else {
+      root.classList.remove("services-ring--flat");
+      updateRadius();
+      if (!rafId) rafId = window.requestAnimationFrame(tick);
+    }
+  });
+
+  updateRadius();
+  rafId = window.requestAnimationFrame(tick);
+})();
+
 // Обработка формы заявки.
 const requestForm = document.getElementById("requestForm");
 const formMessage = document.getElementById("formMessage");

@@ -268,48 +268,106 @@
       </div>
     </section>
 
-    <section class="section section--gray" id="services">
+    <section class="section section--gray section--services" id="services">
       <div class="container">
         <div class="section__head reveal reveal--from-left">
           <h2>Наши услуги</h2>
           <p>Комплексные решения для отопления, газификации и сервиса</p>
         </div>
-        <div class="services-scroll reveal reveal--from-right">
-          <article class="service-card">
-            <img loading="lazy" src="images/prodazha-kotlov.png" alt="Продажа газовых котлов" />
-            <h3>Продажа газовых котлов</h3>
-            <p>Подберём оборудование под ваш дом и бюджет.</p>
-          </article>
-          <article class="service-card">
-            <img loading="lazy" src="images/montazh-otopleniya.png" alt="Монтаж отопления" />
-            <h3>Монтаж отопления</h3>
-            <p>Установим систему отопления под ключ.</p>
-          </article>
-          <article class="service-card">
-            <img loading="lazy" src="images/pervyj-zapusk.png" alt="Первый запуск" />
-            <h3>Первый запуск</h3>
-            <p>Настроим оборудование и проверим безопасность.</p>
-          </article>
-          <article class="service-card">
-            <img loading="lazy" src="images/remont-kotlov.png" alt="Ремонт котлов" />
-            <h3>Ремонт котлов</h3>
-            <p>Проведём диагностику и устраним неисправности.</p>
-          </article>
-          <article class="service-card">
-            <img loading="lazy" src="images/promyvka.png" alt="Промывка теплообменников" />
-            <h3>Промывка теплообменников</h3>
-            <p>Очистим систему для стабильной работы котла.</p>
-          </article>
-          <article class="service-card">
-            <img loading="lazy" src="images/prodazha-zapchastej.png" alt="Продажа запчастей" />
-            <h3>Продажа запчастей</h3>
-            <p>Подберём комплектующие для популярных брендов.</p>
-          </article>
-          <article class="service-card">
-            <img loading="lazy" src="images/konsultaciya.png" alt="Консультации по подбору" />
-            <h3>Консультации по подбору</h3>
-            <p>Поможем выбрать решение без лишних расходов.</p>
-          </article>
+        <p class="services-ring__hint reveal reveal--from-right">
+          Крутите колесом мыши над галереей или перетащите её. Прокрутка страницы тоже слегка поворачивает кольцо.
+        </p>
+
+        <div
+          class="services-ring reveal reveal--from-right"
+          id="servicesRing"
+          role="region"
+          aria-label="Услуги в виде круговой галереи"
+          tabindex="0"
+        >
+          <div class="services-ring__toolbar" role="group" aria-label="Управление галереей">
+            <button type="button" class="services-ring__ctrl" id="servicesRingPrev" aria-label="Повернуть влево">
+              <i class="bi bi-arrow-left" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="services-ring__ctrl" id="servicesRingNext" aria-label="Повернуть вправо">
+              <i class="bi bi-arrow-right" aria-hidden="true"></i>
+            </button>
+          </div>
+
+          <div class="services-ring__stage">
+            <div class="services-ring__track" id="servicesRingTrack" style="--panels: 7">
+              <a href="#request" class="services-ring__panel" style="--i: 0" data-index="0">
+                <div class="services-ring__card">
+                  <img loading="lazy" src="images/prodazha-kotlov.png" alt="Продажа газовых котлов" />
+                  <div class="services-ring__overlay">
+                    <h3>Продажа газовых котлов</h3>
+                    <p class="services-ring__lead">Оборудование под дом</p>
+                    <p class="services-ring__text">Подберём котёл под площадь, теплопотери и бюджет.</p>
+                  </div>
+                </div>
+              </a>
+              <a href="#request" class="services-ring__panel" style="--i: 1" data-index="1">
+                <div class="services-ring__card">
+                  <img loading="lazy" src="images/montazh-otopleniya.png" alt="Монтаж отопления" />
+                  <div class="services-ring__overlay">
+                    <h3>Монтаж отопления</h3>
+                    <p class="services-ring__lead">Под ключ</p>
+                    <p class="services-ring__text">Система отопления, разводка и пуск в эксплуатацию.</p>
+                  </div>
+                </div>
+              </a>
+              <a href="#request" class="services-ring__panel" style="--i: 2" data-index="2">
+                <div class="services-ring__card">
+                  <img loading="lazy" src="images/pervyj-zapusk.png" alt="Первый запуск котла" />
+                  <div class="services-ring__overlay">
+                    <h3>Первый запуск</h3>
+                    <p class="services-ring__lead">Настройка и проверка</p>
+                    <p class="services-ring__text">Проверим безопасность и объясним режимы работы.</p>
+                  </div>
+                </div>
+              </a>
+              <a href="#request" class="services-ring__panel" style="--i: 3" data-index="3">
+                <div class="services-ring__card">
+                  <img loading="lazy" src="images/remont-kotlov.png" alt="Ремонт котлов" />
+                  <div class="services-ring__overlay">
+                    <h3>Ремонт котлов</h3>
+                    <p class="services-ring__lead">Диагностика</p>
+                    <p class="services-ring__text">Найдём причину и устраним неисправность с гарантией.</p>
+                  </div>
+                </div>
+              </a>
+              <a href="#request" class="services-ring__panel" style="--i: 4" data-index="4">
+                <div class="services-ring__card">
+                  <img loading="lazy" src="images/promyvka.png" alt="Промывка теплообменников" />
+                  <div class="services-ring__overlay">
+                    <h3>Промывка теплообменников</h3>
+                    <p class="services-ring__lead">Эффективность</p>
+                    <p class="services-ring__text">Очистка для стабильной работы и срока службы котла.</p>
+                  </div>
+                </div>
+              </a>
+              <a href="#request" class="services-ring__panel" style="--i: 5" data-index="5">
+                <div class="services-ring__card">
+                  <img loading="lazy" src="images/prodazha-zapchastej.png" alt="Продажа запчастей" />
+                  <div class="services-ring__overlay">
+                    <h3>Продажа запчастей</h3>
+                    <p class="services-ring__lead">Оригинал и аналоги</p>
+                    <p class="services-ring__text">Подберём детали под вашу модель котла.</p>
+                  </div>
+                </div>
+              </a>
+              <a href="#request" class="services-ring__panel" style="--i: 6" data-index="6">
+                <div class="services-ring__card">
+                  <img loading="lazy" src="images/konsultaciya.png" alt="Консультации по подбору" />
+                  <div class="services-ring__overlay">
+                    <h3>Консультации по подбору</h3>
+                    <p class="services-ring__lead">Без переплат</p>
+                    <p class="services-ring__text">Поможем выбрать решение под задачу и бюджет.</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
