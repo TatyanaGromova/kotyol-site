@@ -87,7 +87,6 @@ h1, h2, h3 {
 .section--why .adv-card h3,
 .service-card h3,
 .work-card h3,
-.timeline__step h3,
 .review-card h3,
 .footer__inner h3,
 .services-ring__overlay h3 {
@@ -1000,6 +999,7 @@ main {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 16px;
+  align-items: stretch;
 }
 .timeline__line {
   position: absolute;
@@ -1068,6 +1068,13 @@ main {
   text-align: center;
   padding: 24px 8px 0;
 }
+.timeline__step.process-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  min-height: 0;
+}
 .timeline__step::before {
   content: "";
   position: absolute;
@@ -1123,16 +1130,45 @@ main {
   border: 2px solid #ffd7cb;
   box-shadow: 0 8px 20px rgba(255,107,61,.18);
 }
-.timeline__step h3 {
-  margin: 0;
+.process-step h3 {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 140px;
+  margin: 0 auto 12px;
+  padding: 0 2px;
+  font-family: var(--font-heading);
+  font-size: 18px;
+  line-height: 1.25;
+  font-weight: 700;
+  text-align: center;
   color: var(--text);
+  letter-spacing: var(--heading-tracking);
+  word-break: normal;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  text-wrap: pretty;
+  min-height: calc(18px * 1.25 * 2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.timeline__step p {
-  margin: 6px 0 0;
+.process-step p {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  margin-top: auto;
+  padding-top: 4px;
   font-family: var(--font-body);
-  font-size: var(--fs-caption);
-  line-height: var(--lh-caption);
+  font-size: 15px;
+  line-height: 1.5;
   color: var(--muted);
+  text-align: center;
+  word-break: normal;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  text-wrap: pretty;
 }
 
 .brands-row {
@@ -1896,6 +1932,20 @@ main {
   .process-line .process-dot:nth-child(5) { top: 80%; }
   .process-line .process-dot:nth-child(6) { top: 100%; }
   .timeline__step { text-align: left; }
+  .timeline__step.process-step {
+    align-items: flex-start;
+  }
+  .process-step h3 {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
+    max-width: min(100%, 11.5rem);
+    justify-content: flex-start;
+  }
+  .process-step p {
+    text-align: left;
+    margin-top: 8px;
+  }
   .timeline__step::before {
     left: -8px;
     transform: none;
@@ -2148,6 +2198,20 @@ main {
 
   .timeline__step {
     text-align: left;
+  }
+  .timeline__step.process-step {
+    align-items: flex-start;
+  }
+  .process-step h3 {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
+    max-width: min(100%, 11.5rem);
+    justify-content: flex-start;
+  }
+  .process-step p {
+    text-align: left;
+    margin-top: 8px;
   }
 
   .timeline__step::before {
