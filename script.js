@@ -156,7 +156,7 @@ if (lightbox && lightboxImage && lightboxClose) {
   const btnOpen = document.getElementById("worksOpenLightbox");
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  let activeIndex = 0;
+  let activeIndex = 1;
   let autoplayTimer = null;
   const len = frames.length;
   if (len === 0) return;
@@ -170,13 +170,13 @@ if (lightbox && lightboxImage && lightboxClose) {
   function calculateGap(width) {
     const minWidth = 1024;
     const maxWidth = 1456;
-    const minGap = 60;
-    const maxGap = 86;
+    const minGap = 92;
+    const maxGap = 108;
     let g;
     if (width <= minWidth) g = minGap;
-    else if (width >= maxWidth) g = Math.max(minGap, maxGap + 0.06018 * (width - maxWidth));
+    else if (width >= maxWidth) g = Math.max(minGap, maxGap + 0.055 * (width - maxWidth));
     else g = minGap + (maxGap - minGap) * ((width - minWidth) / (maxWidth - minWidth));
-    return Math.min(g, Math.max(40, width * 0.12));
+    return Math.min(g, Math.max(56, width * 0.15));
   }
 
   function clearAutoplay() {
@@ -209,46 +209,67 @@ if (lightbox && lightboxImage && lightboxClose) {
   function applyTransforms() {
     const w = ring.offsetWidth || 1200;
     const gap = calculateGap(w);
-    const maxStickUp = gap * 0.8;
+    const maxStickUp = gap * 0.62;
 
     if (reducedMotion.matches) {
       frames.forEach((frame, index) => {
         const isActive = index === activeIndex;
-        frame.style.zIndex = isActive ? "3" : "1";
+        frame.classList.toggle("works-carousel__frame--active", isActive);
+        frame.classList.remove("works-carousel__frame--side");
+        frame.style.zIndex = isActive ? "5" : "0";
         frame.style.opacity = isActive ? "1" : "0";
+        frame.style.visibility = isActive ? "visible" : "hidden";
         frame.style.pointerEvents = isActive ? "auto" : "none";
-        frame.style.transform = "translateX(0) translateY(0) scale(1)";
+        frame.style.filter = "none";
+        frame.style.transform = "translate3d(0,0,0) scale(1)";
       });
       return;
     }
+
+    const activeZ = 72;
+    const sideZ = -56;
+    const sideScale = 0.76;
+    const sideRotate = 24;
 
     frames.forEach((frame, index) => {
       const isActive = index === activeIndex;
       const isLeft = (activeIndex - 1 + len) % len === index;
       const isRight = (activeIndex + 1) % len === index;
 
-      frame.style.transition = "transform 0.8s cubic-bezier(0.4, 2, 0.3, 1), opacity 0.8s cubic-bezier(0.4, 2, 0.3, 1)";
+      frame.classList.toggle("works-carousel__frame--active", isActive);
+      frame.classList.toggle("works-carousel__frame--side", isLeft || isRight);
+
+      frame.style.transition =
+        "transform 0.75s cubic-bezier(0.33, 1, 0.32, 1), opacity 0.45s ease, filter 0.45s ease";
 
       if (isActive) {
-        frame.style.zIndex = "3";
+        frame.style.zIndex = "5";
         frame.style.opacity = "1";
+        frame.style.visibility = "visible";
         frame.style.pointerEvents = "auto";
-        frame.style.transform = "translateX(0px) translateY(0px) scale(1) rotateY(0deg)";
+        frame.style.filter = "none";
+        frame.style.transform = `translate3d(0px, 0px, ${activeZ}px) scale(1) rotateY(0deg)`;
       } else if (isLeft) {
         frame.style.zIndex = "2";
-        frame.style.opacity = "1";
+        frame.style.opacity = "0.9";
+        frame.style.visibility = "visible";
         frame.style.pointerEvents = "auto";
-        frame.style.transform = `translateX(-${gap}px) translateY(-${maxStickUp}px) scale(0.85) rotateY(15deg)`;
+        frame.style.filter = "brightness(0.94) saturate(0.92)";
+        frame.style.transform = `translate3d(-${gap}px, -${maxStickUp}px, ${sideZ}px) scale(${sideScale}) rotateY(${sideRotate}deg)`;
       } else if (isRight) {
         frame.style.zIndex = "2";
-        frame.style.opacity = "1";
+        frame.style.opacity = "0.9";
+        frame.style.visibility = "visible";
         frame.style.pointerEvents = "auto";
-        frame.style.transform = `translateX(${gap}px) translateY(-${maxStickUp}px) scale(0.85) rotateY(-15deg)`;
+        frame.style.filter = "brightness(0.94) saturate(0.92)";
+        frame.style.transform = `translate3d(${gap}px, -${maxStickUp}px, ${sideZ}px) scale(${sideScale}) rotateY(-${sideRotate}deg)`;
       } else {
-        frame.style.zIndex = "1";
+        frame.style.zIndex = "0";
         frame.style.opacity = "0";
+        frame.style.visibility = "hidden";
         frame.style.pointerEvents = "none";
-        frame.style.transform = "translateX(0px) translateY(0px) scale(0.8) rotateY(0deg)";
+        frame.style.filter = "none";
+        frame.style.transform = "translate3d(0px, 0px, -120px) scale(0.72) rotateY(0deg)";
       }
     });
   }
