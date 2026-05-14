@@ -260,106 +260,118 @@
       </div>
     </section>
 
-    <section class="section section--gray section--services" id="services">
+    <section class="section section--services" id="services">
       <div class="container">
         <div class="section__head reveal reveal--from-left">
           <h2>Наши услуги</h2>
           <p>Комплексные решения для отопления, газификации и сервиса</p>
         </div>
-        <p class="services-ring__hint reveal reveal--from-right">
-          Крутите колесом мыши над галереей или перетащите её. Прокрутка страницы тоже слегка поворачивает кольцо.
-        </p>
 
         <div
-          class="services-ring reveal reveal--from-right"
-          id="servicesRing"
+          class="services-ribbon"
+          id="servicesRibbon"
           role="region"
-          aria-label="Услуги в виде круговой галереи"
-          tabindex="0"
+          aria-label="Наши услуги"
         >
-          <div class="services-ring__toolbar" role="group" aria-label="Управление галереей">
-            <button type="button" class="services-ring__ctrl" id="servicesRingPrev" aria-label="Повернуть влево">
-              <i class="bi bi-arrow-left" aria-hidden="true"></i>
-            </button>
-            <button type="button" class="services-ring__ctrl" id="servicesRingNext" aria-label="Повернуть вправо">
-              <i class="bi bi-arrow-right" aria-hidden="true"></i>
-            </button>
-          </div>
+          <button
+            type="button"
+            class="services-ribbon__arrow services-ribbon__arrow--prev"
+            id="servicesRibbonPrev"
+            aria-label="Прокрутить услуги влево"
+          >
+            <i class="bi bi-chevron-left" aria-hidden="true"></i>
+          </button>
 
-          <div class="services-ring__stage">
-            <div class="services-ring__track" id="servicesRingTrack" style="--panels: 7">
-              <a href="#request" class="services-ring__panel" style="--i: 0" data-index="0">
-                <div class="services-ring__card">
-                  <img loading="lazy" src="images/prodazha-kotlov.png" alt="Продажа газовых котлов" />
-                  <div class="services-ring__overlay">
-                    <h3>Продажа газовых котлов</h3>
-                    <p class="services-ring__lead">Оборудование под дом</p>
-                    <p class="services-ring__text">Подберём котёл под площадь, теплопотери и бюджет.</p>
-                  </div>
+          <div class="services-ribbon__viewport" id="servicesRibbonViewport" tabindex="0">
+            <div class="services-ribbon__track" id="servicesRibbonTrack">
+              <article class="services-ribbon__card reveal reveal--from-up">
+                <div class="services-ribbon__media">
+                  <img loading="lazy" src="images/prodazha-kotlov.png" alt="Продажа газовых котлов" width="140" height="140" />
                 </div>
-              </a>
-              <a href="#request" class="services-ring__panel" style="--i: 1" data-index="1">
-                <div class="services-ring__card">
-                  <img loading="lazy" src="images/montazh-otopleniya.png" alt="Монтаж отопления" />
-                  <div class="services-ring__overlay">
-                    <h3>Монтаж отопления</h3>
-                    <p class="services-ring__lead">Под ключ</p>
-                    <p class="services-ring__text">Система отопления, разводка и пуск в эксплуатацию.</p>
-                  </div>
+                <div class="services-ribbon__body">
+                  <h3 class="services-ribbon__title">Продажа газовых котлов</h3>
+                  <p class="services-ribbon__text">
+                    Подберём оборудование под площадь, бюджет и требования дома.
+                  </p>
+                  <a class="services-ribbon__cta" href="#request">Получить консультацию</a>
                 </div>
-              </a>
-              <a href="#request" class="services-ring__panel" style="--i: 2" data-index="2">
-                <div class="services-ring__card">
-                  <img loading="lazy" src="images/pervyj-zapusk.png" alt="Первый запуск котла" />
-                  <div class="services-ring__overlay">
-                    <h3>Первый запуск</h3>
-                    <p class="services-ring__lead">Настройка и проверка</p>
-                    <p class="services-ring__text">Проверим безопасность и объясним режимы работы.</p>
-                  </div>
+              </article>
+
+              <article class="services-ribbon__card reveal reveal--from-up">
+                <div class="services-ribbon__media">
+                  <img loading="lazy" src="images/montazh-otopleniya.png" alt="Монтаж отопления" width="140" height="140" />
                 </div>
-              </a>
-              <a href="#request" class="services-ring__panel" style="--i: 3" data-index="3">
-                <div class="services-ring__card">
-                  <img loading="lazy" src="images/remont-kotlov.png" alt="Ремонт котлов" />
-                  <div class="services-ring__overlay">
-                    <h3>Ремонт котлов</h3>
-                    <p class="services-ring__lead">Диагностика</p>
-                    <p class="services-ring__text">Найдём причину и устраним неисправность с гарантией.</p>
-                  </div>
+                <div class="services-ribbon__body">
+                  <h3 class="services-ribbon__title">Монтаж отопления</h3>
+                  <p class="services-ribbon__text">
+                    Смонтируем систему отопления под ключ — от котла до радиаторов.
+                  </p>
+                  <a class="services-ribbon__cta" href="#request">Получить консультацию</a>
                 </div>
-              </a>
-              <a href="#request" class="services-ring__panel" style="--i: 4" data-index="4">
-                <div class="services-ring__card">
-                  <img loading="lazy" src="images/promyvka.png" alt="Промывка теплообменников" />
-                  <div class="services-ring__overlay">
-                    <h3>Промывка теплообменников</h3>
-                    <p class="services-ring__lead">Эффективность</p>
-                    <p class="services-ring__text">Очистка для стабильной работы и срока службы котла.</p>
-                  </div>
+              </article>
+
+              <article class="services-ribbon__card reveal reveal--from-up">
+                <div class="services-ribbon__media">
+                  <img loading="lazy" src="images/pervyj-zapusk.png" alt="Первый запуск котла" width="140" height="140" />
                 </div>
-              </a>
-              <a href="#request" class="services-ring__panel" style="--i: 5" data-index="5">
-                <div class="services-ring__card">
-                  <img loading="lazy" src="images/prodazha-zapchastej.png" alt="Продажа запчастей" />
-                  <div class="services-ring__overlay">
-                    <h3>Продажа запчастей</h3>
-                    <p class="services-ring__lead">Оригинал и аналоги</p>
-                    <p class="services-ring__text">Подберём детали под вашу модель котла.</p>
-                  </div>
+                <div class="services-ribbon__body">
+                  <h3 class="services-ribbon__title">Первый запуск</h3>
+                  <p class="services-ribbon__text">
+                    Проверим безопасность, настроим оборудование и объясним режимы работы.
+                  </p>
+                  <a class="services-ribbon__cta" href="#request">Получить консультацию</a>
                 </div>
-              </a>
-              <a href="#request" class="services-ring__panel" style="--i: 6" data-index="6">
-                <div class="services-ring__card">
-                  <img loading="lazy" src="images/konsultaciya.png" alt="Консультации по подбору" />
-                  <div class="services-ring__overlay">
-                    <h3>Консультации по подбору</h3>
-                    <p class="services-ring__lead">Без переплат</p>
-                    <p class="services-ring__text">Поможем выбрать решение под задачу и бюджет.</p>
-                  </div>
+              </article>
+
+              <article class="services-ribbon__card reveal reveal--from-up">
+                <div class="services-ribbon__media">
+                  <img loading="lazy" src="images/remont-kotlov.png" alt="Ремонт котлов" width="140" height="140" />
                 </div>
-              </a>
+                <div class="services-ribbon__body">
+                  <h3 class="services-ribbon__title">Ремонт котлов</h3>
+                  <p class="services-ribbon__text">
+                    Найдём причину неисправности и устраним проблему с гарантией.
+                  </p>
+                  <a class="services-ribbon__cta" href="#request">Получить консультацию</a>
+                </div>
+              </article>
+
+              <article class="services-ribbon__card reveal reveal--from-up">
+                <div class="services-ribbon__media">
+                  <img loading="lazy" src="images/promyvka.png" alt="Промывка теплообменников" width="140" height="140" />
+                </div>
+                <div class="services-ribbon__body">
+                  <h3 class="services-ribbon__title">Промывка теплообменников</h3>
+                  <p class="services-ribbon__text">
+                    Очистим теплообменник, чтобы котёл работал стабильнее и экономичнее.
+                  </p>
+                  <a class="services-ribbon__cta" href="#request">Получить консультацию</a>
+                </div>
+              </article>
+
+              <article class="services-ribbon__card reveal reveal--from-up">
+                <div class="services-ribbon__media">
+                  <img loading="lazy" src="images/prodazha-zapchastej.png" alt="Запчасти и комплектующие" width="140" height="140" />
+                </div>
+                <div class="services-ribbon__body">
+                  <h3 class="services-ribbon__title">Запчасти и комплектующие</h3>
+                  <p class="services-ribbon__text">
+                    Подберём детали под вашу модель котла и задачу.
+                  </p>
+                  <a class="services-ribbon__cta" href="#request">Получить консультацию</a>
+                </div>
+              </article>
             </div>
           </div>
+
+          <button
+            type="button"
+            class="services-ribbon__arrow services-ribbon__arrow--next"
+            id="servicesRibbonNext"
+            aria-label="Прокрутить услуги вправо"
+          >
+            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+          </button>
         </div>
       </div>
     </section>
