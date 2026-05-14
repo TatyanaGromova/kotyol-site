@@ -142,11 +142,12 @@ if (lightbox && lightboxImage && lightboxClose) {
 }
 
 // Карусель «Наши работы»: одно крупное фото без наслоения + ряд миниатюр для выбора.
-(function initWorksCarousel() {
+function initWorksCarousel() {
   const root = document.getElementById("worksCarousel");
   const ring = document.getElementById("worksRing");
   const thumbsHost = document.getElementById("worksThumbs");
   if (!root || !ring || !thumbsHost) return;
+  if (root.dataset.worksCarouselInit === "1") return;
 
   const frames = Array.from(ring.querySelectorAll(".works-carousel__frame"));
   const titleEl = document.getElementById("worksSlideTitle");
@@ -176,7 +177,12 @@ if (lightbox && lightboxImage && lightboxClose) {
     tb.setAttribute("aria-label", t || `Слайд ${i + 1}`);
     tb.setAttribute("aria-selected", i === activeIndex ? "true" : "false");
     const ti = document.createElement("img");
-    ti.src = frame.dataset.image || "";
+    const src =
+      frame.getAttribute("data-image") ||
+      frame.dataset.image ||
+      img?.getAttribute("src") ||
+      "";
+    ti.src = src;
     ti.alt = "";
     ti.setAttribute("aria-hidden", "true");
     tb.appendChild(ti);
@@ -263,7 +269,10 @@ if (lightbox && lightboxImage && lightboxClose) {
   frames.forEach((frame) => {
     frame.addEventListener("click", () => {
       if (!frame.classList.contains("works-carousel__frame--active")) return;
-      const path = frame.dataset.image;
+      const path =
+        frame.getAttribute("data-image") ||
+        frame.dataset.image ||
+        frame.querySelector("img")?.getAttribute("src");
       if (path) openLightbox(path);
     });
   });
@@ -273,7 +282,9 @@ if (lightbox && lightboxImage && lightboxClose) {
 
   if (btnOpen) {
     btnOpen.addEventListener("click", () => {
-      const path = frames[activeIndex]?.dataset.image;
+      const f = frames[activeIndex];
+      const path =
+        f?.getAttribute("data-image") || f?.dataset.image || f?.querySelector("img")?.getAttribute("src");
       if (path) openLightbox(path);
     });
   }
@@ -297,7 +308,14 @@ if (lightbox && lightboxImage && lightboxClose) {
 
   applyState();
   startAutoplay();
-})();
+  root.dataset.worksCarouselInit = "1";
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initWorksCarousel, { once: true });
+} else {
+  initWorksCarousel();
+}
 
 // Круговая 3D-галерея «Наши услуги» (адаптация circular-gallery: скролл + автоповорот + drag).
 (function initServicesRing() {
