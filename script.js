@@ -1,3 +1,11 @@
+// Старт страницы сверху: не даём браузеру восстанавливать скролл к якорю и не прокручиваем к блокам галереи.
+if ("scrollRestoration" in window.history) {
+  window.history.scrollRestoration = "manual";
+}
+window.addEventListener("load", () => {
+  window.scrollTo(0, 0);
+});
+
 // Мобильное меню.
 const menuToggle = document.getElementById("menuToggle");
 const navMenu = document.getElementById("navMenu");
@@ -224,19 +232,29 @@ function initWorksCarousel() {
     });
   }
 
+  function scrollActiveThumbInStrip() {
+    const host = thumbsHost;
+    const tb = thumbButtons[activeIndex];
+    if (!host || !tb) return;
+    const hostRect = host.getBoundingClientRect();
+    const tbRect = tb.getBoundingClientRect();
+    const targetCenter = tbRect.left + tbRect.width / 2;
+    const hostCenter = hostRect.left + hostRect.width / 2;
+    const delta = targetCenter - hostCenter;
+    if (Math.abs(delta) < 2) return;
+    host.scrollBy({
+      left: delta,
+      behavior: reducedMotion.matches ? "auto" : "smooth",
+    });
+  }
+
   function updateThumbs() {
     thumbButtons.forEach((tb, i) => {
       const on = i === activeIndex;
       tb.classList.toggle("is-active", on);
       tb.setAttribute("aria-selected", on ? "true" : "false");
-      if (on) {
-        tb.scrollIntoView({
-          inline: "center",
-          block: "nearest",
-          behavior: reducedMotion.matches ? "auto" : "smooth",
-        });
-      }
     });
+    window.requestAnimationFrame(() => scrollActiveThumbInStrip());
   }
 
   function applyState() {
