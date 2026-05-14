@@ -7,22 +7,57 @@
   --text: #1f2b35;
   --muted: #637482;
   --shadow-soft: 0 16px 36px rgba(16, 29, 40, 0.12);
+  --font-heading: "Manrope", system-ui, -apple-system, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  --heading-tracking: -0.02em;
+  --heading-tracking-display: -0.03em;
 }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-body);
   font-weight: 400;
   color: #223042;
   background: var(--white);
   line-height: 1.65;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 h1, h2, h3 {
-  font-family: "Manrope", sans-serif;
+  font-family: var(--font-heading);
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--heading-tracking);
+  font-feature-settings: "kern" 1, "liga" 1;
+}
+
+/* Единая шкала заголовков: крупные (Hero + секции) */
+.hero h1,
+.section__head h2,
+.planning-section__head h2,
+.section--why h2,
+.call-master h2,
+.official h2,
+.request-block__content h2,
+.contacts__info h2 {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  letter-spacing: var(--heading-tracking-display);
+}
+
+/* Заголовки карточек и второстепенные h3 */
+.achievement h3,
+.adv-card h3,
+.planning-card h3,
+.section--why .adv-card h3,
+.service-card h3,
+.timeline__step h3,
+.review-card h3,
+.footer__inner h3 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: var(--heading-tracking);
 }
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
@@ -179,8 +214,6 @@ img { max-width: 100%; display: block; }
   color: #ffffff;
   font-size: clamp(34px, 4vw, 54px);
   line-height: 1.05;
-  font-weight: 900;
-  letter-spacing: -0.04em;
 }
 .hero__subtitle {
   max-width: 760px;
@@ -284,7 +317,6 @@ img { max-width: 100%; display: block; }
 .achievement h3 {
   margin: 0 0 6px;
   color: var(--accent);
-  font-weight: 800;
 }
 .achievement p {
   margin: 0;
@@ -324,7 +356,6 @@ img { max-width: 100%; display: block; }
 .adv-card h3 {
   margin: 0;
   font-size: 1.1rem;
-  font-weight: 800;
   color: var(--blue);
 }
 .adv-card p {
@@ -371,7 +402,7 @@ img { max-width: 100%; display: block; }
 .planning-section .section-label {
   margin: 0 0 12px;
   color: #ff6b2c;
-  font-family: "Manrope", sans-serif;
+  font-family: var(--font-heading);
   font-size: 15px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -383,7 +414,6 @@ img { max-width: 100%; display: block; }
   color: #102b3a;
   font-size: clamp(30px, 4vw, 48px);
   line-height: 1.15;
-  font-weight: 900;
 }
 
 .planning-section__head p {
@@ -446,9 +476,7 @@ img { max-width: 100%; display: block; }
 .planning-card h3 {
   margin: 0 0 10px;
   color: #102b3a;
-  font-family: "Manrope", sans-serif;
   font-size: 20px;
-  font-weight: 800;
 }
 
 .planning-card p {
@@ -518,7 +546,7 @@ img { max-width: 100%; display: block; }
 .section-label {
   margin: 0 0 12px;
   color: #ff6b2c;
-  font-family: "Manrope", sans-serif;
+  font-family: var(--font-heading);
   font-size: 14px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -530,7 +558,6 @@ img { max-width: 100%; display: block; }
   color: #102b3a;
   font-size: clamp(32px, 4vw, 52px);
   line-height: 1.15;
-  font-weight: 900;
 }
 
 .section--why .section__head p:not(.section-label) {
@@ -600,9 +627,7 @@ img { max-width: 100%; display: block; }
 .section--why .adv-card h3 {
   margin: 0 0 10px;
   color: #102b3a;
-  font-family: "Manrope", sans-serif;
   font-size: 20px;
-  font-weight: 800;
 }
 
 .section--why .adv-card p {
@@ -669,7 +694,6 @@ img { max-width: 100%; display: block; }
 .service-card h3 {
   margin: 0 0 8px;
   font-size: 1.08rem;
-  font-weight: 800;
   color: var(--blue);
 }
 .service-card p { margin: 0; color: var(--muted); }
@@ -834,7 +858,6 @@ img { max-width: 100%; display: block; }
 }
 .timeline__step h3 {
   margin: 0;
-  font-weight: 800;
   font-size: 1rem;
   color: var(--blue);
 }
@@ -1006,7 +1029,6 @@ img { max-width: 100%; display: block; }
 .review-card h3 {
   margin: 0 0 8px;
   color: var(--blue);
-  font-weight: 800;
   font-size: 1.05rem;
 }
 .review-card img {
@@ -1052,7 +1074,9 @@ img { max-width: 100%; display: block; }
 }
 .faq-list summary {
   cursor: pointer;
+  font-family: var(--font-heading);
   font-weight: 700;
+  letter-spacing: var(--heading-tracking);
   color: var(--blue);
 }
 .faq-list p {
@@ -1206,7 +1230,7 @@ img { max-width: 100%; display: block; }
   background: #fff;
   padding: 6px;
 }
-.footer__inner h3 { margin: 0 0 6px; font-size: 1.1rem; font-weight: 800; }
+.footer__inner h3 { margin: 0 0 6px; font-size: 1.1rem; }
 .footer__inner p { margin: 2px 0; color: rgba(255,255,255,.85); }
 
 .mobile-bar {
