@@ -1,12 +1,3 @@
-// Старт страницы сверху: не даём браузеру восстанавливать скролл к якорю и не прокручиваем к блокам галереи.
-if ("scrollRestoration" in window.history) {
-  window.history.scrollRestoration = "manual";
-}
-window.addEventListener("load", () => {
-  window.scrollTo(0, 0);
-});
-
-// Мобильное меню.
 const menuToggle = document.getElementById("menuToggle");
 const navMenu = document.getElementById("navMenu");
 
@@ -110,7 +101,7 @@ if (firstFaqItem) {
   firstFaqItem.open = true;
 }
 
-// Lightbox для галереи и карусели «Наши работы».
+// Lightbox: галерея на странице и карточки «Наши работы».
 const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightboxImage");
 const lightboxClose = document.getElementById("lightboxClose");
@@ -130,14 +121,22 @@ function closeLightbox() {
 }
 
 if (lightbox && lightboxImage && lightboxClose) {
-  const galleryItems = document.querySelectorAll(".gallery__item[data-image]");
+  const openers = document.querySelectorAll(".gallery__item[data-image], .work-card[data-image]");
 
-  galleryItems.forEach((item) => {
+  openers.forEach((item) => {
     item.addEventListener("click", () => {
       const imagePath = item.dataset.image;
       if (!imagePath) return;
       openLightbox(imagePath);
     });
+    if (item.matches(".work-card")) {
+      item.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        const imagePath = item.dataset.image;
+        if (imagePath) openLightbox(imagePath);
+      });
+    }
   });
 
   lightboxClose.addEventListener("click", closeLightbox);
@@ -147,192 +146,6 @@ if (lightbox && lightboxImage && lightboxClose) {
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") closeLightbox();
   });
-}
-
-// Карусель «Наши работы»: одно крупное фото без наслоения + ряд миниатюр для выбора.
-function initWorksCarousel() {
-  const root = document.getElementById("worksCarousel");
-  const ring = document.getElementById("worksRing");
-  const thumbsHost = document.getElementById("worksThumbs");
-  if (!root || !ring || !thumbsHost) return;
-  if (root.dataset.worksCarouselInit === "1") return;
-
-  const frames = Array.from(ring.querySelectorAll(".works-carousel__frame"));
-  const titleEl = document.getElementById("worksSlideTitle");
-  const metaEl = document.getElementById("worksSlideMeta");
-  const descEl = document.getElementById("worksSlideDesc");
-  const btnPrev = document.getElementById("worksPrev");
-  const btnNext = document.getElementById("worksNext");
-  const btnOpen = document.getElementById("worksOpenLightbox");
-
-  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  let activeIndex = 1;
-  let autoplayTimer = null;
-  const len = frames.length;
-  if (len === 0) return;
-
-  const thumbButtons = [];
-
-  frames.forEach((frame, i) => {
-    const img = frame.querySelector("img");
-    const t = frame.dataset.workTitle;
-    if (img && t) img.alt = `Фото объекта: ${t}`;
-
-    const tb = document.createElement("button");
-    tb.type = "button";
-    tb.className = "works-carousel__thumb";
-    tb.setAttribute("role", "tab");
-    tb.setAttribute("aria-label", t || `Слайд ${i + 1}`);
-    tb.setAttribute("aria-selected", i === activeIndex ? "true" : "false");
-    const ti = document.createElement("img");
-    const src =
-      frame.getAttribute("data-image") ||
-      frame.dataset.image ||
-      img?.getAttribute("src") ||
-      "";
-    ti.src = src;
-    ti.alt = "";
-    ti.setAttribute("aria-hidden", "true");
-    tb.appendChild(ti);
-    tb.addEventListener("click", () => goTo(i));
-    thumbsHost.appendChild(tb);
-    thumbButtons.push(tb);
-  });
-
-  function clearAutoplay() {
-    if (autoplayTimer) {
-      clearInterval(autoplayTimer);
-      autoplayTimer = null;
-    }
-  }
-
-  function startAutoplay() {
-    clearAutoplay();
-    if (reducedMotion.matches) return;
-    autoplayTimer = window.setInterval(() => {
-      activeIndex = (activeIndex + 1) % len;
-      applyState();
-    }, 5000);
-  }
-
-  function updatePanel() {
-    const frame = frames[activeIndex];
-    if (!frame || !titleEl || !metaEl || !descEl) return;
-    titleEl.textContent = frame.dataset.workTitle || "";
-    metaEl.textContent = frame.dataset.workMeta || "";
-    descEl.textContent = frame.dataset.workDesc || "";
-    frames.forEach((f, i) => {
-      f.setAttribute("aria-current", i === activeIndex ? "true" : "false");
-    });
-  }
-
-  function applyFrames() {
-    frames.forEach((frame, index) => {
-      frame.classList.toggle("works-carousel__frame--active", index === activeIndex);
-    });
-  }
-
-  function scrollActiveThumbInStrip() {
-    const host = thumbsHost;
-    const tb = thumbButtons[activeIndex];
-    if (!host || !tb) return;
-    const hostRect = host.getBoundingClientRect();
-    const tbRect = tb.getBoundingClientRect();
-    const targetCenter = tbRect.left + tbRect.width / 2;
-    const hostCenter = hostRect.left + hostRect.width / 2;
-    const delta = targetCenter - hostCenter;
-    if (Math.abs(delta) < 2) return;
-    host.scrollBy({
-      left: delta,
-      behavior: reducedMotion.matches ? "auto" : "smooth",
-    });
-  }
-
-  function updateThumbs() {
-    thumbButtons.forEach((tb, i) => {
-      const on = i === activeIndex;
-      tb.classList.toggle("is-active", on);
-      tb.setAttribute("aria-selected", on ? "true" : "false");
-    });
-    window.requestAnimationFrame(() => scrollActiveThumbInStrip());
-  }
-
-  function applyState() {
-    if (descEl) descEl.classList.add("is-switching");
-    applyFrames();
-    updatePanel();
-    updateThumbs();
-    window.requestAnimationFrame(() => {
-      window.setTimeout(() => {
-        if (descEl) descEl.classList.remove("is-switching");
-      }, 100);
-    });
-  }
-
-  function goTo(index) {
-    activeIndex = (index + len) % len;
-    clearAutoplay();
-    applyState();
-    startAutoplay();
-  }
-
-  function handlePrev() {
-    goTo(activeIndex - 1);
-  }
-
-  function handleNext() {
-    goTo(activeIndex + 1);
-  }
-
-  frames.forEach((frame) => {
-    frame.addEventListener("click", () => {
-      if (!frame.classList.contains("works-carousel__frame--active")) return;
-      const path =
-        frame.getAttribute("data-image") ||
-        frame.dataset.image ||
-        frame.querySelector("img")?.getAttribute("src");
-      if (path) openLightbox(path);
-    });
-  });
-
-  if (btnPrev) btnPrev.addEventListener("click", handlePrev);
-  if (btnNext) btnNext.addEventListener("click", handleNext);
-
-  if (btnOpen) {
-    btnOpen.addEventListener("click", () => {
-      const f = frames[activeIndex];
-      const path =
-        f?.getAttribute("data-image") || f?.dataset.image || f?.querySelector("img")?.getAttribute("src");
-      if (path) openLightbox(path);
-    });
-  }
-
-  root.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowLeft") {
-      e.preventDefault();
-      handlePrev();
-    }
-    if (e.key === "ArrowRight") {
-      e.preventDefault();
-      handleNext();
-    }
-  });
-
-  reducedMotion.addEventListener("change", () => {
-    applyState();
-    if (reducedMotion.matches) clearAutoplay();
-    else startAutoplay();
-  });
-
-  applyState();
-  startAutoplay();
-  root.dataset.worksCarouselInit = "1";
-}
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initWorksCarousel, { once: true });
-} else {
-  initWorksCarousel();
 }
 
 // Круговая 3D-галерея «Наши услуги» (адаптация circular-gallery: скролл + автоповорот + drag).
