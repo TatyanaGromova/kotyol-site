@@ -425,27 +425,58 @@
       </div>
     </section>
 
-    <section class="section" id="works">
+    <section class="section section--works" id="works">
       <div class="container">
         <div class="section__head reveal">
           <h2>Наши работы</h2>
-          <p>Монтаж котла, монтаж дымохода, объекты в Саткинском районе</p>
+          <p>Монтаж котла, монтаж дымохода — реальные объекты в Саткинском районе</p>
         </div>
-        <div class="gallery">
-          <button class="gallery__item reveal" data-image="images/boiler-1.jpeg"><img loading="lazy" src="images/boiler-1.jpeg" alt="Монтаж котла" /><span>Котёл Ferroli<br>г. Сатка<br>Частный дом 120 м²</span></button>
-          <button class="gallery__item reveal" data-image="images/boiler-2.jpeg"><img loading="lazy" src="images/boiler-2.jpeg" alt="Монтаж котла" /><span>Котёл Ferroli<br>г. Сатка<br>Частный дом 120 м²</span></button>
-          <button class="gallery__item reveal" data-image="images/boiler-3.jpeg"><img loading="lazy" src="images/boiler-3.jpeg" alt="Монтаж котла" /><span>Котёл Ferroli<br>г. Сатка<br>Частный дом 120 м²</span></button>
-          <button class="gallery__item reveal" data-image="images/boiler-4.jpeg"><img loading="lazy" src="images/boiler-4.jpeg" alt="Монтаж котла" /><span>Котёл Ferroli<br>г. Сатка<br>Частный дом 120 м²</span></button>
-          <button class="gallery__item reveal" data-image="images/boiler-5.jpeg"><img loading="lazy" src="images/boiler-5.jpeg" alt="Монтаж котла" /><span>Котёл Ferroli<br>г. Сатка<br>Частный дом 120 м²</span></button>
-          <button class="gallery__item reveal" data-image="images/boiler-6.jfif"><img loading="lazy" src="images/boiler-6.jfif" alt="Монтаж котла" /><span>Котёл Ferroli<br>г. Сатка<br>Частный дом 120 м²</span></button>
-          <button class="gallery__item reveal" data-image="images/boiler-7.jfif"><img loading="lazy" src="images/boiler-7.jfif" alt="Монтаж котла" /><span>Котёл Ferroli<br>г. Сатка<br>Частный дом 120 м²</span></button>
-          <button class="gallery__item reveal" data-image="images/chimney-1.jfif"><img loading="lazy" src="images/chimney-1.jfif" alt="Монтаж дымохода" /><span>Котёл Ferroli<br>г. Сатка<br>Частный дом 120 м²</span></button>
-          <button class="gallery__item reveal" data-image="images/chimney-2.jfif"><img loading="lazy" src="images/chimney-2.jfif" alt="Монтаж дымохода" /><span>Котёл Ferroli<br>г. Сатка<br>Частный дом 120 м²</span></button>
-          <button class="gallery__item reveal" data-image="images/chimney-3.jfif"><img loading="lazy" src="images/chimney-3.jfif" alt="Монтаж дымохода" /><span>Котёл Ferroli<br>г. Сатка<br>Частный дом 120 м²</span></button>
-          <button class="gallery__item reveal" data-image="images/chimney-4.jfif"><img loading="lazy" src="images/chimney-4.jfif" alt="Монтаж дымохода" /><span>Котёл Ferroli<br>г. Сатка<br>Частный дом 120 м²</span></button>
-          <button class="gallery__item reveal" data-image="images/chimney-5.jfif"><img loading="lazy" src="images/chimney-5.jfif" alt="Монтаж дымохода" /><span>Котёл Ferroli<br>г. Сатка<br>Частный дом 120 м²</span></button>
-          <button class="gallery__item reveal" data-image="images/chimney-6.jfif"><img loading="lazy" src="images/chimney-6.jfif" alt="Монтаж дымохода" /><span>Котёл Ferroli<br>г. Сатка<br>Частный дом 120 м²</span></button>
-          <button class="gallery__item reveal" data-image="images/chimney-7.jfif"><img loading="lazy" src="images/chimney-7.jfif" alt="Монтаж дымохода" /><span>Котёл Ferroli<br>г. Сатка<br>Частный дом 120 м²</span></button>
+
+        <div
+          class="works-carousel reveal"
+          id="worksCarousel"
+          tabindex="0"
+          role="region"
+          aria-roledescription="карусель"
+          aria-label="Галерея выполненных работ"
+        >
+          <div class="works-carousel__layout">
+            <div class="works-carousel__stage">
+              <div class="works-carousel__ring" id="worksRing">
+                <button type="button" class="works-carousel__frame" data-image="images/boiler-1.jpeg" data-work-title="Монтаж котла Ferroli" data-work-meta="г. Сатка · частный дом 120 м²" data-work-desc="Подключение к отоплению, обвязка и пусконаладка. Проверка безопасности перед сдачей объекта." aria-label="Слайд 1 из 14"><img loading="lazy" src="images/boiler-1.jpeg" alt="" /></button>
+                <button type="button" class="works-carousel__frame" data-image="images/boiler-2.jpeg" data-work-title="Установка котла" data-work-meta="Саткинский район" data-work-desc="Монтаж на несущую стену, подводка газа и воды по проекту." aria-label="Слайд 2 из 14"><img loading="lazy" src="images/boiler-2.jpeg" alt="" /></button>
+                <button type="button" class="works-carousel__frame" data-image="images/boiler-3.jpeg" data-work-title="Котельная в частном доме" data-work-meta="г. Сатка" data-work-desc="Компактная разводка, гидравлическая балансировка контуров." aria-label="Слайд 3 из 14"><img loading="lazy" src="images/boiler-3.jpeg" alt="" /></button>
+                <button type="button" class="works-carousel__frame" data-image="images/boiler-4.jpeg" data-work-title="Замена котла" data-work-meta="Частный дом" data-work-desc="Демонтаж старого оборудования и установка нового с сохранением системы." aria-label="Слайд 4 из 14"><img loading="lazy" src="images/boiler-4.jpeg" alt="" /></button>
+                <button type="button" class="works-carousel__frame" data-image="images/boiler-5.jpeg" data-work-title="Обвязка котла" data-work-meta="Саткинский район" data-work-desc="Группа безопасности, фильтр, циркуляционные насосы — всё по нормам." aria-label="Слайд 5 из 14"><img loading="lazy" src="images/boiler-5.jpeg" alt="" /></button>
+                <button type="button" class="works-carousel__frame" data-image="images/boiler-6.jfif" data-work-title="Пуск котла" data-work-meta="г. Сатка" data-work-desc="Настройка режимов, инструктаж заказчика по эксплуатации." aria-label="Слайд 6 из 14"><img loading="lazy" src="images/boiler-6.jfif" alt="" /></button>
+                <button type="button" class="works-carousel__frame" data-image="images/boiler-7.jfif" data-work-title="Сервисное обслуживание" data-work-meta="Частный дом" data-work-desc="Диагностика, чистка и проверка узлов перед отопительным сезоном." aria-label="Слайд 7 из 14"><img loading="lazy" src="images/boiler-7.jfif" alt="" /></button>
+                <button type="button" class="works-carousel__frame" data-image="images/chimney-1.jfif" data-work-title="Монтаж дымохода" data-work-meta="г. Сатка" data-work-desc="Коаксиальный вывод через стену, герметизация и крепление по паспорту." aria-label="Слайд 8 из 14"><img loading="lazy" src="images/chimney-1.jfif" alt="" /></button>
+                <button type="button" class="works-carousel__frame" data-image="images/chimney-2.jfif" data-work-title="Дымоход коаксиальный" data-work-meta="Саткинский район" data-work-desc="Подбор сечения и высоты под мощность котла." aria-label="Слайд 9 из 14"><img loading="lazy" src="images/chimney-2.jfif" alt="" /></button>
+                <button type="button" class="works-carousel__frame" data-image="images/chimney-3.jfif" data-work-title="Вытяжка продуктов сгорания" data-work-meta="Частный дом" data-work-desc="Монтаж с учётом требований к размещению и доступу для обслуживания." aria-label="Слайд 10 из 14"><img loading="lazy" src="images/chimney-3.jfif" alt="" /></button>
+                <button type="button" class="works-carousel__frame" data-image="images/chimney-4.jfif" data-work-title="Дымоход через кровлю" data-work-meta="г. Сатка" data-work-desc="Узел прохода, гидроизоляция и ограждение." aria-label="Слайд 11 из 14"><img loading="lazy" src="images/chimney-4.jfif" alt="" /></button>
+                <button type="button" class="works-carousel__frame" data-image="images/chimney-5.jfif" data-work-title="Комплект дымоудаления" data-work-meta="Саткинский район" data-work-desc="Сборка и крепление элементов, проверка тяги." aria-label="Слайд 12 из 14"><img loading="lazy" src="images/chimney-5.jfif" alt="" /></button>
+                <button type="button" class="works-carousel__frame" data-image="images/chimney-6.jfif" data-work-title="Объект «под ключ»" data-work-meta="Частный дом" data-work-desc="Котёл и дымоход в одном проекте — единая ответственность исполнителя." aria-label="Слайд 13 из 14"><img loading="lazy" src="images/chimney-6.jfif" alt="" /></button>
+                <button type="button" class="works-carousel__frame" data-image="images/chimney-7.jfif" data-work-title="Финишные работы" data-work-meta="г. Сатка" data-work-desc="Аккуратный внешний вид, уборка после монтажа." aria-label="Слайд 14 из 14"><img loading="lazy" src="images/chimney-7.jfif" alt="" /></button>
+              </div>
+            </div>
+
+            <div class="works-carousel__panel">
+              <p class="works-carousel__eyebrow">Объект</p>
+              <h3 class="works-carousel__heading" id="worksSlideTitle">Монтаж котла Ferroli</h3>
+              <p class="works-carousel__meta" id="worksSlideMeta">г. Сатка · частный дом 120 м²</p>
+              <p class="works-carousel__text" id="worksSlideDesc">Подключение к отоплению, обвязка и пусконаладка. Проверка безопасности перед сдачей объекта.</p>
+              <div class="works-carousel__nav" role="group" aria-label="Переключение слайдов">
+                <button type="button" class="works-carousel__arrow" id="worksPrev" aria-label="Предыдущий проект">
+                  <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="works-carousel__arrow" id="worksNext" aria-label="Следующий проект">
+                  <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                </button>
+              </div>
+              <button type="button" class="btn btn--accent works-carousel__open" id="worksOpenLightbox">Открыть фото крупно</button>
+              <p class="works-carousel__hint">Боковые фото — перейти к слайду. Увеличить текущее — кнопка ниже.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
