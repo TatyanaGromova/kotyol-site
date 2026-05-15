@@ -982,13 +982,13 @@ main {
 .section--why::before {
   content: "";
   position: absolute;
-  top: -80px;
-  right: -100px;
-  width: 360px;
-  height: 360px;
+  top: -100px;
+  right: -80px;
+  width: 420px;
+  height: 420px;
   border-radius: 50%;
-  background: rgba(255, 107, 61, 0.14);
-  filter: blur(58px);
+  background: radial-gradient(circle, rgba(255, 107, 61, 0.16) 0%, rgba(255, 107, 61, 0.04) 55%, transparent 72%);
+  filter: blur(64px);
   pointer-events: none;
 }
 
@@ -1025,8 +1025,50 @@ main {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-auto-rows: 1fr;
-  gap: clamp(28px, 2.4vw, 32px);
+  gap: clamp(20px, 2vw, 28px);
   min-width: 0;
+}
+
+.section--why .why-grid .adv-card.reveal {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+  transition:
+    opacity var(--duration-reveal) var(--ease-premium),
+    transform var(--duration-reveal) var(--ease-premium),
+    box-shadow var(--duration-base) ease,
+    border-color var(--duration-base) ease;
+}
+
+.section--why .why-grid .adv-card.reveal.active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.section--why .why-grid .adv-card.reveal:nth-child(1) {
+  transition-delay: 0ms;
+}
+.section--why .why-grid .adv-card.reveal:nth-child(2) {
+  transition-delay: 100ms;
+}
+.section--why .why-grid .adv-card.reveal:nth-child(3) {
+  transition-delay: 200ms;
+}
+.section--why .why-grid .adv-card.reveal:nth-child(4) {
+  transition-delay: 300ms;
+}
+.section--why .why-grid .adv-card.reveal:nth-child(5) {
+  transition-delay: 400ms;
+}
+.section--why .why-grid .adv-card.reveal:nth-child(6) {
+  transition-delay: 500ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section--why .why-grid .adv-card.reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 .section--why .adv-card {
@@ -1034,8 +1076,8 @@ main {
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-height: 220px;
-  padding: 32px 30px 34px;
+  min-height: 0;
+  padding: 24px 22px 26px;
   overflow: hidden;
   background: #fff;
   border: var(--border-card);
@@ -1047,7 +1089,7 @@ main {
     border-color var(--duration-base) ease;
 }
 
-.section--why .adv-card::before {
+.section--why .adv-card:not(.adv-card--lead)::before {
   content: "";
   position: absolute;
   left: 0;
@@ -1055,18 +1097,46 @@ main {
   top: 0;
   height: 2px;
   background: #ff6b3d;
-  border-radius: 24px 24px 0 0;
+  border-radius: var(--radius-card-lg) var(--radius-card-lg) 0 0;
+  pointer-events: none;
 }
 
-.section--why .adv-card::after {
+.section--why .adv-card--lead {
+  background: linear-gradient(152deg, #243d4d 0%, #0e2a38 48%, #162f3c 100%);
+  border: 1px solid rgba(255, 107, 61, 0.28);
+  box-shadow:
+    0 14px 36px rgba(14, 42, 56, 0.2),
+    0 0 0 1px rgba(255, 107, 61, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  padding: 26px 24px 28px;
+}
+
+.section--why .adv-card--lead::before {
   content: none;
 }
 
 @media (hover: hover) {
-  .section--why .adv-card:hover {
-    transform: translateY(var(--lift-hover));
+  .section--why .adv-card:not(.adv-card--lead):hover,
+  .section--why .adv-card--lead:hover {
+    transform: translateY(-4px);
+  }
+
+  .section--why .adv-card:not(.adv-card--lead):hover {
     border-color: rgba(255, 107, 61, 0.14);
     box-shadow: var(--shadow-card-hover);
+  }
+
+  .section--why .adv-card--lead:hover {
+    border-color: rgba(255, 107, 61, 0.38);
+    box-shadow:
+      0 20px 44px rgba(14, 42, 56, 0.26),
+      0 0 0 1px rgba(255, 107, 61, 0.22),
+      0 0 28px rgba(255, 107, 61, 0.12);
+  }
+
+  .section--why .adv-card.reveal.active:not(.adv-card--lead):hover,
+  .section--why .adv-card.reveal.active.adv-card--lead:hover {
+    transform: translateY(-4px);
   }
 }
 
@@ -1075,23 +1145,48 @@ main {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 52px;
-  height: 52px;
-  margin-bottom: 22px;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
   color: #ff6b3d;
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   background: rgba(255, 107, 61, 0.09);
   border-radius: var(--radius-icon);
   transition: background var(--duration-base) ease;
 }
 
-.section--why .adv-card:hover i {
+.section--why .adv-card--lead i {
+  color: #ff8f66;
+  background: rgba(255, 107, 61, 0.2);
+}
+
+.section--why .adv-card:not(.adv-card--lead):hover i {
   background: rgba(255, 107, 61, 0.13);
 }
 
+.section--why .adv-card--lead:hover i {
+  background: rgba(255, 107, 61, 0.26);
+}
+
 .section--why .adv-card h3 {
-  margin: 0 0 12px;
+  margin: 0 0 10px;
   color: var(--text);
+}
+
+.section--why .adv-card--lead h3 {
+  margin-bottom: 10px;
+  color: #fff;
+  font-size: clamp(1.125rem, 0.5vw + 1rem, 1.375rem);
+  line-height: 1.2;
+}
+
+.section--why .adv-card--lead .adv-card__num {
+  font-family: var(--font-heading);
+  font-size: 1.45em;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.03em;
+  line-height: 1;
 }
 
 .section--why .adv-card p {
@@ -1099,6 +1194,12 @@ main {
   color: var(--muted);
   font-size: var(--fs-body);
   line-height: var(--lh-body);
+}
+
+.section--why .adv-card--lead p {
+  color: rgba(221, 230, 236, 0.9);
+  font-size: 0.9375rem;
+  line-height: 1.55;
 }
 
 .services-scroll {
@@ -2173,22 +2274,29 @@ main {
     gap: 22px;
   }
 
-  #advantages .adv-card {
-    min-height: 0;
-    padding: 28px 26px 30px;
+  #advantages .adv-card:not(.adv-card--lead) {
+    padding: 22px 20px 24px;
+  }
+
+  #advantages .adv-card--lead {
+    padding: 24px 22px 26px;
   }
 
   #advantages .adv-card i {
-    width: 48px;
-    height: 48px;
-    font-size: 22px;
-    margin-bottom: 16px;
+    width: 46px;
+    height: 46px;
+    font-size: 1.2rem;
+    margin-bottom: 14px;
   }
 
-  #advantages .adv-card h3 {
+  #advantages .adv-card:not(.adv-card--lead) h3 {
     margin-bottom: 8px;
     font-size: clamp(1.0625rem, 0.4vw + 0.95rem, 1.25rem);
     line-height: 1.22;
+  }
+
+  #advantages .adv-card--lead h3 {
+    font-size: clamp(1.0625rem, 0.45vw + 0.95rem, 1.25rem);
   }
 
   #advantages .adv-card p {
@@ -3347,6 +3455,10 @@ main {
   .why-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .section--why .adv-card--lead {
+    grid-column: 1 / -1;
+  }
 }
 
 @media (max-width: 760px) {
@@ -3527,9 +3639,16 @@ main {
     gap: 20px;
   }
 
-  .section--why .adv-card {
-    min-height: auto;
-    padding: 28px 24px 30px;
+  .section--why .adv-card--lead {
+    grid-column: auto;
+  }
+
+  .section--why .adv-card:not(.adv-card--lead) {
+    padding: 22px 20px 24px;
+  }
+
+  .section--why .adv-card--lead {
+    padding: 24px 22px 26px;
   }
 }
 
