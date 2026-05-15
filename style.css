@@ -52,7 +52,7 @@
   --duration-base: 0.28s;
   --duration-reveal: 0.72s;
   --lift-hover: -4px;
-  --header-offset: 86px;
+  --header-offset: 84px;
 }
 
 * { box-sizing: border-box; }
@@ -203,49 +203,64 @@ main {
 }
 
 .header__inner {
-  min-height: 86px;
+  min-height: 84px;
+  padding-block: 8px;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 20px;
-  transition: min-height var(--duration-base) var(--ease-premium);
+  gap: 16px;
+  transition:
+    min-height var(--duration-base) var(--ease-premium),
+    padding var(--duration-base) var(--ease-premium);
 }
 
 .header--scrolled .header__inner {
-  min-height: 68px;
+  min-height: 72px;
+  padding-block: 6px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .logo img {
-  width: 122px;
-  height: 72px;
-  border-radius: 12px;
+  width: 100px;
+  height: 52px;
+  border-radius: 10px;
   object-fit: contain;
   background: #fff;
-  padding: 4px;
+  padding: 2px;
   transition:
     width var(--duration-base) var(--ease-premium),
     height var(--duration-base) var(--ease-premium);
 }
 
 .header--scrolled .logo img {
-  width: 108px;
-  height: 64px;
+  width: 92px;
+  height: 48px;
 }
 
 .nav {
   display: flex;
   justify-content: center;
-  gap: clamp(10px, 1.4vw, 18px);
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: nowrap;
+  min-width: 0;
 }
 
 .nav a {
   position: relative;
   font-family: var(--font-body);
-  font-size: clamp(0.875rem, 0.2vw + 0.82rem, var(--fs-nav));
+  font-size: 1.0625rem;
   font-weight: var(--fw-nav);
+  line-height: 1.2;
   color: var(--text);
-  padding: 6px 2px;
+  padding: 4px 0;
+  white-space: nowrap;
+  flex-shrink: 0;
   transition:
     color var(--duration-base) var(--ease-premium),
     background var(--duration-base) var(--ease-premium);
@@ -287,16 +302,23 @@ main {
 .header__contacts {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   flex-shrink: 0;
+}
+
+.header__contacts .btn {
+  min-height: 42px;
+  padding: 9px 16px;
+  font-size: 0.9375rem;
 }
 
 .header__phones {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 2px;
-  line-height: 1.25;
+  justify-content: center;
+  gap: 0;
+  line-height: 1.15;
   flex-shrink: 0;
 }
 
@@ -305,16 +327,46 @@ main {
   font-weight: 600;
   color: var(--text);
   white-space: nowrap;
+  font-size: 0.8125rem;
 }
 
 .header__phone--primary {
-  font-size: var(--fs-nav);
+  font-size: 0.8125rem;
 }
 
 .header__phone--secondary {
-  font-size: var(--fs-nav);
+  font-size: 0.8125rem;
   font-weight: 600;
   color: var(--text);
+}
+
+@media (min-width: 993px) {
+  .nav {
+    gap: clamp(20px, 2vw, 28px);
+  }
+
+  .nav a {
+    font-size: clamp(1rem, 0.35vw + 0.9rem, 1.125rem);
+  }
+}
+
+@media (min-width: 993px) and (max-width: 1240px) {
+  .header__inner {
+    gap: 12px;
+  }
+
+  .nav {
+    gap: 18px;
+  }
+
+  .nav a {
+    font-size: 0.9375rem;
+  }
+
+  .header__contacts .btn {
+    padding-inline: 14px;
+    font-size: 0.875rem;
+  }
 }
 
 .btn {
@@ -3559,14 +3611,37 @@ main {
 }
 
 @media (max-width: 992px) {
+  .header__inner {
+    min-height: 56px;
+    padding-block: 6px;
+    gap: 10px;
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .header--scrolled .header__inner {
+    min-height: 52px;
+    padding-block: 5px;
+  }
+
+  .logo img {
+    width: 72px;
+    height: 42px;
+    padding: 2px;
+  }
+
+  .header--scrolled .logo img {
+    width: 68px;
+    height: 40px;
+  }
+
   .menu-toggle {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 44px;
-    height: 44px;
-    justify-self: center;
+    width: 40px;
+    height: 40px;
+    justify-self: end;
     z-index: 1102;
   }
 
@@ -4021,17 +4096,6 @@ main {
     min-height: 52px;
   }
 
-  .header__inner {
-    grid-template-columns: auto 1fr auto;
-    gap: 12px;
-    min-height: 74px;
-  }
-
-  .logo img {
-    width: 88px;
-    height: 56px;
-  }
-
   .header__contacts {
     justify-self: end;
   }
@@ -4042,16 +4106,16 @@ main {
 
   .header__phones {
     align-items: flex-end;
-    gap: 1px;
-    line-height: 1.2;
+    gap: 0;
+    line-height: 1.12;
   }
 
   .header__phone--primary {
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
   }
 
   .header__phone--secondary {
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
   }
 
   .hero {
@@ -4614,15 +4678,22 @@ main {
   }
 
   .header__inner {
+    min-height: 52px;
+    padding-block: 5px;
     gap: 8px;
   }
 
+  .logo img {
+    width: 68px;
+    height: 40px;
+  }
+
   .header__phone--primary {
-    font-size: 0.78rem;
+    font-size: 0.72rem;
   }
 
   .header__phone--secondary {
-    font-size: 0.78rem;
+    font-size: 0.72rem;
   }
 
   .services-ribbon.services-ribbon--carousel .services-ribbon__viewport,
