@@ -1101,6 +1101,12 @@ main {
     transform: none;
     transition: none;
   }
+
+  .section--why .why-grid .adv-card.reveal.active:not(.adv-card--lead)::before {
+    transform: scaleY(1);
+    opacity: 0.75;
+    transition: none;
+  }
 }
 
 .section--why .adv-card {
@@ -1121,16 +1127,52 @@ main {
     border-color var(--duration-base) ease;
 }
 
+.section--why .adv-card:not(.adv-card--lead) {
+  padding-left: 28px;
+}
+
 .section--why .adv-card:not(.adv-card--lead)::before {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 2px;
+  left: 12px;
+  top: 20px;
+  bottom: 20px;
+  width: 3px;
   background: #ff6b3d;
-  border-radius: var(--radius-card-lg) var(--radius-card-lg) 0 0;
+  opacity: 0.75;
+  border-radius: 999px;
+  transform: scaleY(0);
+  transform-origin: top center;
   pointer-events: none;
+  z-index: 1;
+  transition: none;
+}
+
+.section--why .why-grid .adv-card.reveal.active:not(.adv-card--lead)::before {
+  transform: scaleY(1);
+  transition:
+    transform 600ms var(--ease-premium),
+    opacity var(--duration-base) ease;
+}
+
+.section--why .why-grid .adv-card.reveal.active:nth-child(2):not(.adv-card--lead)::before {
+  transition-delay: 600ms;
+}
+
+.section--why .why-grid .adv-card.reveal.active:nth-child(3):not(.adv-card--lead)::before {
+  transition-delay: 700ms;
+}
+
+.section--why .why-grid .adv-card.reveal.active:nth-child(4):not(.adv-card--lead)::before {
+  transition-delay: 800ms;
+}
+
+.section--why .why-grid .adv-card.reveal.active:nth-child(5):not(.adv-card--lead)::before {
+  transition-delay: 900ms;
+}
+
+.section--why .why-grid .adv-card.reveal.active:nth-child(6):not(.adv-card--lead)::before {
+  transition-delay: 1000ms;
 }
 
 .section--why .adv-card--lead {
@@ -1156,6 +1198,10 @@ main {
   .section--why .adv-card:not(.adv-card--lead):hover {
     border-color: rgba(255, 107, 61, 0.14);
     box-shadow: var(--shadow-card-hover);
+  }
+
+  .section--why .adv-card:not(.adv-card--lead):hover::before {
+    opacity: 1;
   }
 
   .section--why .adv-card--lead:hover {
@@ -2295,7 +2341,7 @@ main {
   }
 
   #advantages .adv-card:not(.adv-card--lead) {
-    padding: 22px 20px 24px;
+    padding: 22px 20px 24px 28px;
   }
 
   #advantages .adv-card--lead {
@@ -2472,7 +2518,11 @@ main {
     gap: 18px;
   }
 
-  #advantages .adv-card {
+  #advantages .adv-card:not(.adv-card--lead) {
+    padding: 22px 20px 24px 28px;
+  }
+
+  #advantages .adv-card--lead {
     padding: 22px 20px 24px;
   }
 
@@ -3645,7 +3695,13 @@ main {
   }
 
   .section--why .adv-card:not(.adv-card--lead) {
-    padding: 22px 20px 24px;
+    padding: 22px 20px 24px 28px;
+  }
+
+  .section--why .adv-card:not(.adv-card--lead)::before {
+    top: 18px;
+    bottom: 18px;
+    left: 11px;
   }
 
   .section--why .adv-card--lead {
