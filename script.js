@@ -380,27 +380,6 @@ window.addEventListener("load", () => {
   });
 })();
 
-(function initBenefitsReveal() {
-  const section = document.querySelector("#advantages");
-  const layout = document.getElementById("benefitsLayout");
-  if (!section || !layout) return;
-
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    layout.classList.add("benefits-layout--inview");
-    return;
-  }
-
-  const io = new IntersectionObserver(
-    (entries, obs) => {
-      if (!entries.some((e) => e.isIntersecting)) return;
-      layout.classList.add("benefits-layout--inview");
-      obs.disconnect();
-    },
-    { threshold: 0.14, rootMargin: "0px 0px -8% 0px" }
-  );
-  io.observe(section);
-})();
-
 const menuToggle = document.getElementById("menuToggle");
 const navMenu = document.getElementById("navMenu");
 
