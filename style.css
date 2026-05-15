@@ -4408,6 +4408,10 @@ main {
     display: none;
   }
 
+  .social-sticky__btn--max {
+    display: none;
+  }
+
   .social-sticky__btn {
     width: 56px;
     height: 56px;
@@ -4421,8 +4425,7 @@ main {
     max-height: 36px;
   }
 
-  .social-sticky__btn--vk:active,
-  .social-sticky__btn--max:active {
+  .social-sticky__btn--vk:active {
     transform: scale(0.97);
   }
 
