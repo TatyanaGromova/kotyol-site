@@ -2132,7 +2132,7 @@ main {
   }
 
   #objects-video .video-real-card video {
-    max-height: min(34vh, 300px);
+    max-height: clamp(300px, 38vh, 380px);
   }
 }
 
@@ -2192,11 +2192,11 @@ main {
   }
 
   #objects-video .video-real-card video {
-    max-height: min(30vh, 260px);
+    max-height: clamp(280px, 36vh, 340px);
   }
 
   #objects-video .objects-video__content {
-    margin-top: 8px;
+    margin-top: 10px;
   }
 }
 
@@ -2319,11 +2319,11 @@ main {
   }
 
   .video-real-card {
-    max-width: min(680px, 72vw);
+    max-width: min(760px, 78vw);
   }
 
   .video-real-card video {
-    max-height: min(38vh, 340px);
+    max-height: clamp(360px, 46vh, 440px);
   }
 
   .objects-video__content {
@@ -2343,7 +2343,7 @@ main {
   }
 
   #objects-video .video-real-card video {
-    max-height: min(34vh, 300px);
+    max-height: clamp(320px, 42vh, 400px);
   }
 }
 
