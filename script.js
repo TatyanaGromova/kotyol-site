@@ -5,6 +5,44 @@ window.addEventListener("load", () => {
   if (!window.location.hash) window.scrollTo(0, 0);
 });
 
+(function initHeroSloganTyping() {
+  const el = document.querySelector(".hero__slogan.hero-typing[data-text]");
+  if (!el) return;
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const charDelay = () => 50 + Math.random() * 10;
+
+  const text = (el.getAttribute("data-text") || "").trim();
+  const measure = el.querySelector(".hero-typing__measure");
+  const output = el.querySelector(".hero-typing__output");
+  if (!text || !measure || !output) return;
+
+  measure.textContent = text;
+
+  if (reduce) {
+    output.textContent = text;
+    el.classList.add("typing-done", "hero-typing--instant");
+    return;
+  }
+
+  output.textContent = "";
+
+  function tick() {
+    const i = output.textContent.length;
+    if (i >= text.length) {
+      el.classList.add("typing-done");
+      return;
+    }
+    output.textContent = text.slice(0, i + 1);
+    if (output.textContent.length >= text.length) {
+      el.classList.add("typing-done");
+      return;
+    }
+    window.setTimeout(tick, charDelay());
+  }
+  tick();
+})();
+
 const menuToggle = document.getElementById("menuToggle");
 const navMenu = document.getElementById("navMenu");
 
