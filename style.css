@@ -994,6 +994,18 @@ main {
   padding: 4px 8px 8px;
 }
 
+.services-ribbon__track.is-no-transition {
+  transition: none;
+}
+
+.services-ribbon__slide {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
 .services-ribbon__card {
   position: relative;
   flex: 0 0 auto;
@@ -1123,30 +1135,38 @@ main {
   }
 }
 
-@media (max-width: 520px) {
-  .services-ribbon {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-    gap: 10px 12px;
-  }
-  .services-ribbon__viewport {
-    grid-column: 1 / -1;
-    grid-row: 1;
-  }
-  .services-ribbon__arrow--prev {
-    grid-column: 1;
-    grid-row: 2;
-    justify-self: start;
-  }
-  .services-ribbon__arrow--next {
-    grid-column: 2;
-    grid-row: 2;
-    justify-self: end;
-  }
-  .services-ribbon__arrow {
-    width: 44px;
-    height: 44px;
-  }
+.services-ribbon__dots {
+  grid-column: 1 / -1;
+  display: none;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 0 8px;
+}
+
+.services-ribbon__dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #b5c4d1;
+  cursor: pointer;
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+}
+
+.services-ribbon__dot.is-active {
+  background: var(--accent);
+  transform: scale(1.28);
+}
+
+.services-ribbon__dot:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .call-master__inner {
@@ -2412,6 +2432,11 @@ main {
   .services-ribbon__viewport {
     scroll-behavior: auto;
   }
+  .services-ribbon.services-ribbon--carousel .services-ribbon__track,
+  .case-reviews-carousel__track,
+  .case-reviews-carousel__slide-scaler {
+    transition-duration: 0.01ms;
+  }
 }
 
 @keyframes pulse {
@@ -2638,11 +2663,6 @@ main {
   .process-step img { margin: 14px 0 8px; }
   .timeline__number { margin: 0 0 8px; }
   .mobile-bar { display: grid; }
-  body { padding-bottom: 100px; }
-  .social-sticky {
-    right: 16px;
-    bottom: 96px;
-  }
 }
 
 @media (max-width: 900px) {
@@ -2902,5 +2922,274 @@ main {
 
   .section.video-section {
     padding: 56px 0;
+  }
+
+  /* Услуги: карусель на mobile */
+  .section--services {
+    overflow-x: hidden;
+  }
+
+  .services-ribbon.services-ribbon--carousel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 0;
+    padding-bottom: 4px;
+  }
+
+  .services-ribbon.services-ribbon--carousel .services-ribbon__viewport {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    width: 100%;
+    overflow: hidden;
+    padding: 0 16px;
+    scroll-snap-type: none;
+    -webkit-overflow-scrolling: auto;
+  }
+
+  .services-ribbon.services-ribbon--carousel .services-ribbon__track {
+    gap: 12px;
+    padding: 4px 0 8px;
+    will-change: transform;
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .services-ribbon.services-ribbon--carousel .services-ribbon__slide {
+    flex: 0 0 min(360px, calc(100vw - 32px));
+    width: min(360px, calc(100vw - 32px));
+    max-width: 100%;
+    transition:
+      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.45s ease;
+  }
+
+  .services-ribbon.services-ribbon--carousel .services-ribbon__slide.is-tier-0 .services-ribbon__card {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .services-ribbon.services-ribbon--carousel .services-ribbon__slide.is-tier-1 .services-ribbon__card {
+    transform: scale(0.93);
+    opacity: 0.72;
+  }
+
+  .services-ribbon.services-ribbon--carousel .services-ribbon__slide.is-tier-2 .services-ribbon__card {
+    transform: scale(0.9);
+    opacity: 0.58;
+  }
+
+  .services-ribbon.services-ribbon--carousel .services-ribbon__slide.is-tier-1 .services-ribbon__card,
+  .services-ribbon.services-ribbon--carousel .services-ribbon__slide.is-tier-2 .services-ribbon__card {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.92);
+  }
+
+  .services-ribbon.services-ribbon--carousel .services-ribbon__slide.is-tier-0 .services-ribbon__card {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .services-ribbon.services-ribbon--carousel .services-ribbon__card {
+    width: 100%;
+    max-width: min(360px, calc(100vw - 32px));
+    margin: 0 auto;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .services-ribbon.services-ribbon--carousel .services-ribbon__media {
+    display: block;
+    min-height: 0;
+    padding: 0;
+    background: #e8eef3;
+  }
+
+  .services-ribbon.services-ribbon--carousel .services-ribbon__media img {
+    width: 100%;
+    height: clamp(180px, 52vw, 220px);
+    max-height: 220px;
+    min-height: 180px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 22px 22px 0 0;
+  }
+
+  .services-ribbon.services-ribbon--carousel .services-ribbon__body {
+    padding: 16px 18px 20px;
+  }
+
+  .services-ribbon.services-ribbon--carousel .services-ribbon__arrow {
+    position: static;
+    width: 46px;
+    height: 46px;
+    z-index: 1;
+    align-self: center;
+  }
+
+  .services-ribbon.services-ribbon--carousel .services-ribbon__arrow--prev {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: end;
+    margin-right: 24px;
+    margin-top: 12px;
+  }
+
+  .services-ribbon.services-ribbon--carousel .services-ribbon__arrow--next {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: start;
+    margin-left: 24px;
+    margin-top: 12px;
+  }
+
+  .services-ribbon.services-ribbon--carousel .services-ribbon__dots {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    display: flex;
+    margin-top: 14px;
+  }
+
+  /* Отзывы: ширина карточки и стрелки под слайдером */
+  .section--case-reviews {
+    overflow-x: hidden;
+  }
+
+  .case-reviews-carousel {
+    --case-slide-w: min(360px, calc(100vw - 32px));
+    --case-slide-gap: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 0 10px;
+    padding: 0 16px;
+    box-sizing: border-box;
+  }
+
+  .case-reviews-carousel__viewport {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    width: 100%;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .case-reviews-carousel__slide {
+    flex: 0 0 var(--case-slide-w);
+    width: var(--case-slide-w);
+  }
+
+  .case-reviews-carousel__slide-scaler {
+    width: 100%;
+    max-width: min(360px, calc(100vw - 32px));
+    margin: 0 auto;
+  }
+
+  .case-reviews-carousel__slide.is-tier-1 .case-reviews-carousel__slide-scaler,
+  .case-reviews-carousel__slide.is-tier-2 .case-reviews-carousel__slide-scaler {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.92);
+  }
+
+  .case-review-card {
+    width: 100%;
+    max-width: min(360px, calc(100vw - 32px));
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  .case-review-card__media img {
+    width: 100%;
+    height: clamp(220px, 58vw, 260px);
+    max-height: 260px;
+    min-height: 220px;
+    aspect-ratio: auto;
+    object-fit: cover;
+  }
+
+  .case-review-card__body {
+    padding: 20px;
+  }
+
+  .case-review-card__title {
+    font-size: 1.05rem;
+  }
+
+  .case-review-card__meta,
+  .case-review-card__date {
+    font-size: 0.8125rem;
+  }
+
+  .case-review-card__quote {
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    word-break: normal;
+    overflow-wrap: break-word;
+  }
+
+  .case-review-card__cta {
+    max-width: 100%;
+    box-sizing: border-box;
+    font-size: 0.8125rem;
+    white-space: normal;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .case-reviews-carousel__arrow {
+    position: static;
+    width: 46px;
+    height: 46px;
+    z-index: 1;
+    align-self: center;
+  }
+
+  .case-reviews-carousel__arrow--prev {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: end;
+    margin-right: 24px;
+    margin-top: 12px;
+  }
+
+  .case-reviews-carousel__arrow--next {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: start;
+    margin-left: 24px;
+    margin-top: 12px;
+  }
+
+  .case-reviews-carousel__dots {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    margin-top: 14px;
+    padding: 0;
+  }
+
+  /* Sticky соцсети и отступ под нижнюю панель */
+  body {
+    padding-bottom: 90px;
+  }
+
+  .mobile-bar {
+    display: grid;
+  }
+
+  .social-sticky {
+    right: 14px;
+    bottom: calc(90px + env(safe-area-inset-bottom, 0px));
+    z-index: 850;
+    gap: 10px;
+  }
+
+  .social-sticky__btn {
+    width: 54px;
+    height: 54px;
+  }
+
+  .social-sticky__btn i {
+    font-size: 1.3rem;
   }
 }

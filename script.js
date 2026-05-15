@@ -213,19 +213,132 @@ if (lightbox && lightboxImage && lightboxClose) {
   });
 }
 
-// Горизонтальная лента «Наши услуги»: стрелки прокручивают по одной карточке, плавный scroll.
+// «Наши услуги»: desktop — scroll-лента; mobile (≤768px) — карусель как отзывы.
 (function initServicesRibbon() {
+  const root = document.getElementById("servicesRibbon");
   const viewport = document.getElementById("servicesRibbonViewport");
   const track = document.getElementById("servicesRibbonTrack");
   const btnPrev = document.getElementById("servicesRibbonPrev");
   const btnNext = document.getElementById("servicesRibbonNext");
-  if (!viewport || !track) return;
+  const dotsWrap = document.getElementById("servicesRibbonDots");
+  if (!root || !viewport || !track) return;
 
-  const cards = () => Array.from(track.querySelectorAll(".services-ribbon__card"));
+  const mql = window.matchMedia("(max-width: 768px)");
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const reduce = reducedMotion.matches;
+
+  const slides = () => Array.from(track.querySelectorAll(".services-ribbon__slide"));
+  let active = 0;
+  let timer = null;
+  const INTERVAL = 4500;
+  let dotButtons = [];
+  let mode = null;
+
+  function buildDots() {
+    if (!dotsWrap) return;
+    dotsWrap.textContent = "";
+    dotButtons = slides().map((_, i) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "services-ribbon__dot" + (i === 0 ? " is-active" : "");
+      b.setAttribute("role", "tab");
+      b.setAttribute("aria-selected", i === 0 ? "true" : "false");
+      b.setAttribute("aria-label", `Услуга ${i + 1}`);
+      b.addEventListener("click", () => {
+        goTo(i);
+        restartAutoplay();
+      });
+      dotsWrap.appendChild(b);
+      return b;
+    });
+  }
+
+  function circTier(i) {
+    const n = slides().length;
+    let d = i - active;
+    if (d > n / 2) d -= n;
+    if (d < -n / 2) d += n;
+    const ad = Math.abs(d);
+    if (ad === 0) return 0;
+    if (ad === 1) return 1;
+    return 2;
+  }
+
+  function updateSlides() {
+    slides().forEach((slide, i) => {
+      slide.classList.remove("is-tier-0", "is-tier-1", "is-tier-2");
+      slide.classList.add(`is-tier-${circTier(i)}`);
+      slide.setAttribute("aria-hidden", i === active ? "false" : "true");
+    });
+    dotButtons.forEach((b, i) => {
+      b.classList.toggle("is-active", i === active);
+      b.setAttribute("aria-selected", i === active ? "true" : "false");
+    });
+  }
+
+  function updateTransform(instant) {
+    const list = slides();
+    const n = list.length;
+    if (!n) return;
+    if (instant) track.classList.add("is-no-transition");
+    const v = viewport.getBoundingClientRect().width;
+    const sw = list[0].getBoundingClientRect().width;
+    const cell = n > 1 ? list[1].offsetLeft - list[0].offsetLeft : sw;
+    const x = (v - sw) / 2 - active * cell;
+    track.style.transform = `translate3d(${x}px, 0, 0)`;
+    if (instant) {
+      requestAnimationFrame(() => {
+        track.offsetHeight;
+        track.classList.remove("is-no-transition");
+      });
+    }
+  }
+
+  function isWrapOneStep(from, to) {
+    const n = slides().length;
+    return (from === 0 && to === n - 1) || (from === n - 1 && to === 0);
+  }
+
+  function goTo(index) {
+    const n = slides().length;
+    if (!n) return;
+    const to = ((index % n) + n) % n;
+    if (to === active) return;
+    const from = active;
+    const wrap = isWrapOneStep(from, to);
+    active = to;
+    updateSlides();
+    if (wrap) updateTransform(true);
+    else updateTransform(false);
+  }
+
+  function next() {
+    goTo(active + 1);
+  }
+
+  function prev() {
+    goTo(active - 1);
+  }
+
+  function stopAutoplay() {
+    if (timer) {
+      window.clearInterval(timer);
+      timer = null;
+    }
+  }
+
+  function startAutoplay() {
+    stopAutoplay();
+    if (!reduce) timer = window.setInterval(next, INTERVAL);
+  }
+
+  function restartAutoplay() {
+    stopAutoplay();
+    startAutoplay();
+  }
 
   function stepSize() {
-    const list = cards();
+    const list = slides();
     if (!list.length) return Math.max(120, viewport.clientWidth * 0.82);
     const first = list[0];
     const styles = window.getComputedStyle(track);
@@ -241,38 +354,128 @@ if (lightbox && lightboxImage && lightboxClose) {
     });
   }
 
-  function updateArrows() {
+  function updateScrollArrows() {
     const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth - 2);
     if (btnPrev) btnPrev.disabled = viewport.scrollLeft <= 2;
     if (btnNext) btnNext.disabled = viewport.scrollLeft >= maxScroll - 1;
   }
 
-  btnPrev?.addEventListener("click", () => scrollByCards(-1));
-  btnNext?.addEventListener("click", () => scrollByCards(1));
+  function onScrollArrowClick(direction) {
+    scrollByCards(direction);
+    window.requestAnimationFrame(updateScrollArrows);
+  }
 
-  viewport.addEventListener("scroll", () => window.requestAnimationFrame(updateArrows), { passive: true });
+  function enableCarousel() {
+    if (mode === "carousel") return;
+    mode = "carousel";
+    root.classList.add("services-ribbon--carousel");
+    viewport.scrollLeft = 0;
+    track.style.transform = "";
+    active = 0;
+    buildDots();
+    updateSlides();
+    updateTransform(false);
+    startAutoplay();
+    if (btnPrev) {
+      btnPrev.disabled = false;
+      btnPrev.onclick = () => {
+        prev();
+        restartAutoplay();
+      };
+    }
+    if (btnNext) {
+      btnNext.disabled = false;
+      btnNext.onclick = () => {
+        next();
+        restartAutoplay();
+      };
+    }
+    root.onmouseenter = stopAutoplay;
+    root.onmouseleave = startAutoplay;
+  }
+
+  function enableScroll() {
+    if (mode === "scroll") return;
+    mode = "scroll";
+    root.classList.remove("services-ribbon--carousel");
+    stopAutoplay();
+    root.onmouseenter = null;
+    root.onmouseleave = null;
+    track.style.transform = "";
+    track.classList.remove("is-no-transition");
+    if (dotsWrap) dotsWrap.textContent = "";
+    dotButtons = [];
+    slides().forEach((slide) => {
+      slide.classList.remove("is-tier-0", "is-tier-1", "is-tier-2");
+      slide.removeAttribute("aria-hidden");
+    });
+    if (btnPrev) {
+      btnPrev.onclick = () => onScrollArrowClick(-1);
+    }
+    if (btnNext) {
+      btnNext.onclick = () => onScrollArrowClick(1);
+    }
+    updateScrollArrows();
+  }
+
+  function applyMode() {
+    if (mql.matches) enableCarousel();
+    else enableScroll();
+    window.requestAnimationFrame(() => {
+      if (mql.matches) updateTransform(false);
+      else updateScrollArrows();
+    });
+  }
 
   viewport.addEventListener("keydown", (e) => {
+    if (!mql.matches) {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        scrollByCards(-1);
+      }
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        scrollByCards(1);
+      }
+      return;
+    }
     if (e.key === "ArrowLeft") {
       e.preventDefault();
-      scrollByCards(-1);
+      prev();
+      restartAutoplay();
     }
     if (e.key === "ArrowRight") {
       e.preventDefault();
-      scrollByCards(1);
+      next();
+      restartAutoplay();
     }
   });
 
-  window.addEventListener("resize", () => window.requestAnimationFrame(updateArrows));
+  viewport.addEventListener(
+    "scroll",
+    () => {
+      if (!mql.matches) window.requestAnimationFrame(updateScrollArrows);
+    },
+    { passive: true }
+  );
 
-  window.addEventListener("load", () => window.requestAnimationFrame(updateArrows), { once: true });
+  mql.addEventListener("change", applyMode);
+  window.addEventListener(
+    "resize",
+    () => {
+      applyMode();
+    },
+    { passive: true }
+  );
+
+  window.addEventListener("load", () => window.requestAnimationFrame(applyMode), { once: true });
   track.querySelectorAll("img").forEach((img) => {
     if (!img.complete) {
-      img.addEventListener("load", () => window.requestAnimationFrame(updateArrows), { once: true });
+      img.addEventListener("load", () => window.requestAnimationFrame(applyMode), { once: true });
     }
   });
 
-  updateArrows();
+  applyMode();
 })();
 
 // Слайдер «Наши работы»: автопрокрутка 4.5s при видимости ≥35%, пауза при наведении.
