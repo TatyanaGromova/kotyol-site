@@ -556,37 +556,148 @@
       </div>
     </section>
 
-    <section class="section section--gray" id="reviews">
+    <section class="section section--case-reviews" id="reviews">
       <div class="container">
         <div class="section__head reveal reveal--from-left">
           <h2>Отзывы клиентов</h2>
-          <p>Нам доверяют частные дома и семьи по всему району</p>
+          <p>Реальные объекты, монтаж и обслуживание котлов в Сатке и Саткинском районе</p>
         </div>
-        <div class="grid grid--2 reviews">
-          <article class="review-card reveal">
-            <img loading="lazy" src="images/otzyv-1.jpeg" alt="Отзыв Иван П." />
-            <h3>Иван П.</h3>
-            <p class="review-city">г. Сатка</p>
-            <p>Установили котёл быстро и аккуратно. Дом прогревается отлично.</p>
-          </article>
-          <article class="review-card reveal">
-            <img loading="lazy" src="images/otzyv-2.jpeg" alt="Отзыв Алексей М." />
-            <h3>Алексей М.</h3>
-            <p class="review-city">г. Сатка</p>
-            <p>Работа выполнена качественно, всё по договору.</p>
-          </article>
-          <article class="review-card reveal">
-            <img loading="lazy" src="images/otzyv-3.jpeg" alt="Отзыв Сергей К." />
-            <h3>Сергей К.</h3>
-            <p class="review-city">г. Сатка</p>
-            <p>Помогли подобрать оборудование и оформить документы.</p>
-          </article>
-          <article class="review-card reveal">
-            <img loading="lazy" src="images/otzyv-4.jpeg" alt="Отзыв Наталья В." />
-            <h3>Наталья В.</h3>
-            <p class="review-city">г. Сатка</p>
-            <p>Очень довольны результатом.</p>
-          </article>
+        <div
+          class="case-reviews-carousel reveal"
+          id="caseReviewsCarousel"
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Отзывы и реальные объекты"
+        >
+          <button
+            type="button"
+            class="case-reviews-carousel__arrow case-reviews-carousel__arrow--prev"
+            id="caseReviewsPrev"
+            aria-label="Предыдущий отзыв"
+          >
+            <span aria-hidden="true">‹</span>
+          </button>
+          <div class="case-reviews-carousel__viewport" id="caseReviewsViewport">
+            <div class="case-reviews-carousel__track" id="caseReviewsTrack" role="list">
+              <div class="case-reviews-carousel__slide" role="listitem" data-index="0">
+                <div class="case-reviews-carousel__slide-scaler">
+                  <article class="case-review-card">
+                  <div class="case-review-card__media">
+                    <img loading="lazy" src="images/otzyv-1.jpeg" alt="Объект: котёл Kotitonttu, дом 110 м², Сатка" width="800" height="600" decoding="async" />
+                  </div>
+                  <div class="case-review-card__body">
+                    <p class="case-review-card__badge">Реальный объект</p>
+                    <h3 class="case-review-card__title">Котёл Kotitonttu</h3>
+                    <p class="case-review-card__meta">Дом 110 м² • Сатка</p>
+                    <p class="case-review-card__date">Май 2026</p>
+                    <p class="case-review-card__stars" aria-label="Оценка 5 из 5">★★★★★</p>
+                    <p class="case-review-card__quote">После запуска стало тепло уже в первый вечер. Всё объяснили и оставили контакты для связи.</p>
+                    <a class="case-review-card__cta" href="#works">Смотреть объект<span class="case-review-card__cta-arrow" aria-hidden="true"> →</span></a>
+                  </div>
+                </article>
+                </div>
+              </div>
+              <div class="case-reviews-carousel__slide" role="listitem" data-index="1">
+                <div class="case-reviews-carousel__slide-scaler">
+                <article class="case-review-card">
+                  <div class="case-review-card__media">
+                    <img loading="lazy" src="images/otzyv-2.jpeg" alt="Объект: котёл Ferroli, частный дом, Саткинский район" width="800" height="600" decoding="async" />
+                  </div>
+                  <div class="case-review-card__body">
+                    <p class="case-review-card__badge">Реальный объект</p>
+                    <h3 class="case-review-card__title">Котёл Ferroli</h3>
+                    <p class="case-review-card__meta">Частный дом • Саткинский район</p>
+                    <p class="case-review-card__date">Апрель 2026</p>
+                    <p class="case-review-card__stars" aria-label="Оценка 5 из 5">★★★★★</p>
+                    <p class="case-review-card__quote">Подобрали котёл, смонтировали и запустили систему без лишних задержек.</p>
+                    <a class="case-review-card__cta" href="#works">Смотреть объект<span class="case-review-card__cta-arrow" aria-hidden="true"> →</span></a>
+                  </div>
+                </article>
+                </div>
+              </div>
+              <div class="case-reviews-carousel__slide" role="listitem" data-index="2">
+                <div class="case-reviews-carousel__slide-scaler">
+                <article class="case-review-card">
+                  <div class="case-review-card__media">
+                    <img loading="lazy" src="images/otzyv-3.jpeg" alt="Объект: монтаж котла, дом в Сатке" width="800" height="600" decoding="async" />
+                  </div>
+                  <div class="case-review-card__body">
+                    <p class="case-review-card__badge">Реальный объект</p>
+                    <h3 class="case-review-card__title">Монтаж котла</h3>
+                    <p class="case-review-card__meta">Дом в Сатке</p>
+                    <p class="case-review-card__date">Апрель 2026</p>
+                    <p class="case-review-card__stars" aria-label="Оценка 5 из 5">★★★★★</p>
+                    <p class="case-review-card__quote">Работали аккуратно, после установки объяснили, как пользоваться оборудованием.</p>
+                    <a class="case-review-card__cta" href="#works">Смотреть объект<span class="case-review-card__cta-arrow" aria-hidden="true"> →</span></a>
+                  </div>
+                </article>
+                </div>
+              </div>
+              <div class="case-reviews-carousel__slide" role="listitem" data-index="3">
+                <div class="case-reviews-carousel__slide-scaler">
+                <article class="case-review-card">
+                  <div class="case-review-card__media">
+                    <img loading="lazy" src="images/otzyv-4.jpeg" alt="Объект: котёл Kotitonttu, частный дом, Межевой" width="800" height="600" decoding="async" />
+                  </div>
+                  <div class="case-review-card__body">
+                    <p class="case-review-card__badge">Реальный объект</p>
+                    <h3 class="case-review-card__title">Котёл Kotitonttu</h3>
+                    <p class="case-review-card__meta">Частный дом • Межевой</p>
+                    <p class="case-review-card__date">Март 2026</p>
+                    <p class="case-review-card__stars" aria-label="Оценка 5 из 5">★★★★★</p>
+                    <p class="case-review-card__quote">Сделали монтаж и первый запуск. Всё понятно, спокойно и по договорённости.</p>
+                    <a class="case-review-card__cta" href="#works">Смотреть объект<span class="case-review-card__cta-arrow" aria-hidden="true"> →</span></a>
+                  </div>
+                </article>
+                </div>
+              </div>
+              <div class="case-reviews-carousel__slide" role="listitem" data-index="4">
+                <div class="case-reviews-carousel__slide-scaler">
+                <article class="case-review-card">
+                  <div class="case-review-card__media">
+                    <img loading="lazy" src="images/otzyv-5.jpg" alt="Объект: дымоход, частный дом, Саткинский район" width="800" height="600" decoding="async" />
+                  </div>
+                  <div class="case-review-card__body">
+                    <p class="case-review-card__badge">Реальный объект</p>
+                    <h3 class="case-review-card__title">Дымоход</h3>
+                    <p class="case-review-card__meta">Частный дом • Саткинский район</p>
+                    <p class="case-review-card__date">Май 2026</p>
+                    <p class="case-review-card__stars" aria-label="Оценка 5 из 5">★★★★★</p>
+                    <p class="case-review-card__quote">Помогли с дымоходом, проверили систему и дали рекомендации по эксплуатации.</p>
+                    <a class="case-review-card__cta" href="#works">Смотреть объект<span class="case-review-card__cta-arrow" aria-hidden="true"> →</span></a>
+                  </div>
+                </article>
+                </div>
+              </div>
+              <div class="case-reviews-carousel__slide" role="listitem" data-index="5">
+                <div class="case-reviews-carousel__slide-scaler">
+                <article class="case-review-card">
+                  <div class="case-review-card__media">
+                    <img loading="lazy" src="images/otzyv-6.jpeg" alt="Объект: сервис котла, дом 120 м², Бакал" width="800" height="600" decoding="async" />
+                  </div>
+                  <div class="case-review-card__body">
+                    <p class="case-review-card__badge">Реальный объект</p>
+                    <h3 class="case-review-card__title">Сервис котла</h3>
+                    <p class="case-review-card__meta">Дом 120 м² • Бакал</p>
+                    <p class="case-review-card__date">Апрель 2026</p>
+                    <p class="case-review-card__stars" aria-label="Оценка 5 из 5">★★★★★</p>
+                    <p class="case-review-card__quote">Провели обслуживание, проверили работу котла и объяснили, на что обращать внимание.</p>
+                    <a class="case-review-card__cta" href="#works">Смотреть объект<span class="case-review-card__cta-arrow" aria-hidden="true"> →</span></a>
+                  </div>
+                </article>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="case-reviews-carousel__arrow case-reviews-carousel__arrow--next"
+            id="caseReviewsNext"
+            aria-label="Следующий отзыв"
+          >
+            <span aria-hidden="true">›</span>
+          </button>
+          <div class="case-reviews-carousel__dots" id="caseReviewsDots" role="tablist" aria-label="Выбор отзыва"></div>
         </div>
       </div>
     </section>

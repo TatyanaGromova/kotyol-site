@@ -358,6 +358,138 @@ if (lightbox && lightboxImage && lightboxClose) {
   apply(0);
 })();
 
+// Карусель «Отзывы клиентов» (кейсы): центр, соседи, точки, автопрокрутка.
+(function initCaseReviewsCarousel() {
+  const root = document.getElementById("caseReviewsCarousel");
+  const viewport = document.getElementById("caseReviewsViewport");
+  const track = document.getElementById("caseReviewsTrack");
+  const dotsWrap = document.getElementById("caseReviewsDots");
+  const btnPrev = document.getElementById("caseReviewsPrev");
+  const btnNext = document.getElementById("caseReviewsNext");
+  if (!root || !viewport || !track || !dotsWrap || !btnPrev || !btnNext) return;
+
+  const slides = Array.from(track.querySelectorAll(".case-reviews-carousel__slide"));
+  const n = slides.length;
+  if (n === 0) return;
+
+  let active = 0;
+  let timer = null;
+  const INTERVAL = 4500;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  dotsWrap.textContent = "";
+  const dotButtons = slides.map((_, i) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "case-reviews-carousel__dot" + (i === 0 ? " is-active" : "");
+    b.setAttribute("role", "tab");
+    b.setAttribute("aria-selected", i === 0 ? "true" : "false");
+    b.setAttribute("aria-label", `Отзыв ${i + 1}`);
+    b.addEventListener("click", () => goTo(i));
+    dotsWrap.appendChild(b);
+    return b;
+  });
+
+  function circTier(i) {
+    let d = i - active;
+    if (d > n / 2) d -= n;
+    if (d < -n / 2) d += n;
+    const ad = Math.abs(d);
+    if (ad === 0) return 0;
+    if (ad === 1) return 1;
+    return 2;
+  }
+
+  function updateSlides() {
+    slides.forEach((slide, i) => {
+      slide.classList.remove("is-tier-0", "is-tier-1", "is-tier-2");
+      slide.classList.add(`is-tier-${circTier(i)}`);
+      const isAct = i === active;
+      slide.setAttribute("aria-hidden", isAct ? "false" : "true");
+    });
+    dotButtons.forEach((b, i) => {
+      b.classList.toggle("is-active", i === active);
+      b.setAttribute("aria-selected", i === active ? "true" : "false");
+    });
+  }
+
+  function updateTransform(instant) {
+    if (instant) track.classList.add("is-no-transition");
+    const v = viewport.getBoundingClientRect().width;
+    const sw = slides[0].getBoundingClientRect().width;
+    const cell = n > 1 ? slides[1].offsetLeft - slides[0].offsetLeft : sw;
+    const x = (v - sw) / 2 - active * cell;
+    track.style.transform = `translate3d(${x}px, 0, 0)`;
+    if (instant) {
+      requestAnimationFrame(() => {
+        track.offsetHeight;
+        track.classList.remove("is-no-transition");
+      });
+    }
+  }
+
+  function isWrapOneStep(from, to) {
+    return (from === 0 && to === n - 1) || (from === n - 1 && to === 0);
+  }
+
+  function goTo(index) {
+    const to = ((index % n) + n) % n;
+    if (to === active) return;
+    const from = active;
+    const wrap = isWrapOneStep(from, to);
+    active = to;
+    updateSlides();
+    if (wrap) updateTransform(true);
+    else updateTransform(false);
+  }
+
+  function next() {
+    goTo(active + 1);
+  }
+
+  function prev() {
+    goTo(active - 1);
+  }
+
+  function stopAutoplay() {
+    if (timer) {
+      window.clearInterval(timer);
+      timer = null;
+    }
+  }
+
+  function startAutoplay() {
+    stopAutoplay();
+    if (!reduce) timer = window.setInterval(next, INTERVAL);
+  }
+
+  btnNext.addEventListener("click", () => {
+    next();
+    stopAutoplay();
+    startAutoplay();
+  });
+  btnPrev.addEventListener("click", () => {
+    prev();
+    stopAutoplay();
+    startAutoplay();
+  });
+
+  root.addEventListener("mouseenter", stopAutoplay);
+  root.addEventListener("mouseleave", startAutoplay);
+
+  window.addEventListener(
+    "resize",
+    () => {
+      window.requestAnimationFrame(() => updateTransform(false));
+    },
+    { passive: true }
+  );
+
+  updateSlides();
+  updateTransform(false);
+  startAutoplay();
+})();
+
 // Обработка формы заявки.
 const requestForm = document.getElementById("requestForm");
 const formMessage = document.getElementById("formMessage");

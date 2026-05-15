@@ -87,7 +87,7 @@ h1, h2, h3 {
 .section--why .adv-card h3,
 .service-card h3,
 .works-slider__title,
-.review-card h3,
+.case-review-card__title,
 .footer__inner h3,
 .services-ribbon__title {
   font-family: var(--font-heading);
@@ -1624,36 +1624,350 @@ main {
   font-size: var(--fs-body);
 }
 
-.reviews .review-card {
-  background: #fff;
-  border: 1px solid #dfe8ee;
-  border-radius: 24px;
-  box-shadow: 0 10px 30px rgba(15,23,42,0.06);
-  padding: 22px;
+/* Отзывы: карусель кейсов */
+.section--case-reviews {
+  background: #f5f7fa;
+  overflow-x: hidden;
 }
-.review-card h3 {
+
+.section--case-reviews .section__head {
+  margin-bottom: 40px;
+}
+
+.case-reviews-carousel {
+  --case-slide-w: min(400px, calc(100vw - 140px));
+  --case-slide-gap: 16px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) 48px;
+  grid-template-rows: auto auto;
+  align-items: center;
+  gap: 0 10px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 4px 0 8px;
+  box-sizing: border-box;
+}
+
+.case-reviews-carousel__viewport {
+  grid-column: 2;
+  grid-row: 1;
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.case-reviews-carousel__track {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--case-slide-gap);
+  width: max-content;
+  will-change: transform;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.case-reviews-carousel__track.is-no-transition {
+  transition: none;
+}
+
+.case-reviews-carousel__slide {
+  flex: 0 0 var(--case-slide-w);
+  width: var(--case-slide-w);
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.case-reviews-carousel__slide-scaler {
+  width: 100%;
+  max-width: 100%;
+  transform-origin: center center;
+  transition:
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.45s ease;
+}
+
+.case-reviews-carousel__slide.is-tier-0 .case-reviews-carousel__slide-scaler {
+  transform: scale(1);
+  opacity: 1;
+}
+.case-reviews-carousel__slide.is-tier-1 .case-reviews-carousel__slide-scaler {
+  transform: scale(0.93);
+  opacity: 0.72;
+}
+.case-reviews-carousel__slide.is-tier-2 .case-reviews-carousel__slide-scaler {
+  transform: scale(0.9);
+  opacity: 0.58;
+}
+
+.case-review-card {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  background: #fff;
+  border-radius: 24px;
+  border: 1px solid rgba(15, 38, 50, 0.06);
+  overflow: hidden;
+  box-shadow:
+    inset 3px 0 0 0 var(--accent),
+    0 4px 14px rgba(15, 38, 50, 0.06),
+    0 14px 36px rgba(15, 38, 50, 0.07);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.case-reviews-carousel__slide.is-tier-0 .case-review-card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    inset 3px 0 0 0 var(--accent),
+    0 10px 26px rgba(15, 38, 50, 0.1),
+    0 22px 48px rgba(15, 38, 50, 0.12);
+}
+
+.case-reviews-carousel__slide.is-tier-0 .case-review-card:hover .case-review-card__media img {
+  transform: scale(1.03);
+}
+
+.case-reviews-carousel__slide.is-tier-1 .case-review-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    inset 3px 0 0 0 var(--accent),
+    0 8px 20px rgba(15, 38, 50, 0.09),
+    0 16px 36px rgba(15, 38, 50, 0.08);
+}
+
+.case-reviews-carousel__slide.is-tier-1 .case-review-card:hover .case-review-card__media img {
+  transform: scale(1.02);
+}
+
+.case-review-card__media {
+  position: relative;
+  overflow: hidden;
+  background: #e8eef3;
+}
+
+.case-review-card__media img {
+  width: 100%;
+  height: auto;
+  max-height: 210px;
+  min-height: 0;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.case-review-card__body {
+  padding: 14px 16px 16px 18px;
+}
+
+.case-review-card__badge {
+  margin: 0 0 6px;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.case-review-card__title {
+  margin: 0 0 4px;
+  color: var(--text);
+  font-size: clamp(1rem, 0.35vw + 0.92rem, 1.125rem);
+  line-height: 1.25;
+}
+
+.case-review-card__meta {
+  margin: 0 0 4px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.case-review-card__date {
+  margin: 0 0 6px;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--muted);
+  opacity: 0.92;
+}
+
+.case-review-card__stars {
   margin: 0 0 8px;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.case-review-card__quote {
+  margin: 0 0 10px;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.case-review-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+  padding: 7px 14px 7px 12px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text);
+  border: 1px solid rgba(15, 38, 50, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.case-review-card__cta:hover {
+  border-color: rgba(255, 107, 61, 0.45);
+  background: rgba(255, 107, 61, 0.06);
   color: var(--text);
 }
-.review-card img {
-  width: 72px;
-  height: 72px;
+
+.case-review-card__cta-arrow {
+  font-weight: 700;
+  transition: transform 0.2s ease;
+}
+
+.case-review-card__cta:hover .case-review-card__cta-arrow {
+  transform: translateX(3px);
+}
+
+.case-reviews-carousel__arrow {
+  grid-row: 1;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
   border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 12px;
-  border: 3px solid #f1f5f8;
+  background: #fff;
+  color: var(--text);
+  font-size: 1.45rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow:
+    0 6px 16px rgba(15, 38, 50, 0.1),
+    0 2px 6px rgba(15, 38, 50, 0.06);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
-.review-city {
-  margin: -2px 0 8px;
-  color: var(--accent);
-  font-weight: 600;
-  font-size: var(--fs-caption);
+
+.case-reviews-carousel__arrow--prev {
+  grid-column: 1;
 }
-.review-card p {
-  margin: 0;
-  color: var(--muted);
-  font-size: var(--fs-body);
-  line-height: var(--lh-body);
+
+.case-reviews-carousel__arrow--next {
+  grid-column: 3;
+}
+
+.case-reviews-carousel__arrow:hover {
+  transform: scale(1.07);
+  box-shadow:
+    0 10px 24px rgba(15, 38, 50, 0.14),
+    0 3px 8px rgba(15, 38, 50, 0.08);
+}
+
+.case-reviews-carousel__arrow:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.case-reviews-carousel__dots {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+  padding: 0 8px;
+}
+
+.case-reviews-carousel__dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #b5c4d1;
+  cursor: pointer;
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+}
+
+.case-reviews-carousel__dot.is-active {
+  background: var(--accent);
+  transform: scale(1.28);
+}
+
+.case-reviews-carousel__dot:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (min-width: 641px) {
+  .case-reviews-carousel {
+    --case-slide-w: min(400px, calc((100% - 120px) / 2.15));
+  }
+}
+
+@media (min-width: 993px) {
+  .case-reviews-carousel {
+    --case-slide-w: min(400px, 392px);
+    grid-template-columns: 52px minmax(0, 1fr) 52px;
+    gap: 0 12px;
+  }
+}
+
+@media (max-width: 640px) {
+  .case-reviews-carousel {
+    --case-slide-w: min(360px, calc(100% - 8px));
+    grid-template-columns: 40px minmax(0, 1fr) 40px;
+    gap: 0 6px;
+  }
+  .case-reviews-carousel__arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-reviews-carousel__track,
+  .case-reviews-carousel__slide-scaler {
+    transition-duration: 0.01ms;
+  }
 }
 
 .seo-text .container {
@@ -2380,7 +2694,7 @@ main {
   .adv-card,
   .planning-card,
   .service-card,
-  .review-card,
+  .case-review-card,
   .gallery__item {
     width: 100%;
     max-width: 100%;
