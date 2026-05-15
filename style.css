@@ -234,9 +234,9 @@ main {
 }
 
 .header__phone--secondary {
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: var(--muted);
+  font-size: var(--fs-nav);
+  font-weight: 600;
+  color: var(--text);
 }
 
 .btn {
@@ -3209,8 +3209,8 @@ main {
 }
 
 .contacts__phone--secondary {
-  color: var(--muted);
-  font-size: 0.9375rem;
+  color: var(--text);
+  font-size: var(--fs-body);
 }
 
 .social-sticky {
@@ -3356,8 +3356,7 @@ main {
 }
 
 .footer__phone--secondary {
-  font-size: 0.8125rem;
-  opacity: 0.72;
+  opacity: 1;
 }
 
 .footer__inner p {
@@ -3862,7 +3861,7 @@ main {
   }
 
   .header__phone--secondary {
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
   }
 
   .nav {
@@ -4442,7 +4441,7 @@ main {
   }
 
   .header__phone--secondary {
-    font-size: 0.72rem;
+    font-size: 0.78rem;
   }
 
   .services-ribbon.services-ribbon--carousel .services-ribbon__viewport,
