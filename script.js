@@ -380,15 +380,143 @@ window.addEventListener("load", () => {
   });
 })();
 
-const menuToggle = document.getElementById("menuToggle");
-const navMenu = document.getElementById("navMenu");
+(function initStickyHeader() {
+  const header = document.getElementById("siteHeader");
+  const menuToggle = document.getElementById("menuToggle");
+  const navMenu = document.getElementById("navMenu");
+  const navBackdrop = document.getElementById("navBackdrop");
+  if (!header) return;
 
-if (menuToggle && navMenu) {
-  menuToggle.addEventListener("click", () => navMenu.classList.toggle("open"));
-  navMenu.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => navMenu.classList.remove("open"));
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const navLinks = navMenu
+    ? [...navMenu.querySelectorAll('a[href^="#"]')]
+    : [];
+  const sections = navLinks
+    .map((link) => {
+      const id = link.getAttribute("href")?.slice(1);
+      return id ? document.getElementById(id) : null;
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.offsetTop - b.offsetTop);
+
+  const setHeaderOffset = () => {
+    document.documentElement.style.setProperty(
+      "--header-offset",
+      `${header.offsetHeight}px`
+    );
+  };
+
+  const setScrolled = () => {
+    header.classList.toggle("header--scrolled", window.scrollY > 12);
+  };
+
+  const setMenuOpen = (open) => {
+    header.classList.toggle("is-menu-open", open);
+    document.body.classList.toggle("is-nav-open", open);
+    if (menuToggle) {
+      menuToggle.classList.toggle("is-open", open);
+      menuToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      menuToggle.setAttribute("aria-label", open ? "Закрыть меню" : "Открыть меню");
+    }
+    if (navBackdrop) {
+      navBackdrop.hidden = !open;
+      navBackdrop.setAttribute("aria-hidden", open ? "false" : "true");
+    }
+  };
+
+  const closeMenu = () => setMenuOpen(false);
+
+  const scrollToSection = (target) => {
+    const offset = header.offsetHeight + 8;
+    const top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - offset);
+    window.scrollTo({
+      top,
+      behavior: reducedMotion.matches ? "auto" : "smooth",
+    });
+  };
+
+  const updateActiveNav = () => {
+    if (!navLinks.length || !sections.length) return;
+
+    const offset = header.offsetHeight + 48;
+    let currentId = "";
+
+    sections.forEach((section) => {
+      if (section.offsetTop - offset <= window.scrollY) {
+        currentId = section.id;
+      }
+    });
+
+    navLinks.forEach((link) => {
+      const href = link.getAttribute("href")?.slice(1);
+      link.classList.toggle("is-active", href === currentId);
+    });
+  };
+
+  let scrollTicking = false;
+  const onScroll = () => {
+    if (scrollTicking) return;
+    scrollTicking = true;
+    window.requestAnimationFrame(() => {
+      setScrolled();
+      updateActiveNav();
+      scrollTicking = false;
+    });
+  };
+
+  setHeaderOffset();
+  setScrolled();
+  updateActiveNav();
+
+  const initialHash = window.location.hash.slice(1);
+  if (initialHash) {
+    const initialTarget = document.getElementById(initialHash);
+    if (initialTarget) {
+      window.requestAnimationFrame(() => scrollToSection(initialTarget));
+    }
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", () => {
+    setHeaderOffset();
+    updateActiveNav();
   });
-}
+
+  if (menuToggle && navMenu) {
+    menuToggle.addEventListener("click", () => {
+      setMenuOpen(!header.classList.contains("is-menu-open"));
+    });
+
+    navBackdrop?.addEventListener("click", closeMenu);
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeMenu();
+    });
+
+    navLinks.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        const href = link.getAttribute("href");
+        if (!href?.startsWith("#")) return;
+        const id = href.slice(1);
+        const target = id ? document.getElementById(id) : null;
+        if (!target) return;
+        event.preventDefault();
+        closeMenu();
+        scrollToSection(target);
+        if (id) {
+          history.replaceState(null, "", `#${id}`);
+        }
+      });
+    });
+  }
+
+  window.addEventListener("hashchange", () => {
+    const id = window.location.hash.slice(1);
+    const target = id ? document.getElementById(id) : null;
+    if (target) scrollToSection(target);
+    updateActiveNav();
+  });
+})();
 
 // Анимация появления блоков при прокрутке (аналог идеи story-scroll / GSAP ScrollTrigger,
 // без React и без тяжёлых библиотек — только IntersectionObserver + CSS transitions).

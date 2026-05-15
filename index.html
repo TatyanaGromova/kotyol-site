@@ -60,19 +60,27 @@
   </script>
 </head>
 <body>
-  <header class="header">
+  <header class="header" id="siteHeader">
+    <div class="nav-backdrop" id="navBackdrop" aria-hidden="true" hidden></div>
     <div class="container header__inner">
       <a class="logo" href="#hero" aria-label="На главную">
         <img src="images/logo.png" onerror="this.onerror=null;this.src='images/logo.jpg';" alt="Логотип сервисного центра КотёлЪ" />
       </a>
-      <button class="menu-toggle" id="menuToggle" aria-label="Открыть меню">
+      <button
+        class="menu-toggle"
+        id="menuToggle"
+        type="button"
+        aria-label="Открыть меню"
+        aria-expanded="false"
+        aria-controls="navMenu">
         <span></span><span></span><span></span>
       </button>
-      <nav class="nav" id="navMenu">
-        <a href="#advantages">Преимущества</a>
+      <nav class="nav" id="navMenu" aria-label="Основная навигация">
         <a href="#services">Услуги</a>
-        <a href="#reviews">Отзывы</a>
+        <a href="#planning">Когда обратиться</a>
+        <a href="#advantages">Почему выбирают нас</a>
         <a href="#works">Наши работы</a>
+        <a href="#reviews">Отзывы</a>
         <a href="#contacts">Контакты</a>
       </nav>
       <div class="header__contacts">
