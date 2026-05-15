@@ -697,6 +697,20 @@ main {
   stroke-dashoffset: 0;
 }
 
+.planning-routes__node {
+  fill: #ff6b3d;
+  filter: drop-shadow(0 0 5px rgba(255, 107, 61, 0.48));
+  opacity: 0;
+  transform: scale(0.45);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.planning-routes--static .planning-routes__node {
+  opacity: 1;
+  transform: scale(1);
+}
+
 @media not (prefers-reduced-motion: reduce) {
   .planning-routes:not(.planning-routes--static):not(.planning-routes--draw) .planning-routes__path {
     stroke-dashoffset: var(--route-length, 0);
@@ -706,11 +720,28 @@ main {
     animation: planningRouteDraw var(--route-duration, 1.05s) ease-out forwards;
     animation-delay: var(--route-delay, 0ms);
   }
+
+  .planning-routes--mobile.planning-routes--nodes-in .planning-routes__node {
+    animation: planningRouteNodeIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: var(--node-delay, 0ms);
+  }
+
+  .planning-routes--mobile:not(.planning-routes--draw):not(.planning-routes--static)
+    .planning-routes__path--trace {
+    stroke-dashoffset: var(--route-length, 9999);
+  }
 }
 
 @keyframes planningRouteDraw {
   to {
     stroke-dashoffset: 0;
+  }
+}
+
+@keyframes planningRouteNodeIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -2788,17 +2819,24 @@ main {
   }
   .planning-grid-wrap {
     margin-top: 32px;
+    overflow: hidden;
   }
 
   .planning-routes {
-    display: none;
+    display: block;
+    left: 0;
+    right: auto;
+    width: 100%;
+    max-width: 100%;
   }
 
   .planning-grid {
     grid-template-columns: 1fr;
     gap: 16px;
     margin-top: 0;
+    padding-left: 30px;
   }
+
   .planning-card {
     min-height: auto;
     padding: 22px;

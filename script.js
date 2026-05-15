@@ -56,6 +56,9 @@ window.addEventListener("load", () => {
   const ROUTE_BUILD_DELAY_MS = 1180;
   const ROUTE_STAGGER_MS = 110;
   const ROUTE_DURATION_MS = 1050;
+  const MOBILE_ROUTE_DURATION_MS = 1100;
+  const MOBILE_LINE_X = 13;
+  const CARD_REVEAL_STAGGER_MS = 140;
 
   const DESKTOP_PAIRS = [
     [1, 2],
@@ -137,9 +140,148 @@ window.addEventListener("load", () => {
     return `M ${x1.toFixed(1)} ${y1.toFixed(1)} C ${c1x.toFixed(1)} ${c1y.toFixed(1)}, ${c2x.toFixed(1)} ${c2y.toFixed(1)}, ${x2.toFixed(1)} ${y2.toFixed(1)}`;
   }
 
-  function buildRoutes({ animate }) {
-    if (!wrap || !svg || mobileRoutes.matches) return;
+  function mobileVerticalPath(points) {
+    if (!points.length) return "";
+    if (points.length === 1) {
+      return `M ${points[0][0].toFixed(1)} ${points[0][1].toFixed(1)}`;
+    }
 
+    let d = `M ${points[0][0].toFixed(1)} ${points[0][1].toFixed(1)}`;
+    for (let i = 1; i < points.length; i += 1) {
+      const [x0, y0] = points[i - 1];
+      const [x1, y1] = points[i];
+      const bend = 7;
+      const c1x = x0 - bend;
+      const c1y = y0 + (y1 - y0) * 0.34;
+      const c2x = x1 - bend;
+      const c2y = y0 + (y1 - y0) * 0.66;
+      d += ` C ${c1x.toFixed(1)} ${c1y.toFixed(1)}, ${c2x.toFixed(1)} ${c2y.toFixed(1)}, ${x1.toFixed(1)} ${y1.toFixed(1)}`;
+    }
+    return d;
+  }
+
+  function cardCenterInWrap(card, gridRect) {
+    const rect = card.getBoundingClientRect();
+    return [
+      MOBILE_LINE_X,
+      rect.top + rect.height / 2 - gridRect.top,
+    ];
+  }
+
+  function finishRouteBuild(svgEl, { animatePath }) {
+    svgEl.classList.remove("planning-routes--draw", "planning-routes--static");
+
+    if (!animatePath) {
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      svgEl.classList.add("planning-routes--draw");
+    });
+  }
+
+  function updateMobileNodePositions() {
+    if (!wrap || !svg) return;
+    const cards = [...grid.querySelectorAll(".planning-card")];
+    const nodes = [...svg.querySelectorAll(".planning-routes__node")];
+    const gridRect = wrap.getBoundingClientRect();
+    cards.forEach((card, index) => {
+      const [, y] = cardCenterInWrap(card, gridRect);
+      if (nodes[index]) {
+        nodes[index].setAttribute("cy", y.toFixed(1));
+      }
+    });
+  }
+
+  function setupPathDash(path, { animate, duration, delay, hidden = false }) {
+    const length = path.getTotalLength();
+    path.style.setProperty("--route-length", String(length));
+    path.style.strokeDasharray = String(length);
+    path.style.strokeDashoffset = String(length);
+
+    if (animate) {
+      path.style.setProperty("--route-duration", `${duration}ms`);
+      path.style.setProperty("--route-delay", `${delay}ms`);
+    } else if (!hidden) {
+      path.style.strokeDashoffset = "0";
+    }
+  }
+
+  function buildMobileRoutes({ animatePath, animateNodes }) {
+    const cards = [...grid.querySelectorAll(".planning-card")];
+    const gridRect = wrap.getBoundingClientRect();
+
+    svg.setAttribute("width", String(Math.max(0, Math.round(gridRect.width))));
+    svg.setAttribute("height", String(Math.max(0, Math.round(gridRect.height))));
+    svg.setAttribute("viewBox", `0 0 ${gridRect.width} ${gridRect.height}`);
+    svg.innerHTML = "";
+    svg.classList.remove(
+      "planning-routes--grid",
+      "planning-routes--draw",
+      "planning-routes--static",
+      "planning-routes--nodes-in"
+    );
+    svg.classList.add("planning-routes--mobile");
+
+    if (!cards.length || gridRect.width < 1 || gridRect.height < 1) return;
+
+    const points = cards.map((card) => cardCenterInWrap(card, gridRect));
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", mobileVerticalPath(points));
+    path.classList.add("planning-routes__path", "planning-routes__path--trace");
+    svg.appendChild(path);
+    setupPathDash(path, {
+      animate: animatePath,
+      duration: MOBILE_ROUTE_DURATION_MS,
+      delay: 0,
+      hidden: !animatePath,
+    });
+
+    points.forEach((point, index) => {
+      const node = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      node.setAttribute("cx", String(point[0]));
+      node.setAttribute("cy", String(point[1].toFixed(1)));
+      node.setAttribute("r", "4.5");
+      node.classList.add("planning-routes__node");
+      node.style.setProperty("--node-delay", `${index * CARD_REVEAL_STAGGER_MS}ms`);
+      svg.appendChild(node);
+    });
+
+    if (!animatePath && !animateNodes) {
+      svg.classList.add("planning-routes--static");
+      return;
+    }
+
+    if (animateNodes) {
+      requestAnimationFrame(() => {
+        svg.classList.add("planning-routes--nodes-in");
+      });
+    }
+
+    finishRouteBuild(svg, { animatePath });
+  }
+
+  function drawMobilePath() {
+    const path = svg?.querySelector(".planning-routes__path--trace");
+    if (!path) {
+      buildMobileRoutes({ animatePath: true, animateNodes: false });
+      return;
+    }
+
+    updateMobileNodePositions();
+    const points = [...grid.querySelectorAll(".planning-card")].map((card) =>
+      cardCenterInWrap(card, wrap.getBoundingClientRect())
+    );
+    path.setAttribute("d", mobileVerticalPath(points));
+    setupPathDash(path, {
+      animate: true,
+      duration: MOBILE_ROUTE_DURATION_MS,
+      delay: 0,
+    });
+    finishRouteBuild(svg, { animatePath: true });
+  }
+
+  function buildGridRoutes({ animate }) {
     const cards = [...grid.querySelectorAll(".planning-card")];
     const pairs = getConnectionPairs();
     const gridRect = wrap.getBoundingClientRect();
@@ -148,6 +290,8 @@ window.addEventListener("load", () => {
     svg.setAttribute("height", String(Math.max(0, Math.round(gridRect.height))));
     svg.setAttribute("viewBox", `0 0 ${gridRect.width} ${gridRect.height}`);
     svg.innerHTML = "";
+    svg.classList.remove("planning-routes--mobile");
+    svg.classList.add("planning-routes--grid");
 
     if (!pairs.length || gridRect.width < 1 || gridRect.height < 1) return;
 
@@ -161,43 +305,45 @@ window.addEventListener("load", () => {
       path.setAttribute("d", curvedPath(start, end));
       path.classList.add("planning-routes__path");
       svg.appendChild(path);
-
-      const length = path.getTotalLength();
-      path.style.setProperty("--route-length", String(length));
-      path.style.strokeDasharray = String(length);
-      path.style.strokeDashoffset = String(length);
-
-      if (animate) {
-        path.style.setProperty("--route-duration", `${ROUTE_DURATION_MS}ms`);
-        path.style.setProperty("--route-delay", `${index * ROUTE_STAGGER_MS}ms`);
-      } else {
-        path.style.strokeDashoffset = "0";
-      }
+      setupPathDash(path, {
+        animate,
+        duration: ROUTE_DURATION_MS,
+        delay: index * ROUTE_STAGGER_MS,
+      });
     });
-    svg.classList.remove("planning-routes--draw", "planning-routes--static");
 
-    if (!animate) {
-      svg.classList.add("planning-routes--static");
+    finishRouteBuild(svg, { animatePath: animate });
+  }
+
+  function buildRoutes({ animate }) {
+    if (!wrap || !svg) return;
+
+    if (mobileRoutes.matches) {
+      buildMobileRoutes({
+        animatePath: animate,
+        animateNodes: animate,
+      });
       return;
     }
 
-    requestAnimationFrame(() => {
-      svg.classList.add("planning-routes--draw");
-    });
+    buildGridRoutes({ animate });
   }
 
   function scheduleRoutes(animate) {
     window.clearTimeout(routesDrawTimer);
-    if (mobileRoutes.matches) return;
 
     const delay = animate ? ROUTE_BUILD_DELAY_MS : 0;
     routesDrawTimer = window.setTimeout(() => {
+      if (mobileRoutes.matches && animate) {
+        drawMobilePath();
+        return;
+      }
       buildRoutes({ animate });
     }, delay);
   }
 
   function onResize() {
-    if (!hasBeenInView || mobileRoutes.matches) return;
+    if (!hasBeenInView) return;
     window.clearTimeout(resizeTimer);
     resizeTimer = window.setTimeout(() => {
       buildRoutes({ animate: reducedMotion.matches });
@@ -208,6 +354,11 @@ window.addEventListener("load", () => {
     hasBeenInView = true;
     if (!reducedMotion.matches) {
       grid.classList.add("planning-grid--inview");
+      if (mobileRoutes.matches) {
+        requestAnimationFrame(() => {
+          buildMobileRoutes({ animatePath: false, animateNodes: true });
+        });
+      }
     }
     scheduleRoutes(!reducedMotion.matches);
   }
@@ -224,12 +375,8 @@ window.addEventListener("load", () => {
 
   window.addEventListener("resize", onResize, { passive: true });
   mobileRoutes.addEventListener("change", () => {
-    if (mobileRoutes.matches && svg) {
-      svg.innerHTML = "";
-      svg.classList.remove("planning-routes--draw", "planning-routes--static");
-    } else if (hasBeenInView) {
-      scheduleRoutes(!reducedMotion.matches);
-    }
+    if (!hasBeenInView) return;
+    scheduleRoutes(!reducedMotion.matches);
   });
 })();
 
