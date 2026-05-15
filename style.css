@@ -206,12 +206,37 @@ main {
   transition: color .25s ease;
 }
 .nav a:hover { color: var(--accent); }
-.header__contacts { display: flex; align-items: center; gap: 12px; }
-.phone {
+.header__contacts {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.header__phones {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  line-height: 1.25;
+  flex-shrink: 0;
+}
+
+.header__phone {
   font-family: var(--font-body);
-  font-size: var(--fs-nav);
   font-weight: 600;
   color: var(--text);
+  white-space: nowrap;
+}
+
+.header__phone--primary {
+  font-size: var(--fs-nav);
+}
+
+.header__phone--secondary {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--muted);
 }
 
 .btn {
@@ -3158,6 +3183,36 @@ main {
   margin: 0 0 10px;
 }
 
+.contacts__phones {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0 0 12px;
+  line-height: 1.35;
+}
+
+.contacts__phones strong {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--text);
+}
+
+.contacts__phone {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 500;
+}
+
+.contacts__phone--primary {
+  color: var(--text);
+  font-size: var(--fs-body);
+}
+
+.contacts__phone--secondary {
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
 .social-sticky {
   position: fixed;
   right: 24px;
@@ -3255,6 +3310,31 @@ main {
   padding: 6px;
 }
 .footer__inner h3 { margin: 0 0 6px; color: var(--color-white); }
+
+.footer__phones {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0 0 6px;
+}
+
+.footer__phone {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-caption);
+  color: var(--color-text-on-dark-muted);
+}
+
+.footer__phone--primary {
+  opacity: 1;
+}
+
+.footer__phone--secondary {
+  font-size: 0.8125rem;
+  opacity: 0.72;
+}
+
 .footer__inner p {
   margin: 2px 0;
   font-family: var(--font-body);
@@ -3510,7 +3590,6 @@ main {
   }
   .nav.open { display: flex; }
   .header__contacts .btn { display: none; }
-  .phone { font-size: .92rem; }
   .hero__grid.hero-content {
     padding: 0;
     gap: 32px;
@@ -3747,9 +3826,18 @@ main {
     display: none;
   }
 
-  .phone {
-    font-size: 0.86rem;
-    white-space: nowrap;
+  .header__phones {
+    align-items: flex-end;
+    gap: 1px;
+    line-height: 1.2;
+  }
+
+  .header__phone--primary {
+    font-size: 0.8125rem;
+  }
+
+  .header__phone--secondary {
+    font-size: 0.75rem;
   }
 
   .nav {
@@ -4347,8 +4435,12 @@ main {
     gap: 8px;
   }
 
-  .phone {
-    font-size: 0.8125rem;
+  .header__phone--primary {
+    font-size: 0.78rem;
+  }
+
+  .header__phone--secondary {
+    font-size: 0.72rem;
   }
 
   .services-ribbon.services-ribbon--carousel .services-ribbon__viewport,
