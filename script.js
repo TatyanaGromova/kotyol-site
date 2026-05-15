@@ -749,6 +749,76 @@ if (lightbox && lightboxImage && lightboxClose) {
   startAutoplay();
 })();
 
+// VK: на mobile — deep-link в приложение, иначе https://vk.me/gazkotelsatka; на desktop — только web.
+(function initVkMobileDeepLink() {
+  const VK_WEB = "https://vk.me/gazkotelsatka";
+  const VK_APP = "vk://vk.com/write-230364838";
+  const FALLBACK_MS = 1200;
+
+  const vkLinks = document.querySelectorAll(
+    'a.social-sticky__btn--vk, a[href="https://vk.me/gazkotelsatka"]'
+  );
+  if (!vkLinks.length) return;
+
+  function isMobileUserAgent() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(
+      navigator.userAgent
+    );
+  }
+
+  function openVkOnMobile() {
+    let fellBack = false;
+
+    const fallback = () => {
+      if (fellBack) return;
+      fellBack = true;
+      window.location.assign(VK_WEB);
+    };
+
+    const cancelFallback = () => {
+      if (fellBack) return;
+      fellBack = true;
+      window.clearTimeout(timer);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      window.removeEventListener("pagehide", onPageHide);
+      window.removeEventListener("blur", onBlur);
+    };
+
+    const onVisibilityChange = () => {
+      if (document.hidden) cancelFallback();
+    };
+    const onPageHide = () => cancelFallback();
+    const onBlur = () => cancelFallback();
+
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    window.addEventListener("pagehide", onPageHide);
+    window.addEventListener("blur", onBlur);
+
+    const timer = window.setTimeout(fallback, FALLBACK_MS);
+
+    const iframe = document.createElement("iframe");
+    iframe.setAttribute("aria-hidden", "true");
+    iframe.tabIndex = -1;
+    iframe.style.cssText = "position:absolute;width:0;height:0;border:0;opacity:0;pointer-events:none";
+    iframe.src = VK_APP;
+    document.body.appendChild(iframe);
+    window.setTimeout(() => iframe.remove(), FALLBACK_MS + 400);
+
+    window.location.href = VK_APP;
+  }
+
+  vkLinks.forEach((link) => {
+    if (!link.href.includes("vk.me/gazkotelsatka") && !link.classList.contains("social-sticky__btn--vk")) {
+      return;
+    }
+    link.addEventListener("click", (event) => {
+      if (!isMobileUserAgent()) return;
+      event.preventDefault();
+      openVkOnMobile();
+    });
+  });
+})();
+
 // Обработка формы заявки.
 const requestForm = document.getElementById("requestForm");
 const formMessage = document.getElementById("formMessage");
