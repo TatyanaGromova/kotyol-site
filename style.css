@@ -666,13 +666,61 @@ main {
   line-height: var(--lh-body);
 }
 
+.planning-grid-wrap {
+  position: relative;
+  margin-top: 42px;
+  min-width: 0;
+  overflow: visible;
+}
+
+.planning-routes {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.planning-routes__path {
+  fill: none;
+  stroke: rgba(255, 107, 61, 0.35);
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.planning-routes--static .planning-routes__path,
+.planning-routes--draw .planning-routes__path {
+  stroke-dashoffset: 0;
+}
+
+@media not (prefers-reduced-motion: reduce) {
+  .planning-routes:not(.planning-routes--static):not(.planning-routes--draw) .planning-routes__path {
+    stroke-dashoffset: var(--route-length, 0);
+  }
+
+  .planning-routes--draw .planning-routes__path {
+    animation: planningRouteDraw var(--route-duration, 1.05s) ease-out forwards;
+    animation-delay: var(--route-delay, 0ms);
+  }
+}
+
+@keyframes planningRouteDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
 .planning-grid {
   position: relative;
   z-index: 1;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 22px;
-  margin-top: 42px;
+  margin-top: 0;
   min-width: 0;
 }
 
@@ -811,6 +859,9 @@ main {
   }
   .planning-card:hover {
     transform: translate3d(0, -4px, 0) scale(1) rotate(0deg);
+  }
+  .planning-routes--static .planning-routes__path {
+    stroke-dashoffset: 0;
   }
 }
 
@@ -2735,10 +2786,18 @@ main {
     margin-left: 0;
     font-size: 16px;
   }
+  .planning-grid-wrap {
+    margin-top: 32px;
+  }
+
+  .planning-routes {
+    display: none;
+  }
+
   .planning-grid {
     grid-template-columns: 1fr;
     gap: 16px;
-    margin-top: 32px;
+    margin-top: 0;
   }
   .planning-card {
     min-height: auto;

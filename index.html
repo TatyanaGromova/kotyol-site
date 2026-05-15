@@ -214,7 +214,14 @@
           <p>Подскажем, что подойдёт именно вашему дому, рассчитаем работы и объясним порядок действий.</p>
         </div>
 
-        <div class="planning-grid" id="planningGrid">
+        <div class="planning-grid-wrap" id="planningGridWrap">
+          <svg
+            class="planning-routes"
+            id="planningRoutes"
+            aria-hidden="true"
+            focusable="false"
+          ></svg>
+          <div class="planning-grid" id="planningGrid">
           <article class="planning-card">
             <i class="bi bi-house-gear"></i>
             <h3>Строите дом</h3>
@@ -250,6 +257,7 @@
             <h3>Нужна консультация</h3>
             <p>Разберём вашу ситуацию и предложим понятный план.</p>
           </article>
+          </div>
         </div>
       </div>
     </section>

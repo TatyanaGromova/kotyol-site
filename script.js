@@ -46,19 +46,191 @@ window.addEventListener("load", () => {
 (function initPlanningCardsReveal() {
   const section = document.querySelector("#planning");
   const grid = document.getElementById("planningGrid");
+  const wrap = document.getElementById("planningGridWrap");
+  const svg = document.getElementById("planningRoutes");
   if (!section || !grid) return;
 
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const mobileRoutes = window.matchMedia("(max-width: 768px)");
+
+  const ROUTE_BUILD_DELAY_MS = 1180;
+  const ROUTE_STAGGER_MS = 110;
+  const ROUTE_DURATION_MS = 1050;
+
+  const DESKTOP_PAIRS = [
+    [1, 2],
+    [2, 3],
+    [2, 5],
+    [4, 5],
+    [5, 6],
+  ];
+  const TABLET_PAIRS = [
+    [1, 2],
+    [2, 4],
+    [4, 3],
+    [3, 5],
+    [5, 6],
+  ];
+
+  let routesDrawTimer = 0;
+  let resizeTimer = 0;
+  let hasBeenInView = false;
+
+  function getGridColumns() {
+    const style = window.getComputedStyle(grid);
+    const template = style.gridTemplateColumns || "";
+    const cols = template.split(" ").filter(Boolean).length;
+    return cols || 1;
+  }
+
+  function getConnectionPairs() {
+    const cols = getGridColumns();
+    if (cols >= 3) return DESKTOP_PAIRS;
+    if (cols === 2) return TABLET_PAIRS;
+    return [];
+  }
+
+  function edgePoint(rect, gridRect, side, inset = 10) {
+    const cx = rect.left + rect.width / 2 - gridRect.left;
+    const cy = rect.top + rect.height / 2 - gridRect.top;
+    if (side === "right") {
+      return [rect.right - gridRect.left - inset, cy];
+    }
+    if (side === "left") {
+      return [rect.left - gridRect.left + inset, cy];
+    }
+    if (side === "bottom") {
+      return [cx, rect.bottom - gridRect.top - inset];
+    }
+    return [cx, rect.top - gridRect.top + inset];
+  }
+
+  function anchorsForPair(cardA, cardB, gridRect) {
+    const ra = cardA.getBoundingClientRect();
+    const rb = cardB.getBoundingClientRect();
+    const dx = rb.left + rb.width / 2 - (ra.left + ra.width / 2);
+    const dy = rb.top + rb.height / 2 - (ra.top + ra.height / 2);
+
+    if (Math.abs(dx) >= Math.abs(dy)) {
+      if (dx >= 0) {
+        return [edgePoint(ra, gridRect, "right"), edgePoint(rb, gridRect, "left")];
+      }
+      return [edgePoint(ra, gridRect, "left"), edgePoint(rb, gridRect, "right")];
+    }
+    if (dy >= 0) {
+      return [edgePoint(ra, gridRect, "bottom"), edgePoint(rb, gridRect, "top")];
+    }
+    return [edgePoint(ra, gridRect, "top"), edgePoint(rb, gridRect, "bottom")];
+  }
+
+  function curvedPath([x1, y1], [x2, y2]) {
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const dist = Math.hypot(dx, dy) || 1;
+    const bend = Math.min(dist * 0.28, 56);
+    const nx = -dy / dist;
+    const ny = dx / dist;
+    const c1x = x1 + dx * 0.28 + nx * bend;
+    const c1y = y1 + dy * 0.28 + ny * bend;
+    const c2x = x1 + dx * 0.72 + nx * bend;
+    const c2y = y1 + dy * 0.72 + ny * bend;
+    return `M ${x1.toFixed(1)} ${y1.toFixed(1)} C ${c1x.toFixed(1)} ${c1y.toFixed(1)}, ${c2x.toFixed(1)} ${c2y.toFixed(1)}, ${x2.toFixed(1)} ${y2.toFixed(1)}`;
+  }
+
+  function buildRoutes({ animate }) {
+    if (!wrap || !svg || mobileRoutes.matches) return;
+
+    const cards = [...grid.querySelectorAll(".planning-card")];
+    const pairs = getConnectionPairs();
+    const gridRect = wrap.getBoundingClientRect();
+
+    svg.setAttribute("width", String(Math.max(0, Math.round(gridRect.width))));
+    svg.setAttribute("height", String(Math.max(0, Math.round(gridRect.height))));
+    svg.setAttribute("viewBox", `0 0 ${gridRect.width} ${gridRect.height}`);
+    svg.innerHTML = "";
+
+    if (!pairs.length || gridRect.width < 1 || gridRect.height < 1) return;
+
+    pairs.forEach(([from, to], index) => {
+      const cardA = cards[from - 1];
+      const cardB = cards[to - 1];
+      if (!cardA || !cardB) return;
+
+      const [start, end] = anchorsForPair(cardA, cardB, gridRect);
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", curvedPath(start, end));
+      path.classList.add("planning-routes__path");
+      svg.appendChild(path);
+
+      const length = path.getTotalLength();
+      path.style.setProperty("--route-length", String(length));
+      path.style.strokeDasharray = String(length);
+      path.style.strokeDashoffset = String(length);
+
+      if (animate) {
+        path.style.setProperty("--route-duration", `${ROUTE_DURATION_MS}ms`);
+        path.style.setProperty("--route-delay", `${index * ROUTE_STAGGER_MS}ms`);
+      } else {
+        path.style.strokeDashoffset = "0";
+      }
+    });
+    svg.classList.remove("planning-routes--draw", "planning-routes--static");
+
+    if (!animate) {
+      svg.classList.add("planning-routes--static");
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      svg.classList.add("planning-routes--draw");
+    });
+  }
+
+  function scheduleRoutes(animate) {
+    window.clearTimeout(routesDrawTimer);
+    if (mobileRoutes.matches) return;
+
+    const delay = animate ? ROUTE_BUILD_DELAY_MS : 0;
+    routesDrawTimer = window.setTimeout(() => {
+      buildRoutes({ animate });
+    }, delay);
+  }
+
+  function onResize() {
+    if (!hasBeenInView || mobileRoutes.matches) return;
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(() => {
+      buildRoutes({ animate: reducedMotion.matches });
+    }, 120);
+  }
+
+  function onInview() {
+    hasBeenInView = true;
+    if (!reducedMotion.matches) {
+      grid.classList.add("planning-grid--inview");
+    }
+    scheduleRoutes(!reducedMotion.matches);
+  }
 
   const io = new IntersectionObserver(
     (entries, obs) => {
       if (!entries.some((e) => e.isIntersecting)) return;
-      grid.classList.add("planning-grid--inview");
+      onInview();
       obs.disconnect();
     },
     { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
   );
   io.observe(section);
+
+  window.addEventListener("resize", onResize, { passive: true });
+  mobileRoutes.addEventListener("change", () => {
+    if (mobileRoutes.matches && svg) {
+      svg.innerHTML = "";
+      svg.classList.remove("planning-routes--draw", "planning-routes--static");
+    } else if (hasBeenInView) {
+      scheduleRoutes(!reducedMotion.matches);
+    }
+  });
 })();
 
 const menuToggle = document.getElementById("menuToggle");
