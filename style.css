@@ -2090,14 +2090,16 @@ main {
 @media (min-width: 992px) and (max-height: 860px) {
   #planning.planning-section,
   #advantages.section--why,
-  #works.section.section--works {
+  #works.section.section--works,
+  #objects-video.section.video-section {
     padding-top: 56px;
     padding-bottom: 56px;
   }
 
   #planning .planning-section__head,
   #advantages .section__head,
-  #works .section__head {
+  #works .section__head,
+  #objects-video .section__head {
     margin-bottom: 22px;
   }
 
@@ -2128,14 +2130,19 @@ main {
   .works-slider__frame img {
     max-height: clamp(380px, 44vh, 500px);
   }
+
+  #objects-video .video-real-card video {
+    max-height: min(34vh, 300px);
+  }
 }
 
 @media (min-width: 992px) and (max-height: 780px) {
   #planning.planning-section,
   #advantages.section--why,
-  #works.section.section--works {
-    padding-top: 52px;
-    padding-bottom: 52px;
+  #works.section.section--works,
+  #objects-video.section.video-section {
+    padding-top: 44px;
+    padding-bottom: 44px;
   }
 
   #planning .planning-section__head,
@@ -2178,6 +2185,18 @@ main {
 
   .works-slider__col--text {
     padding: 22px 24px;
+  }
+
+  #objects-video .section__head {
+    margin-bottom: 16px;
+  }
+
+  #objects-video .video-real-card video {
+    max-height: min(30vh, 260px);
+  }
+
+  #objects-video .objects-video__content {
+    margin-top: 8px;
   }
 }
 
@@ -2272,6 +2291,60 @@ main {
   color: var(--muted);
   font-weight: 500;
   font-size: var(--fs-body);
+}
+
+@media (min-width: 992px) {
+  #objects-video.section.video-section {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+
+  #objects-video .section__head {
+    margin-bottom: 24px;
+  }
+
+  #objects-video .section__head h2 {
+    font-size: clamp(2rem, 2.1vw, 2.75rem);
+    line-height: 1.12;
+  }
+
+  #objects-video .section__head p {
+    margin-top: 8px;
+    font-size: 1.125rem;
+    line-height: 1.45;
+  }
+
+  .objects-video {
+    max-width: 900px;
+  }
+
+  .video-real-card {
+    max-width: min(680px, 72vw);
+  }
+
+  .video-real-card video {
+    max-height: min(38vh, 340px);
+  }
+
+  .objects-video__content {
+    margin-top: 10px;
+    gap: 12px;
+  }
+}
+
+@media (min-width: 992px) and (max-height: 900px) {
+  #objects-video.section.video-section {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+
+  #objects-video .section__head {
+    margin-bottom: 20px;
+  }
+
+  #objects-video .video-real-card video {
+    max-height: min(34vh, 300px);
+  }
 }
 
 /* Отзывы: карусель кейсов */
