@@ -109,6 +109,39 @@ function initScrollReveal() {
 
 initScrollReveal();
 
+(function initSiteTicker() {
+  const ticker = document.querySelector(".site-ticker");
+  if (!ticker) return;
+
+  const track = ticker.querySelector(".site-ticker__track");
+  const firstGroup = ticker.querySelector(".site-ticker__group:not([aria-hidden])");
+  if (!track || !firstGroup) return;
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const updateDistance = () => {
+    const distance = firstGroup.getBoundingClientRect().width;
+    if (distance > 0) {
+      track.style.setProperty("--ticker-distance", `${distance}px`);
+    }
+  };
+
+  if (!reduceMotion.matches) {
+    updateDistance();
+    window.addEventListener("resize", updateDistance, { passive: true });
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(updateDistance).catch(() => {});
+    }
+    reduceMotion.addEventListener("change", () => {
+      if (reduceMotion.matches) {
+        track.style.removeProperty("--ticker-distance");
+      } else {
+        updateDistance();
+      }
+    });
+  }
+})();
+
 // Счетчики достижений в hero.
 const counters = document.querySelectorAll("[data-counter]");
 const startCounter = (element) => {
