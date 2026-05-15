@@ -43,6 +43,24 @@ window.addEventListener("load", () => {
   tick();
 })();
 
+(function initPlanningCardsReveal() {
+  const section = document.querySelector("#planning");
+  const grid = document.getElementById("planningGrid");
+  if (!section || !grid) return;
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const io = new IntersectionObserver(
+    (entries, obs) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      grid.classList.add("planning-grid--inview");
+      obs.disconnect();
+    },
+    { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
+  );
+  io.observe(section);
+})();
+
 const menuToggle = document.getElementById("menuToggle");
 const navMenu = document.getElementById("navMenu");
 

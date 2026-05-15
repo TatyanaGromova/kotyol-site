@@ -559,9 +559,10 @@ main {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 22px;
   margin-top: 42px;
+  min-width: 0;
 }
 
 .planning-card {
@@ -571,18 +572,96 @@ main {
   background: rgba(255, 255, 255, 0.86);
   border: 1px solid rgba(255, 107, 44, 0.15);
   border-radius: 24px;
-  box-shadow: 0 10px 30px rgba(15,23,42,0.06);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
   backdrop-filter: blur(10px);
+  --plan-rot: 0deg;
+  transform-origin: center center;
   transition:
-    transform 0.28s ease,
-    box-shadow 0.28s ease,
-    border-color 0.28s ease;
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.32s ease,
+    border-color 0.32s ease;
+}
+
+@media not (prefers-reduced-motion: reduce) {
+  .planning-grid:not(.planning-grid--inview) .planning-card {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0) scale(0.96) rotate(var(--plan-rot));
+  }
+
+  .planning-grid--inview .planning-card {
+    animation: planningCardBounceIn 0.78s cubic-bezier(0.34, 1.12, 0.52, 1) both;
+  }
+
+  .planning-grid--inview .planning-card:nth-child(1) {
+    animation-delay: 0ms;
+  }
+  .planning-grid--inview .planning-card:nth-child(2) {
+    animation-delay: 140ms;
+  }
+  .planning-grid--inview .planning-card:nth-child(3) {
+    animation-delay: 280ms;
+  }
+  .planning-grid--inview .planning-card:nth-child(4) {
+    animation-delay: 420ms;
+  }
+  .planning-grid--inview .planning-card:nth-child(5) {
+    animation-delay: 560ms;
+  }
+  .planning-grid--inview .planning-card:nth-child(6) {
+    animation-delay: 700ms;
+  }
+}
+
+.planning-grid .planning-card:nth-child(1) {
+  --plan-rot: -1deg;
+}
+.planning-grid .planning-card:nth-child(2) {
+  --plan-rot: 0.8deg;
+}
+.planning-grid .planning-card:nth-child(3) {
+  --plan-rot: -0.6deg;
+}
+.planning-grid .planning-card:nth-child(4) {
+  --plan-rot: 0.7deg;
+}
+.planning-grid .planning-card:nth-child(5) {
+  --plan-rot: -0.8deg;
+}
+.planning-grid .planning-card:nth-child(6) {
+  --plan-rot: 0.5deg;
+}
+
+@media (min-width: 1101px) {
+  .planning-grid .planning-card:nth-child(1) {
+    margin-top: 0;
+  }
+  .planning-grid .planning-card:nth-child(2) {
+    margin-top: 14px;
+  }
+  .planning-grid .planning-card:nth-child(3) {
+    margin-top: -12px;
+  }
+  .planning-grid .planning-card:nth-child(4) {
+    margin-top: 16px;
+  }
+  .planning-grid .planning-card:nth-child(5) {
+    margin-top: -10px;
+  }
+  .planning-grid .planning-card:nth-child(6) {
+    margin-top: 12px;
+  }
+}
+
+@media (max-width: 1100px) and (min-width: 761px) {
+  .planning-grid .planning-card {
+    margin-top: 0;
+  }
 }
 
 .planning-card:hover {
-  transform: translateY(-5px);
+  transform: translate3d(0, -6px, 0) scale(1) rotate(0deg);
   border-color: rgba(255, 107, 44, 0.35);
-  box-shadow: 0 24px 60px rgba(16, 43, 58, 0.13);
+  box-shadow: 0 24px 56px rgba(16, 43, 58, 0.14);
 }
 
 .planning-card i {
@@ -616,28 +695,43 @@ main {
   line-height: var(--lh-body);
 }
 
-.planning-grid .planning-card:nth-child(1) {
-  transition-delay: 0.04s;
+@keyframes planningCardBounceIn {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0) scale(0.96) rotate(var(--plan-rot));
+  }
+  58% {
+    opacity: 1;
+    transform: translate3d(0, -7px, 0) scale(1.02) rotate(var(--plan-rot));
+  }
+  78% {
+    transform: translate3d(0, 4px, 0) scale(0.985) rotate(var(--plan-rot));
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1) rotate(var(--plan-rot));
+  }
 }
 
-.planning-grid .planning-card:nth-child(2) {
-  transition-delay: 0.08s;
+@media (prefers-reduced-motion: reduce) {
+  .planning-card {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    animation: none !important;
+  }
+  .planning-grid .planning-card {
+    margin-top: 0 !important;
+  }
+  .planning-card:hover {
+    transform: translate3d(0, -4px, 0) scale(1) rotate(0deg);
+  }
 }
 
-.planning-grid .planning-card:nth-child(3) {
-  transition-delay: 0.12s;
-}
-
-.planning-grid .planning-card:nth-child(4) {
-  transition-delay: 0.16s;
-}
-
-.planning-grid .planning-card:nth-child(5) {
-  transition-delay: 0.20s;
-}
-
-.planning-grid .planning-card:nth-child(6) {
-  transition-delay: 0.24s;
+@media (max-width: 760px) {
+  .planning-grid .planning-card {
+    --plan-rot: 0deg;
+    margin-top: 0 !important;
+  }
 }
 
 .section--why {
@@ -2492,7 +2586,7 @@ main {
   .planning-card {
     min-height: auto;
     padding: 22px;
-    border-radius: 18px;
+    border-radius: 24px;
   }
   .grid--3, .call-master ul, .brands-row, .gallery { grid-template-columns: 1fr; }
   .timeline {
