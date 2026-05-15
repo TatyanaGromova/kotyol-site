@@ -574,7 +574,7 @@ main {
   border-radius: 24px;
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
   backdrop-filter: blur(10px);
-  --plan-rot: 0deg;
+  --plan-end-rot: 0deg;
   transform-origin: center center;
   transition:
     transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
@@ -585,11 +585,11 @@ main {
 @media not (prefers-reduced-motion: reduce) {
   .planning-grid:not(.planning-grid--inview) .planning-card {
     opacity: 0;
-    transform: translate3d(0, 28px, 0) scale(0.96) rotate(var(--plan-rot));
+    transform: translate3d(0, 30px, 0) scale(0.96) rotate(0deg);
   }
 
   .planning-grid--inview .planning-card {
-    animation: planningCardBounceIn 0.78s cubic-bezier(0.34, 1.12, 0.52, 1) both;
+    animation: planningCardBounceIn 0.82s cubic-bezier(0.34, 1.12, 0.52, 1) both;
   }
 
   .planning-grid--inview .planning-card:nth-child(1) {
@@ -613,49 +613,22 @@ main {
 }
 
 .planning-grid .planning-card:nth-child(1) {
-  --plan-rot: -1deg;
+  --plan-end-rot: -1deg;
 }
 .planning-grid .planning-card:nth-child(2) {
-  --plan-rot: 0.8deg;
+  --plan-end-rot: 0.8deg;
 }
 .planning-grid .planning-card:nth-child(3) {
-  --plan-rot: -0.6deg;
+  --plan-end-rot: -0.6deg;
 }
 .planning-grid .planning-card:nth-child(4) {
-  --plan-rot: 0.7deg;
+  --plan-end-rot: 0.7deg;
 }
 .planning-grid .planning-card:nth-child(5) {
-  --plan-rot: -0.8deg;
+  --plan-end-rot: -0.8deg;
 }
 .planning-grid .planning-card:nth-child(6) {
-  --plan-rot: 0.5deg;
-}
-
-@media (min-width: 1101px) {
-  .planning-grid .planning-card:nth-child(1) {
-    margin-top: 0;
-  }
-  .planning-grid .planning-card:nth-child(2) {
-    margin-top: 14px;
-  }
-  .planning-grid .planning-card:nth-child(3) {
-    margin-top: -12px;
-  }
-  .planning-grid .planning-card:nth-child(4) {
-    margin-top: 16px;
-  }
-  .planning-grid .planning-card:nth-child(5) {
-    margin-top: -10px;
-  }
-  .planning-grid .planning-card:nth-child(6) {
-    margin-top: 12px;
-  }
-}
-
-@media (max-width: 1100px) and (min-width: 761px) {
-  .planning-grid .planning-card {
-    margin-top: 0;
-  }
+  --plan-end-rot: 0.5deg;
 }
 
 .planning-card:hover {
@@ -698,18 +671,21 @@ main {
 @keyframes planningCardBounceIn {
   0% {
     opacity: 0;
-    transform: translate3d(0, 28px, 0) scale(0.96) rotate(var(--plan-rot));
+    transform: translate3d(0, 30px, 0) scale(0.96) rotate(0deg);
   }
-  58% {
+  56% {
     opacity: 1;
-    transform: translate3d(0, -7px, 0) scale(1.02) rotate(var(--plan-rot));
+    transform: translate3d(0, -6px, 0) scale(1.02) rotate(0deg);
   }
-  78% {
-    transform: translate3d(0, 4px, 0) scale(0.985) rotate(var(--plan-rot));
+  76% {
+    transform: translate3d(0, 4px, 0) scale(0.985) rotate(0deg);
+  }
+  90% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
   }
   100% {
     opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1) rotate(var(--plan-rot));
+    transform: translate3d(0, 0, 0) scale(1) rotate(var(--plan-end-rot));
   }
 }
 
@@ -728,9 +704,23 @@ main {
 }
 
 @media (max-width: 760px) {
-  .planning-grid .planning-card {
-    --plan-rot: 0deg;
-    margin-top: 0 !important;
+  .planning-grid .planning-card:nth-child(1) {
+    --plan-end-rot: -0.3deg;
+  }
+  .planning-grid .planning-card:nth-child(2) {
+    --plan-end-rot: 0.3deg;
+  }
+  .planning-grid .planning-card:nth-child(3) {
+    --plan-end-rot: -0.25deg;
+  }
+  .planning-grid .planning-card:nth-child(4) {
+    --plan-end-rot: 0.25deg;
+  }
+  .planning-grid .planning-card:nth-child(5) {
+    --plan-end-rot: -0.3deg;
+  }
+  .planning-grid .planning-card:nth-child(6) {
+    --plan-end-rot: 0.2deg;
   }
 }
 
