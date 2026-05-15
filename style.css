@@ -3218,62 +3218,87 @@ main {
   right: 24px;
   bottom: 24px;
   z-index: 880;
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 12px;
 }
+
 .social-sticky__btn {
-  width: 56px;
-  height: 56px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   display: grid;
   place-items: center;
   color: #fff;
-  box-shadow: 0 10px 24px rgba(15, 42, 58, 0.28);
-  transition: transform .25s ease, box-shadow .25s ease;
+  box-shadow: 0 10px 26px rgba(15, 42, 58, 0.22);
+  transition:
+    transform var(--duration-base) var(--ease-premium),
+    box-shadow var(--duration-base) var(--ease-premium);
   position: relative;
+  flex-shrink: 0;
 }
-.social-sticky__btn i {
-  font-size: 1.45rem;
-}
+
 .social-sticky__icon {
   display: block;
-  width: 30px;
-  height: 30px;
-  max-width: 32px;
-  max-height: 32px;
+  width: 36px;
+  height: 36px;
+  max-width: 38px;
+  max-height: 38px;
   object-fit: contain;
   object-position: center;
   pointer-events: none;
 }
+
 .social-sticky__label {
   position: absolute;
-  right: calc(100% + 10px);
+  right: calc(100% + 12px);
   top: 50%;
-  transform: translateY(-50%);
-  background: rgba(15, 42, 58, 0.92);
+  z-index: 2;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(15, 42, 58, 0.88);
   color: #fff;
-  padding: 6px 10px;
-  border-radius: 10px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  line-height: 1.2;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.25;
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
-  transition: opacity .2s ease;
+  transform: translateY(-50%) translateX(8px);
+  transition:
+    opacity 0.28s var(--ease-premium),
+    transform 0.28s var(--ease-premium);
 }
-.social-sticky__btn:hover {
-  transform: scale(1.08);
-  box-shadow: 0 14px 30px rgba(15, 42, 58, 0.34);
+
+@media (hover: hover) {
+  .social-sticky__btn:hover .social-sticky__label {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+
+  .social-sticky__btn--vk:hover {
+    transform: scale(1.06);
+    box-shadow:
+      0 14px 32px rgba(39, 135, 245, 0.42),
+      0 0 22px rgba(39, 135, 245, 0.28);
+  }
+
+  .social-sticky__btn--max:hover {
+    transform: scale(1.06);
+    box-shadow:
+      0 14px 32px rgba(42, 171, 238, 0.4),
+      0 0 22px rgba(42, 171, 238, 0.22);
+  }
 }
-.social-sticky__btn:hover .social-sticky__label {
-  opacity: 1;
-}
+
 .social-sticky__btn--vk {
   background: #2787f5;
 }
+
 .social-sticky__btn--max {
-  background: #2aabee;
+  background: linear-gradient(145deg, #35b8f5 0%, #2aabee 55%, #2299d8 100%);
 }
 .contacts__map iframe {
   width: 100%;
@@ -4357,11 +4382,6 @@ main {
     white-space: normal;
   }
 
-  .social-sticky {
-    right: 12px;
-    bottom: calc(96px + env(safe-area-inset-bottom, 0px));
-  }
-
   /* Sticky соцсети и отступ под нижнюю панель */
   body {
     padding-bottom: 90px;
@@ -4373,55 +4393,37 @@ main {
 
   .social-sticky {
     right: 14px;
-    bottom: calc(90px + env(safe-area-inset-bottom, 0px));
+    bottom: calc(92px + env(safe-area-inset-bottom, 0px));
     z-index: 850;
-    gap: 0;
+    flex-direction: column;
+    gap: 10px;
   }
 
-  .social-sticky__btn--max {
-    display: none;
-  }
-
-  .social-sticky__btn--vk .social-sticky__label {
+  .social-sticky__label {
     display: none;
   }
 
   .social-sticky__btn {
     width: 56px;
     height: 56px;
-  }
-
-  .social-sticky__btn--vk {
-    box-shadow: 0 6px 14px rgba(15, 42, 58, 0.16);
-    transition:
-      transform 0.22s ease,
-      box-shadow 0.22s ease;
-  }
-
-  .social-sticky__btn--vk:hover {
-    transform: scale(1.04);
-    box-shadow: 0 8px 18px rgba(15, 42, 58, 0.2);
-  }
-
-  .social-sticky__btn--vk:active {
-    transform: scale(0.97);
-    box-shadow: 0 4px 10px rgba(15, 42, 58, 0.14);
+    box-shadow: 0 8px 20px rgba(15, 42, 58, 0.18);
   }
 
   .social-sticky__icon {
-    width: 32px;
-    height: 32px;
-    max-width: 32px;
-    max-height: 32px;
+    width: 34px;
+    height: 34px;
+    max-width: 36px;
+    max-height: 36px;
+  }
+
+  .social-sticky__btn--vk:active,
+  .social-sticky__btn--max:active {
+    transform: scale(0.97);
   }
 
   .mobile-bar__icon {
     width: 30px;
     height: 30px;
-  }
-
-  .social-sticky__btn i {
-    font-size: 1.3rem;
   }
 }
 
