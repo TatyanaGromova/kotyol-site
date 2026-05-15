@@ -807,19 +807,20 @@
   </footer>
 
   <div class="mobile-bar">
-    <a href="tel:+79191152443">Позвонить</a>
-    <a href="https://wa.me/79191152443" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+    <a class="mobile-bar__btn mobile-bar__btn--call" href="tel:+79191152443">Позвонить</a>
+    <a class="mobile-bar__btn mobile-bar__btn--max" href="https://max.ru/" target="_blank" rel="noopener noreferrer">
+      <img class="mobile-bar__icon" src="images/max-icon.png" alt="" width="24" height="24" decoding="async" />
+      MAX
+    </a>
   </div>
 
   <div class="social-sticky" aria-label="Социальные сети">
-    <!-- Заменить на реальную ссылку VK -->
     <a class="social-sticky__btn social-sticky__btn--vk" href="https://vk.com/" target="_blank" rel="noopener noreferrer" aria-label="ВКонтакте">
-      <i class="bi bi-vk"></i>
+      <img class="social-sticky__icon" src="images/vk-icon.png" alt="" width="28" height="28" decoding="async" />
       <span class="social-sticky__label">Написать ВКонтакте</span>
     </a>
-    <!-- Заменить на реальную ссылку MAX -->
     <a class="social-sticky__btn social-sticky__btn--max" href="https://max.ru/" target="_blank" rel="noopener noreferrer" aria-label="MAX">
-      <i class="bi bi-chat-dots-fill"></i>
+      <i class="bi bi-chat-dots-fill" aria-hidden="true"></i>
       <span class="social-sticky__label">Написать в MAX</span>
     </a>
   </div>

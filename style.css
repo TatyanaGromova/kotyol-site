@@ -2264,6 +2264,13 @@ main {
 .social-sticky__btn i {
   font-size: 1.45rem;
 }
+.social-sticky__icon {
+  display: block;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  pointer-events: none;
+}
 .social-sticky__label {
   position: absolute;
   right: calc(100% + 10px);
@@ -2350,16 +2357,34 @@ main {
   gap: 8px;
   border-top: 1px solid rgba(255,255,255,.15);
 }
-.mobile-bar a {
+.mobile-bar__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   text-align: center;
   border-radius: var(--radius-btn);
   padding: 12px;
   font-family: var(--font-body);
   font-size: var(--fs-btn);
   font-weight: var(--fw-btn);
+  text-decoration: none;
 }
-.mobile-bar a:first-child { background: var(--accent); color: #fff; }
-.mobile-bar a:last-child { background: #fff; color: var(--text); }
+.mobile-bar__btn--call {
+  background: var(--accent);
+  color: #fff;
+}
+.mobile-bar__btn--max {
+  background: #fff;
+  color: var(--text);
+}
+.mobile-bar__icon {
+  display: block;
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
 
 .lightbox {
   position: fixed;
@@ -3181,12 +3206,25 @@ main {
     right: 14px;
     bottom: calc(90px + env(safe-area-inset-bottom, 0px));
     z-index: 850;
-    gap: 10px;
+    gap: 0;
+  }
+
+  .social-sticky__btn--max {
+    display: none;
+  }
+
+  .social-sticky__btn--vk .social-sticky__label {
+    display: none;
   }
 
   .social-sticky__btn {
     width: 54px;
     height: 54px;
+  }
+
+  .social-sticky__icon {
+    width: 26px;
+    height: 26px;
   }
 
   .social-sticky__btn i {
