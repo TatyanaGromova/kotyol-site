@@ -859,7 +859,10 @@ if (lightbox && lightboxImage && lightboxClose) {
   const metaEl = document.getElementById("worksSliderMeta");
   const descEl = document.getElementById("worksSliderDesc");
   const thumbsBar = document.getElementById("worksSliderThumbs");
+  const textPanel = document.getElementById("worksSliderPanel");
   if (!thumbsBar) return;
+
+  const FADE_MS = 300;
 
   thumbsBar.textContent = "";
   slides.forEach((s, j) => {
@@ -885,10 +888,20 @@ if (lightbox && lightboxImage && lightboxClose) {
 
   let idx = 0;
   let timer = null;
+  let fadeTimer = null;
+  let pendingIdx = null;
   let inView = false;
   let hover = false;
+  let isAnimating = false;
   const INTERVAL = 4500;
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function preloadSlide(i) {
+    const s = slides[((i % slides.length) + slides.length) % slides.length];
+    if (!s) return;
+    const im = new Image();
+    im.src = s.src;
+  }
 
   function scrollThumbsToActive() {
     const active = thumbs[idx];
@@ -900,10 +913,8 @@ if (lightbox && lightboxImage && lightboxClose) {
     });
   }
 
-  function apply(i) {
-    const n = ((i % slides.length) + slides.length) % slides.length;
-    idx = n;
-    const s = slides[idx];
+  function setSlideContent(n) {
+    const s = slides[n];
     if (imgEl) {
       imgEl.src = s.src;
       imgEl.alt = s.title;
@@ -913,11 +924,75 @@ if (lightbox && lightboxImage && lightboxClose) {
     if (metaEl) metaEl.textContent = s.meta;
     if (descEl) descEl.textContent = s.desc;
     thumbs.forEach((btn, j) => {
-      const on = j === idx;
+      const on = j === n;
       btn.classList.toggle("is-active", on);
       btn.setAttribute("aria-selected", on ? "true" : "false");
     });
     window.requestAnimationFrame(scrollThumbsToActive);
+  }
+
+  function clearFadeTimer() {
+    if (fadeTimer) {
+      window.clearTimeout(fadeTimer);
+      fadeTimer = null;
+    }
+  }
+
+  function apply(i, instant) {
+    const n = ((i % slides.length) + slides.length) % slides.length;
+    if (n === idx && !instant) return;
+
+    clearFadeTimer();
+
+    if (instant || reduce) {
+      isAnimating = false;
+      root.classList.remove("is-changing");
+      textPanel?.classList.remove("is-changing");
+      idx = n;
+      setSlideContent(n);
+      preloadSlide(n + 1);
+      return;
+    }
+
+    if (isAnimating) {
+      pendingIdx = n;
+      return;
+    }
+
+    isAnimating = true;
+    pendingIdx = null;
+    root.classList.add("is-changing");
+    textPanel?.classList.add("is-changing");
+
+    fadeTimer = window.setTimeout(() => {
+      const next = new Image();
+      let committed = false;
+      const commitSlide = () => {
+        if (committed) return;
+        committed = true;
+        idx = n;
+        setSlideContent(n);
+        preloadSlide(n + 1);
+        window.requestAnimationFrame(() => {
+          root.classList.remove("is-changing");
+          textPanel?.classList.remove("is-changing");
+          window.setTimeout(() => {
+            isAnimating = false;
+            if (pendingIdx !== null && pendingIdx !== idx) {
+              const target = pendingIdx;
+              pendingIdx = null;
+              apply(target, false);
+            } else {
+              pendingIdx = null;
+            }
+          }, FADE_MS);
+        });
+      };
+      next.onload = commitSlide;
+      next.onerror = commitSlide;
+      next.src = slides[n].src;
+      if (next.complete) commitSlide();
+    }, FADE_MS);
   }
 
   function nextSlide() {
@@ -966,7 +1041,8 @@ if (lightbox && lightboxImage && lightboxClose) {
   );
   io.observe(root);
 
-  apply(0);
+  apply(0, true);
+  preloadSlide(1);
 })();
 
 // Карусель «Отзывы клиентов» (кейсы): центр, соседи, точки, автопрокрутка.
