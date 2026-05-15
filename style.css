@@ -3288,8 +3288,8 @@ main {
   .social-sticky__btn--max:hover {
     transform: scale(1.06);
     box-shadow:
-      0 14px 32px rgba(42, 171, 238, 0.4),
-      0 0 22px rgba(42, 171, 238, 0.22);
+      0 14px 32px rgba(26, 133, 255, 0.38),
+      0 0 22px rgba(181, 54, 255, 0.3);
   }
 }
 
@@ -3299,6 +3299,12 @@ main {
 
 .social-sticky__btn--max {
   background: linear-gradient(145deg, #35b8f5 0%, #2aabee 55%, #2299d8 100%);
+}
+
+@media (min-width: 769px) {
+  .social-sticky__btn--max {
+    background: linear-gradient(135deg, #1a85ff 0%, #8f47ff 52%, #b536ff 100%);
+  }
 }
 .contacts__map iframe {
   width: 100%;
