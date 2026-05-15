@@ -2421,11 +2421,11 @@ main {
   }
 
   #objects-video .video-real-card {
-    max-width: min(980px, 100%);
+    max-width: min(1040px, 100%);
   }
 
   #objects-video .video-real-card video {
-    max-height: min(440px, 42vh);
+    max-height: min(480px, 44vh);
   }
 }
 
@@ -2485,7 +2485,7 @@ main {
   }
 
   #objects-video .video-real-card video {
-    max-height: min(400px, 40vh);
+    max-height: min(440px, 42vh);
   }
 
   #objects-video .objects-video__content {
@@ -2553,14 +2553,14 @@ main {
 }
 
 .objects-video {
-  max-width: 980px;
+  max-width: 1040px;
   margin: 0 auto;
   width: 100%;
   min-width: 0;
 }
 .video-real-card {
   width: 100%;
-  max-width: min(980px, 100%);
+  max-width: min(1040px, 100%);
   margin: 0 auto;
   border-radius: var(--radius-card-lg);
   overflow: hidden;
@@ -2584,7 +2584,7 @@ main {
   gap: 16px 24px;
   flex-wrap: wrap;
   width: 100%;
-  max-width: min(980px, 100%);
+  max-width: min(1040px, 100%);
   margin-left: auto;
   margin-right: auto;
   box-sizing: border-box;
@@ -2618,15 +2618,15 @@ main {
   }
 
   .objects-video {
-    max-width: 980px;
+    max-width: 1040px;
   }
 
   .video-real-card {
-    max-width: min(980px, 100%);
+    max-width: min(1040px, 100%);
   }
 
   .video-real-card video {
-    max-height: min(552px, 52vh);
+    max-height: min(600px, 56vh);
   }
 
   .objects-video__content {
@@ -2657,7 +2657,7 @@ main {
   }
 
   #objects-video .video-real-card video {
-    max-height: min(480px, 48vh);
+    max-height: min(520px, 50vh);
   }
 }
 
