@@ -2266,9 +2266,12 @@ main {
 }
 .social-sticky__icon {
   display: block;
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
+  max-width: 32px;
+  max-height: 32px;
   object-fit: contain;
+  object-position: center;
   pointer-events: none;
 }
 .social-sticky__label {
@@ -2380,9 +2383,12 @@ main {
 }
 .mobile-bar__icon {
   display: block;
-  width: 22px;
-  height: 22px;
+  width: 30px;
+  height: 30px;
+  max-width: 32px;
+  max-height: 32px;
   object-fit: contain;
+  object-position: center;
   flex-shrink: 0;
 }
 
@@ -3218,13 +3224,37 @@ main {
   }
 
   .social-sticky__btn {
-    width: 54px;
-    height: 54px;
+    width: 56px;
+    height: 56px;
+  }
+
+  .social-sticky__btn--vk {
+    box-shadow: 0 6px 14px rgba(15, 42, 58, 0.16);
+    transition:
+      transform 0.22s ease,
+      box-shadow 0.22s ease;
+  }
+
+  .social-sticky__btn--vk:hover {
+    transform: scale(1.04);
+    box-shadow: 0 8px 18px rgba(15, 42, 58, 0.2);
+  }
+
+  .social-sticky__btn--vk:active {
+    transform: scale(0.97);
+    box-shadow: 0 4px 10px rgba(15, 42, 58, 0.14);
   }
 
   .social-sticky__icon {
-    width: 26px;
-    height: 26px;
+    width: 32px;
+    height: 32px;
+    max-width: 32px;
+    max-height: 32px;
+  }
+
+  .mobile-bar__icon {
+    width: 30px;
+    height: 30px;
   }
 
   .social-sticky__btn i {
