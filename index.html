@@ -500,79 +500,38 @@
           <p>Монтаж котла, монтаж дымохода — реальные объекты в Саткинском районе</p>
         </div>
 
-        <div class="works-grid reveal">
-          <article class="work-card" data-image="images/boiler-1.jpeg" tabindex="0" role="button" aria-label="Открыть фото: Котёл Ferroli">
-            <img loading="lazy" src="images/boiler-1.jpeg" alt="Котёл Ferroli" />
-            <div class="work-card__body">
-              <h3 class="work-card__title">Котёл Ferroli</h3>
-              <p class="work-card__meta">г. Сатка</p>
-              <p class="work-card__text">Монтаж котла в частном доме.</p>
+        <div class="works-slider-wrapper reveal" id="worksSlider">
+          <div class="works-slider__col works-slider__col--visual">
+            <div class="works-slider__stack">
+              <span class="works-slider__ghost works-slider__ghost--2" aria-hidden="true"></span>
+              <span class="works-slider__ghost works-slider__ghost--1" aria-hidden="true"></span>
+              <button
+                type="button"
+                class="works-slider__frame works-slider__lightbox"
+                id="worksSliderOpenLb"
+                data-image="images/boiler-1.jpeg"
+                aria-label="Открыть фото в полном размере"
+              >
+                <img
+                  id="worksSliderHeroImg"
+                  src="images/boiler-1.jpeg"
+                  alt="Котёл Kotitonttu"
+                  loading="eager"
+                  decoding="async"
+                />
+              </button>
             </div>
-          </article>
-          <article class="work-card" data-image="images/chimney-4.jfif" tabindex="0" role="button" aria-label="Открыть фото: Дымоход через кровлю">
-            <img loading="lazy" src="images/chimney-4.jfif" alt="Дымоход через кровлю" />
-            <div class="work-card__body">
-              <h3 class="work-card__title">Дымоход через кровлю</h3>
-              <p class="work-card__meta">Саткинский район</p>
-              <p class="work-card__text">Проход, гидроизоляция и ограждение.</p>
-            </div>
-          </article>
-          <article class="work-card" data-image="images/boiler-5.jpeg" tabindex="0" role="button" aria-label="Открыть фото: Обвязка котла">
-            <img loading="lazy" src="images/boiler-5.jpeg" alt="Обвязка котла" />
-            <div class="work-card__body">
-              <h3 class="work-card__title">Обвязка котла</h3>
-              <p class="work-card__meta">Саткинский район</p>
-              <p class="work-card__text">Подключение системы и проверка работы.</p>
-            </div>
-          </article>
-          <article class="work-card" data-image="images/boiler-2.jpeg" tabindex="0" role="button" aria-label="Открыть фото: Установка котла">
-            <img loading="lazy" src="images/boiler-2.jpeg" alt="Установка котла" />
-            <div class="work-card__body">
-              <h3 class="work-card__title">Установка котла</h3>
-              <p class="work-card__meta">Саткинский район</p>
-              <p class="work-card__text">Подключение газа и воды по проекту.</p>
-            </div>
-          </article>
-          <article class="work-card" data-image="images/boiler-3.jpeg" tabindex="0" role="button" aria-label="Открыть фото: Котельная">
-            <img loading="lazy" src="images/boiler-3.jpeg" alt="Котельная" />
-            <div class="work-card__body">
-              <h3 class="work-card__title">Котельная</h3>
-              <p class="work-card__meta">г. Сатка</p>
-              <p class="work-card__text">Компактная разводка и балансировка контуров.</p>
-            </div>
-          </article>
-          <article class="work-card" data-image="images/boiler-4.jpeg" tabindex="0" role="button" aria-label="Открыть фото: Замена котла">
-            <img loading="lazy" src="images/boiler-4.jpeg" alt="Замена котла" />
-            <div class="work-card__body">
-              <h3 class="work-card__title">Замена котла</h3>
-              <p class="work-card__meta">Частный дом</p>
-              <p class="work-card__text">Сохранение системы при смене оборудования.</p>
-            </div>
-          </article>
-          <article class="work-card" data-image="images/chimney-1.jfif" tabindex="0" role="button" aria-label="Открыть фото: Монтаж дымохода">
-            <img loading="lazy" src="images/chimney-1.jfif" alt="Монтаж дымохода" />
-            <div class="work-card__body">
-              <h3 class="work-card__title">Монтаж дымохода</h3>
-              <p class="work-card__meta">г. Сатка</p>
-              <p class="work-card__text">Коаксиальный вывод через стену по паспорту.</p>
-            </div>
-          </article>
-          <article class="work-card" data-image="images/chimney-2.jfif" tabindex="0" role="button" aria-label="Открыть фото: Коаксиальный дымоход">
-            <img loading="lazy" src="images/chimney-2.jfif" alt="Коаксиальный дымоход" />
-            <div class="work-card__body">
-              <h3 class="work-card__title">Коаксиальный дымоход</h3>
-              <p class="work-card__meta">Саткинский район</p>
-              <p class="work-card__text">Подбор сечения под мощность котла.</p>
-            </div>
-          </article>
-          <article class="work-card" data-image="images/boiler-6.jfif" tabindex="0" role="button" aria-label="Открыть фото: Пуск котла">
-            <img loading="lazy" src="images/boiler-6.jfif" alt="Пуск котла" />
-            <div class="work-card__body">
-              <h3 class="work-card__title">Пуск и настройка</h3>
-              <p class="work-card__meta">г. Сатка</p>
-              <p class="work-card__text">Запуск с проверкой режимов работы.</p>
-            </div>
-          </article>
+
+            <div class="works-slider__thumbs" id="worksSliderThumbs" role="tablist" aria-label="Галерея работ"></div>
+          </div>
+
+          <div class="works-slider__col works-slider__col--text" id="worksSliderPanel" aria-live="polite">
+            <p class="works-slider__kicker">ОБЪЕКТ</p>
+            <h3 class="works-slider__title" id="worksSliderTitle">Котёл Kotitonttu</h3>
+            <p class="works-slider__meta" id="worksSliderMeta">г. Сатка</p>
+            <p class="works-slider__desc" id="worksSliderDesc">Монтаж котла в частном доме.</p>
+            <a class="btn btn--accent" href="#request">Получить консультацию</a>
+          </div>
         </div>
       </div>
     </section>

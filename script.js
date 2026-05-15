@@ -1,3 +1,10 @@
+if ("scrollRestoration" in history) {
+  history.scrollRestoration = "manual";
+}
+window.addEventListener("load", () => {
+  if (!window.location.hash) window.scrollTo(0, 0);
+});
+
 const menuToggle = document.getElementById("menuToggle");
 const navMenu = document.getElementById("navMenu");
 
@@ -101,7 +108,7 @@ if (firstFaqItem) {
   firstFaqItem.open = true;
 }
 
-// Lightbox: галерея на странице и карточки «Наши работы».
+// Lightbox: галерея на странице, карточки «Наши работы» (если есть), слайдер «Наши работы».
 const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightboxImage");
 const lightboxClose = document.getElementById("lightboxClose");
@@ -121,7 +128,9 @@ function closeLightbox() {
 }
 
 if (lightbox && lightboxImage && lightboxClose) {
-  const openers = document.querySelectorAll(".gallery__item[data-image], .work-card[data-image]");
+  const openers = document.querySelectorAll(
+    ".gallery__item[data-image], .work-card[data-image], .works-slider__lightbox[data-image]"
+  );
 
   openers.forEach((item) => {
     item.addEventListener("click", () => {
@@ -129,7 +138,7 @@ if (lightbox && lightboxImage && lightboxClose) {
       if (!imagePath) return;
       openLightbox(imagePath);
     });
-    if (item.matches(".work-card")) {
+    if (item.matches(".work-card, .works-slider__lightbox")) {
       item.addEventListener("keydown", (event) => {
         if (event.key !== "Enter" && event.key !== " ") return;
         event.preventDefault();
@@ -208,6 +217,145 @@ if (lightbox && lightboxImage && lightboxClose) {
   });
 
   updateArrows();
+})();
+
+// Слайдер «Наши работы»: автопрокрутка 4.5s при видимости ≥35%, пауза при наведении.
+(function initWorksSlider() {
+  const root = document.getElementById("worksSlider");
+  if (!root) return;
+
+  const slides = [
+    { src: "images/boiler-1.jpeg", title: "Котёл Kotitonttu", meta: "г. Сатка", desc: "Монтаж котла в частном доме." },
+    { src: "images/boiler-2.jpeg", title: "Котёл Ferroli", meta: "г. Сатка", desc: "Установка котла и подготовка к запуску." },
+    { src: "images/boiler-3.jpeg", title: "Монтаж котла", meta: "Саткинский район", desc: "Подключение и обвязка на объекте." },
+    { src: "images/boiler-4.jpeg", title: "Замена котла", meta: "Саткинский район", desc: "Демонтаж старого и установка нового оборудования." },
+    { src: "images/boiler-5.jpg", title: "Котельная установка", meta: "г. Сатка", desc: "Аккуратная установка и разводка труб." },
+    { src: "images/boiler-6.jfif", title: "Пуск и настройка", meta: "Саткинский район", desc: "Настройка режимов работы и проверка безопасности." },
+    { src: "images/boiler-7.jfif", title: "Котёл на объекте", meta: "Саткинский район", desc: "Готовая котельная в частном доме." },
+    { src: "images/chimney-1.jfif", title: "Монтаж дымохода", meta: "Саткинский район", desc: "Устройство дымоудаления по нормам." },
+    { src: "images/chimney-2.jfif", title: "Коаксиальный вывод", meta: "г. Сатка", desc: "Вывод продуктов сгорания через стену." },
+    { src: "images/chimney-3.jfif", title: "Наружный дымоход", meta: "Саткинский район", desc: "Вывод дымохода по фасаду дома." },
+    { src: "images/chimney-4.jfif", title: "Дымоход через кровлю", meta: "Саткинский район", desc: "Проход через кровлю и герметизация." },
+    { src: "images/chimney-5.jfif", title: "Проход через перекрытие", meta: "Саткинский район", desc: "Узел прохода с теплоизоляцией." },
+    { src: "images/chimney-6.jfif", title: "Фасадный дымоход", meta: "г. Сатка", desc: "Вертикальный участок по наружной стене." },
+    { src: "images/chimney-7.jfif", title: "Дымоходная система", meta: "Саткинский район", desc: "Сборка и крепление элементов дымохода." },
+    { src: "images/otoplenie-1.jpg", title: "Система отопления", meta: "г. Сатка", desc: "Радиаторы и разводка отопления в частном доме." },
+  ];
+
+  const imgEl = document.getElementById("worksSliderHeroImg");
+  const lbBtn = document.getElementById("worksSliderOpenLb");
+  const titleEl = document.getElementById("worksSliderTitle");
+  const metaEl = document.getElementById("worksSliderMeta");
+  const descEl = document.getElementById("worksSliderDesc");
+  const thumbsBar = document.getElementById("worksSliderThumbs");
+  if (!thumbsBar) return;
+
+  thumbsBar.textContent = "";
+  slides.forEach((s, j) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "works-slider__thumb" + (j === 0 ? " is-active" : "");
+    btn.setAttribute("data-slide", String(j));
+    btn.setAttribute("role", "tab");
+    btn.setAttribute("aria-selected", j === 0 ? "true" : "false");
+    btn.setAttribute("aria-label", `Слайд ${j + 1}: ${s.title}`);
+    const im = document.createElement("img");
+    im.src = s.src;
+    im.alt = "";
+    im.width = 120;
+    im.height = 72;
+    im.loading = "lazy";
+    im.decoding = "async";
+    btn.appendChild(im);
+    thumbsBar.appendChild(btn);
+  });
+
+  const thumbs = Array.from(thumbsBar.querySelectorAll(".works-slider__thumb"));
+
+  let idx = 0;
+  let timer = null;
+  let inView = false;
+  let hover = false;
+  const INTERVAL = 4500;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function scrollThumbsToActive() {
+    const active = thumbs[idx];
+    if (!active || !thumbsBar) return;
+    const nextLeft = active.offsetLeft + active.offsetWidth / 2 - thumbsBar.clientWidth / 2;
+    thumbsBar.scrollTo({
+      left: Math.max(0, nextLeft),
+      behavior: reduce ? "auto" : "smooth",
+    });
+  }
+
+  function apply(i) {
+    const n = ((i % slides.length) + slides.length) % slides.length;
+    idx = n;
+    const s = slides[idx];
+    if (imgEl) {
+      imgEl.src = s.src;
+      imgEl.alt = s.title;
+    }
+    if (lbBtn) lbBtn.dataset.image = s.src;
+    if (titleEl) titleEl.textContent = s.title;
+    if (metaEl) metaEl.textContent = s.meta;
+    if (descEl) descEl.textContent = s.desc;
+    thumbs.forEach((btn, j) => {
+      const on = j === idx;
+      btn.classList.toggle("is-active", on);
+      btn.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    window.requestAnimationFrame(scrollThumbsToActive);
+  }
+
+  function nextSlide() {
+    apply(idx + 1);
+  }
+
+  function stop() {
+    if (timer) {
+      window.clearInterval(timer);
+      timer = null;
+    }
+  }
+
+  function restartAutoplay() {
+    stop();
+    if (!reduce && inView && !hover) {
+      timer = window.setInterval(nextSlide, INTERVAL);
+    }
+  }
+
+  thumbs.forEach((btn, j) => {
+    btn.addEventListener("click", () => {
+      apply(j);
+      restartAutoplay();
+    });
+  });
+
+  root.addEventListener("mouseenter", () => {
+    hover = true;
+    stop();
+  });
+  root.addEventListener("mouseleave", () => {
+    hover = false;
+    restartAutoplay();
+  });
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      const e = entries[0];
+      if (!e) return;
+      inView = Boolean(e.isIntersecting && e.intersectionRatio >= 0.35);
+      if (inView) restartAutoplay();
+      else stop();
+    },
+    { threshold: [0, 0.1, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5, 0.75, 1] }
+  );
+  io.observe(root);
+
+  apply(0);
 })();
 
 // Обработка формы заявки.
