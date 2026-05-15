@@ -2717,27 +2717,6 @@ main {
   }
 }
 
-@media (max-width: 768px) {
-  .objects-video,
-  .video-real-card {
-    width: 100%;
-    max-width: min(100%, calc(100vw - 32px));
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .objects-video__content {
-    flex-direction: column;
-    align-items: stretch;
-    text-align: center;
-    max-width: min(100%, calc(100vw - 32px));
-  }
-
-  .objects-video__content .btn {
-    width: 100%;
-    white-space: normal;
-  }
-}
 
 /* Отзывы: карусель кейсов */
 .section--case-reviews {
@@ -3063,15 +3042,10 @@ main {
 }
 
 @media (max-width: 640px) {
-  .case-reviews-carousel {
-    --case-slide-w: min(360px, calc(100% - 8px));
-    grid-template-columns: 40px minmax(0, 1fr) 40px;
-    gap: 0 6px;
-  }
   .case-reviews-carousel__arrow {
-    width: 40px;
-    height: 40px;
-    font-size: 1.25rem;
+    width: 44px;
+    height: 44px;
+    font-size: 1.2rem;
   }
 }
 
@@ -3941,187 +3915,248 @@ main {
     overflow-x: hidden;
   }
 
+  .section--services .container {
+    overflow-x: hidden;
+  }
+
   .services-ribbon.services-ribbon--carousel {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto auto;
     gap: 0;
-    padding-bottom: 4px;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 0 8px;
+    overflow: hidden;
+    box-sizing: border-box;
   }
 
   .services-ribbon.services-ribbon--carousel .services-ribbon__viewport {
     grid-column: 1 / -1;
     grid-row: 1;
-    width: 100%;
+    width: min(360px, calc(100vw - 32px));
+    max-width: min(360px, calc(100vw - 32px));
+    margin: 0 auto;
     overflow: hidden;
-    padding: 0 16px;
+    padding: 0;
     scroll-snap-type: none;
     -webkit-overflow-scrolling: auto;
   }
 
   .services-ribbon.services-ribbon--carousel .services-ribbon__track {
     gap: 12px;
-    padding: 4px 0 8px;
+    padding: 0;
     will-change: transform;
     transition: transform 0.55s var(--ease-premium);
+    align-items: stretch;
   }
 
   .services-ribbon.services-ribbon--carousel .services-ribbon__slide {
-    flex: 0 0 min(360px, 100%);
-    width: min(360px, 100%);
-    max-width: 100%;
-    transition:
-      transform 0.55s var(--ease-premium),
-      opacity 0.45s ease;
+    flex: 0 0 min(360px, calc(100vw - 32px));
+    width: min(360px, calc(100vw - 32px));
+    max-width: min(360px, calc(100vw - 32px));
+    min-width: 0;
+    box-sizing: border-box;
+    transition: opacity 0.35s ease;
   }
 
-  .services-ribbon.services-ribbon--carousel .services-ribbon__slide.is-tier-0 .services-ribbon__card {
-    transform: scale(1);
-    opacity: 1;
-  }
-
-  .services-ribbon.services-ribbon--carousel .services-ribbon__slide.is-tier-1 .services-ribbon__card {
-    transform: scale(0.93);
-    opacity: 0.72;
-  }
-
-  .services-ribbon.services-ribbon--carousel .services-ribbon__slide.is-tier-2 .services-ribbon__card {
-    transform: scale(0.9);
-    opacity: 0.58;
-  }
-
-  .services-ribbon.services-ribbon--carousel .services-ribbon__slide.is-tier-1 .services-ribbon__card,
-  .services-ribbon.services-ribbon--carousel .services-ribbon__slide.is-tier-2 .services-ribbon__card {
+  .services-ribbon.services-ribbon--carousel .services-ribbon__slide.is-tier-1,
+  .services-ribbon.services-ribbon--carousel .services-ribbon__slide.is-tier-2 {
     opacity: 0;
     pointer-events: none;
-    transform: scale(0.92);
   }
 
-  .services-ribbon.services-ribbon--carousel .services-ribbon__slide.is-tier-0 .services-ribbon__card {
-    transform: scale(1);
+  .services-ribbon.services-ribbon--carousel .services-ribbon__slide.is-tier-0 {
     opacity: 1;
+    pointer-events: auto;
   }
 
   .services-ribbon.services-ribbon--carousel .services-ribbon__card {
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    max-width: 100%;
+    max-width: min(360px, calc(100vw - 32px));
+    height: auto;
+    min-height: 0;
     margin: 0 auto;
     padding: 0;
     overflow: hidden;
+    transform: none;
+    opacity: 1;
+    box-sizing: border-box;
   }
 
   .services-ribbon.services-ribbon--carousel .services-ribbon__media {
     display: block;
+    flex: 0 0 auto;
+    width: 100%;
     min-height: 0;
     padding: 0;
+    overflow: hidden;
     background: #e8eef3;
+    border-radius: var(--radius-card-lg) var(--radius-card-lg) 0 0;
   }
 
   .services-ribbon.services-ribbon--carousel .services-ribbon__media img {
+    display: block;
     width: 100%;
-    height: clamp(180px, 52vw, 220px);
+    height: clamp(190px, 52vw, 220px);
     max-height: 220px;
-    min-height: 180px;
+    min-height: 0;
     object-fit: cover;
     object-position: center;
-    border-radius: 22px 22px 0 0;
+    border-radius: 0;
   }
 
   .services-ribbon.services-ribbon--carousel .services-ribbon__body {
-    padding: 16px 18px 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+    width: 100%;
+    padding: 22px 24px 24px;
+    box-sizing: border-box;
+  }
+
+  .services-ribbon.services-ribbon--carousel .services-ribbon__title,
+  .services-ribbon.services-ribbon--carousel .services-ribbon__text {
+    opacity: 1;
+    visibility: visible;
   }
 
   .services-ribbon.services-ribbon--carousel .services-ribbon__arrow {
     position: static;
     width: 46px;
     height: 46px;
-    z-index: 1;
+    z-index: 2;
     align-self: center;
+    margin-top: 14px;
   }
 
   .services-ribbon.services-ribbon--carousel .services-ribbon__arrow--prev {
     grid-column: 1;
     grid-row: 2;
     justify-self: end;
-    margin-right: 24px;
-    margin-top: 12px;
+    margin-right: 16px;
+    margin-left: 0;
   }
 
   .services-ribbon.services-ribbon--carousel .services-ribbon__arrow--next {
     grid-column: 2;
     grid-row: 2;
     justify-self: start;
-    margin-left: 24px;
-    margin-top: 12px;
+    margin-left: 16px;
+    margin-right: 0;
   }
 
   .services-ribbon.services-ribbon--carousel .services-ribbon__dots {
     grid-column: 1 / -1;
     grid-row: 3;
     display: flex;
-    margin-top: 14px;
+    justify-content: center;
+    margin-top: 12px;
+    padding: 0 8px 4px;
   }
 
-  /* Отзывы: ширина карточки и стрелки под слайдером */
+  /* Отзывы: карточка и управление под слайдером */
   .section--case-reviews {
     overflow-x: hidden;
   }
 
+  .section--case-reviews .container {
+    overflow-x: hidden;
+  }
+
   .case-reviews-carousel {
-    --case-slide-w: min(360px, 100%);
+    --case-slide-w: min(360px, calc(100vw - 32px));
     --case-slide-gap: 12px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto auto;
-    gap: 0 10px;
-    padding: 0 16px;
+    gap: 0;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0 auto;
+    overflow: hidden;
     box-sizing: border-box;
   }
 
   .case-reviews-carousel__viewport {
     grid-column: 1 / -1;
     grid-row: 1;
-    width: 100%;
+    width: min(360px, calc(100vw - 32px));
+    max-width: min(360px, calc(100vw - 32px));
+    margin: 0 auto;
     overflow: hidden;
     padding: 0;
+  }
+
+  .case-reviews-carousel__track {
+    align-items: stretch;
   }
 
   .case-reviews-carousel__slide {
     flex: 0 0 var(--case-slide-w);
     width: var(--case-slide-w);
+    max-width: var(--case-slide-w);
+    min-width: 0;
+    box-sizing: border-box;
   }
 
   .case-reviews-carousel__slide-scaler {
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
+    transform: none;
+    opacity: 1;
   }
 
   .case-reviews-carousel__slide.is-tier-1 .case-reviews-carousel__slide-scaler,
   .case-reviews-carousel__slide.is-tier-2 .case-reviews-carousel__slide-scaler {
     opacity: 0;
     pointer-events: none;
-    transform: scale(0.92);
+    transform: none;
+  }
+
+  .case-reviews-carousel__slide.is-tier-0 .case-reviews-carousel__slide-scaler {
+    opacity: 1;
+    pointer-events: auto;
   }
 
   .case-review-card {
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    max-width: 100%;
+    max-width: min(360px, calc(100vw - 32px));
+    height: auto;
+    min-height: 0;
     margin: 0 auto;
+    overflow: hidden;
     box-sizing: border-box;
   }
 
-  .case-review-card__media img {
+  .case-review-card__media {
+    flex: 0 0 auto;
     width: 100%;
-    height: clamp(220px, 58vw, 260px);
-    max-height: 260px;
-    min-height: 220px;
+    overflow: hidden;
+  }
+
+  .case-review-card__media img {
+    display: block;
+    width: 100%;
+    height: clamp(210px, 56vw, 240px);
+    max-height: 240px;
+    min-height: 0;
     aspect-ratio: auto;
     object-fit: cover;
+    object-position: center;
   }
 
   .case-review-card__body {
-    padding: 20px;
+    flex: 0 0 auto;
+    width: 100%;
+    padding: 22px 24px 24px;
+    box-sizing: border-box;
   }
 
   .case-review-card__meta,
@@ -4149,31 +4184,94 @@ main {
     position: static;
     width: 46px;
     height: 46px;
-    z-index: 1;
+    z-index: 2;
     align-self: center;
+    margin-top: 14px;
   }
 
   .case-reviews-carousel__arrow--prev {
     grid-column: 1;
     grid-row: 2;
     justify-self: end;
-    margin-right: 24px;
-    margin-top: 12px;
+    margin-right: 16px;
+    margin-left: 0;
   }
 
   .case-reviews-carousel__arrow--next {
     grid-column: 2;
     grid-row: 2;
     justify-self: start;
-    margin-left: 24px;
-    margin-top: 12px;
+    margin-left: 16px;
+    margin-right: 0;
   }
 
   .case-reviews-carousel__dots {
     grid-column: 1 / -1;
     grid-row: 3;
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+    padding: 0 8px 4px;
+  }
+
+  /* Видео с объектов — компактнее на mobile */
+  #objects-video.section.video-section {
+    overflow-x: hidden;
+  }
+
+  #objects-video .container {
+    overflow-x: hidden;
+  }
+
+  .objects-video {
+    width: 100%;
+    max-width: min(360px, calc(100vw - 32px));
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .video-real-card {
+    width: min(360px, calc(100vw - 32px));
+    max-width: min(360px, calc(100vw - 32px));
+    max-height: min(560px, 72vh);
+    margin: 0 auto;
+    border-radius: 24px;
+    aspect-ratio: 9 / 16;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  .video-real-card video {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: min(560px, 72vh);
+    min-height: 0;
+    object-fit: contain;
+    border-radius: 0;
+    aspect-ratio: 9 / 16;
+  }
+
+  .objects-video__content {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    width: 100%;
+    max-width: min(360px, calc(100vw - 32px));
     margin-top: 14px;
-    padding: 0;
+    gap: 12px;
+  }
+
+  .objects-video__content .btn {
+    width: 100%;
+    white-space: normal;
+  }
+
+  .social-sticky {
+    right: 12px;
+    bottom: calc(96px + env(safe-area-inset-bottom, 0px));
   }
 
   /* Sticky соцсети и отступ под нижнюю панель */
@@ -4253,42 +4351,36 @@ main {
     font-size: 0.8125rem;
   }
 
-  .services-ribbon.services-ribbon--carousel .services-ribbon__viewport {
-    padding: 0 8px;
+  .services-ribbon.services-ribbon--carousel .services-ribbon__viewport,
+  .case-reviews-carousel__viewport {
+    width: min(360px, calc(100vw - 24px));
+    max-width: min(360px, calc(100vw - 24px));
   }
 
   .services-ribbon.services-ribbon--carousel .services-ribbon__slide,
-  .services-ribbon.services-ribbon--carousel .services-ribbon__card {
-    flex: 0 0 100%;
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .services-ribbon.services-ribbon--carousel .services-ribbon__arrow--prev {
-    margin-right: 10px;
-  }
-
-  .services-ribbon.services-ribbon--carousel .services-ribbon__arrow--next {
-    margin-left: 10px;
-  }
-
+  .services-ribbon.services-ribbon--carousel .services-ribbon__card,
   .case-reviews-carousel {
-    --case-slide-w: 100%;
-    padding: 0 10px;
+    --case-slide-w: min(360px, calc(100vw - 24px));
   }
 
   .case-reviews-carousel__slide,
-  .case-reviews-carousel__slide-scaler,
-  .case-review-card {
-    flex: 0 0 100%;
-    width: 100%;
-    max-width: 100%;
+  .case-review-card,
+  .video-real-card,
+  .objects-video,
+  .objects-video__content {
+    max-width: min(360px, calc(100vw - 24px));
   }
 
+  .video-real-card {
+    width: min(360px, calc(100vw - 24px));
+  }
+
+  .services-ribbon.services-ribbon--carousel .services-ribbon__arrow--prev,
   .case-reviews-carousel__arrow--prev {
     margin-right: 10px;
   }
 
+  .services-ribbon.services-ribbon--carousel .services-ribbon__arrow--next,
   .case-reviews-carousel__arrow--next {
     margin-left: 10px;
   }
