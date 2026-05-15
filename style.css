@@ -226,8 +226,8 @@ main {
 }
 
 .logo img {
-  width: 100px;
-  height: 52px;
+  width: 112px;
+  height: 58px;
   border-radius: 10px;
   object-fit: contain;
   background: #fff;
@@ -238,15 +238,15 @@ main {
 }
 
 .header--scrolled .logo img {
-  width: 92px;
-  height: 48px;
+  width: 104px;
+  height: 54px;
 }
 
 .nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 24px;
+  gap: 14px;
   flex-wrap: nowrap;
   min-width: 0;
 }
@@ -254,8 +254,8 @@ main {
 .nav a {
   position: relative;
   font-family: var(--font-body);
-  font-size: 1.0625rem;
-  font-weight: var(--fw-nav);
+  font-size: 0.875rem;
+  font-weight: 600;
   line-height: 1.2;
   color: var(--text);
   padding: 4px 0;
@@ -342,11 +342,11 @@ main {
 
 @media (min-width: 993px) {
   .nav {
-    gap: clamp(20px, 2vw, 28px);
+    gap: clamp(12px, 1.2vw, 18px);
   }
 
   .nav a {
-    font-size: clamp(1rem, 0.35vw + 0.9rem, 1.125rem);
+    font-size: clamp(0.8125rem, 0.12vw + 0.78rem, 0.9375rem);
   }
 }
 
@@ -356,11 +356,11 @@ main {
   }
 
   .nav {
-    gap: 18px;
+    gap: 10px;
   }
 
   .nav a {
-    font-size: 0.9375rem;
+    font-size: 0.8125rem;
   }
 
   .header__contacts .btn {
@@ -3624,14 +3624,14 @@ main {
   }
 
   .logo img {
-    width: 72px;
-    height: 42px;
+    width: 78px;
+    height: 46px;
     padding: 2px;
   }
 
   .header--scrolled .logo img {
-    width: 68px;
-    height: 40px;
+    width: 74px;
+    height: 44px;
   }
 
   .menu-toggle {
@@ -4684,8 +4684,8 @@ main {
   }
 
   .logo img {
-    width: 68px;
-    height: 40px;
+    width: 72px;
+    height: 42px;
   }
 
   .header__phone--primary {
