@@ -3277,51 +3277,65 @@ main {
   gap: 12px;
   color: var(--text);
 }
-.request-form label { display: grid; gap: 6px; font-weight: 600; font-size: var(--fs-caption); }
-.request-form input, .request-form textarea {
+.request-form label:not(.consent-label) {
+  display: grid;
+  gap: 6px;
+  font-weight: 600;
+  font-size: var(--fs-caption);
+}
+
+.request-form input:not([type="checkbox"]),
+.request-form textarea {
   width: 100%;
   border: 1px solid #d7e0e6;
   border-radius: 10px;
   padding: 11px 12px;
   font: inherit;
 }
-.request-form input:focus, .request-form textarea:focus {
+
+.request-form input:not([type="checkbox"]):focus,
+.request-form textarea:focus {
   outline: 2px solid rgba(255,107,61,.25);
   border-color: var(--accent);
 }
-.request-form__consent {
+
+.request-form label.consent-label {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  margin: 2px 0 0;
+  text-align: left;
+  justify-content: flex-start;
+  width: 100%;
+  margin: 14px 0 18px;
+  font-size: 14px;
+  line-height: 1.4;
   font-weight: 400;
-  font-size: var(--fs-caption);
-  line-height: var(--lh-caption);
+  color: #1f3340;
   cursor: pointer;
 }
 
-.request-form__consent input[type="checkbox"] {
+.consent-label input[type="checkbox"] {
   width: 16px;
   height: 16px;
-  margin: 2px 0 0;
+  margin-top: 3px;
   padding: 0;
   flex-shrink: 0;
   accent-color: var(--accent);
   cursor: pointer;
 }
 
-.request-form__consent-text {
-  color: var(--muted);
-}
-
-.request-form__consent a {
-  color: var(--text);
+.consent-label a {
+  color: #ff5a3c;
   text-decoration: underline;
-  text-underline-offset: 2px;
 }
 
-.request-form__consent a:hover {
+.consent-label a:hover {
   color: var(--accent);
+}
+
+.consent-label span {
+  flex: 1;
+  min-width: 0;
 }
 
 .request-form__privacy {
