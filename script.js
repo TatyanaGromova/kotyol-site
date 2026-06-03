@@ -1380,8 +1380,29 @@ const requestForm = document.getElementById("requestForm");
 const formMessage = document.getElementById("formMessage");
 
 if (requestForm && formMessage) {
+  const consentCheckbox = requestForm.querySelector('[name="consent"]');
+
+  const clearFormMessage = () => {
+    formMessage.textContent = "";
+    formMessage.classList.remove("form-message--error");
+  };
+
+  consentCheckbox?.addEventListener("change", () => {
+    if (consentCheckbox.checked) clearFormMessage();
+  });
+
   requestForm.addEventListener("submit", (event) => {
     event.preventDefault();
+
+    if (!consentCheckbox?.checked) {
+      formMessage.textContent =
+        "Чтобы отправить заявку, подтвердите согласие на обработку персональных данных.";
+      formMessage.classList.add("form-message--error");
+      consentCheckbox?.focus();
+      return;
+    }
+
+    formMessage.classList.remove("form-message--error");
     formMessage.textContent = "Спасибо! Мы свяжемся с вами в ближайшее время.";
     requestForm.reset();
   });

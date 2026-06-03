@@ -3289,6 +3289,41 @@ main {
   outline: 2px solid rgba(255,107,61,.25);
   border-color: var(--accent);
 }
+.request-form__consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 2px 0 0;
+  font-weight: 400;
+  font-size: var(--fs-caption);
+  line-height: var(--lh-caption);
+  cursor: pointer;
+}
+
+.request-form__consent input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 2px 0 0;
+  padding: 0;
+  flex-shrink: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.request-form__consent-text {
+  color: var(--muted);
+}
+
+.request-form__consent a {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.request-form__consent a:hover {
+  color: var(--accent);
+}
+
 .request-form__privacy {
   margin: -2px 0 0;
   color: var(--muted);
@@ -3296,6 +3331,93 @@ main {
   line-height: var(--lh-caption);
 }
 .form-message { margin: 4px 0 0; color: #148057; font-weight: 700; min-height: 22px; }
+.form-message--error { color: #c0392b; }
+
+.footer__legal {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.footer__legal a {
+  color: var(--color-text-on-dark-muted);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-caption);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.footer__legal a:hover {
+  color: var(--color-white);
+}
+
+.legal-doc {
+  padding: 40px 0 72px;
+}
+
+.legal-doc__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 24px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.legal-doc__back:hover {
+  color: var(--text);
+}
+
+.legal-doc__content {
+  max-width: 720px;
+  background: #fff;
+  border: var(--border-card);
+  border-radius: var(--radius-card-lg);
+  padding: clamp(24px, 4vw, 40px);
+  box-shadow: var(--shadow-card);
+}
+
+.legal-doc__content h1 {
+  margin: 0 0 20px;
+  font-size: clamp(1.5rem, 2vw + 1rem, 2rem);
+}
+
+.legal-doc__content p {
+  margin: 0 0 14px;
+  color: var(--text);
+}
+
+.legal-doc__content ul {
+  margin: 0 0 14px;
+  padding-left: 1.25rem;
+}
+
+.legal-doc__content li {
+  margin-bottom: 6px;
+}
+
+.legal-doc__content h2 {
+  margin: 28px 0 12px;
+  font-size: clamp(1.125rem, 1vw + 0.95rem, 1.375rem);
+}
+
+.legal-doc__content h2:first-of-type {
+  margin-top: 8px;
+}
+
+.page-legal {
+  padding-top: 0;
+}
+
+.legal-page-header {
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid #e3eaee;
+}
+
+.legal-page-header .header__inner {
+  min-height: 72px;
+}
 
 .contacts {
   display: grid;

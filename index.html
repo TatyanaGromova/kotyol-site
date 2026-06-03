@@ -813,8 +813,12 @@
           <label>Имя<input type="text" name="name" required placeholder="Введите имя" /></label>
           <label>Телефон<input type="tel" name="phone" required placeholder="+7 (___) ___-__-__" /></label>
           <label>Комментарий<textarea name="comment" rows="4" placeholder="Опишите задачу"></textarea></label>
+          <label class="request-form__consent">
+            <input type="checkbox" name="consent" id="requestConsent" value="1" />
+            <span class="request-form__consent-text">Я даю <a href="/soglasie-na-obrabotku-personalnyh-dannyh">согласие на обработку персональных данных</a> и ознакомлен(а) с <a href="/politika-konfidentsialnosti">Политикой обработки персональных данных</a>.</span>
+          </label>
           <button class="btn btn--accent" type="submit">Отправить заявку</button>
-          <p class="request-form__privacy">Мы не передаём данные третьим лицам</p>
+          <p class="request-form__privacy">Мы используем данные только для связи по заявке</p>
           <p class="request-form__privacy">Ответим в течение 15 минут</p>
           <p class="form-message" id="formMessage" aria-live="polite"></p>
         </form>
@@ -868,6 +872,10 @@
         </div>
         <p>г. Сатка, ул. 50 лет ВЛКСМ, д. 1А</p>
         <p>ежедневно с 9:00 до 20:00</p>
+        <nav class="footer__legal" aria-label="Документы">
+          <a href="/soglasie-na-obrabotku-personalnyh-dannyh">Согласие на обработку персональных данных</a>
+          <a href="/politika-konfidentsialnosti">Политика обработки персональных данных</a>
+        </nav>
       </div>
       <a class="btn btn--accent" href="#request">Получить консультацию</a>
     </div>
