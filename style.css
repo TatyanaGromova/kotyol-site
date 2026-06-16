@@ -2215,7 +2215,7 @@ main {
 .boiler-picker .section__head {
   position: relative;
   z-index: 1;
-  margin-bottom: 22px;
+  margin-bottom: 0;
 }
 
 .boiler-picker .section__head h2,
@@ -2225,6 +2225,16 @@ main {
 
 .boiler-picker .section__head p {
   color: rgba(230, 238, 244, 0.88);
+}
+
+.boiler-picker__note {
+  max-width: 700px;
+  margin: 14px auto 28px;
+  color: rgba(230, 238, 244, 0.78);
+  font-size: clamp(0.875rem, 0.25vw + 0.82rem, 1rem);
+  line-height: 1.45;
+  text-align: center;
+  text-wrap: pretty;
 }
 
 .boiler-picker__options {
@@ -2306,6 +2316,12 @@ main {
     width: 100%;
     margin-top: 14px;
     margin-bottom: 6px;
+  }
+
+  .boiler-picker__note {
+    margin-top: 12px;
+    margin-bottom: 24px;
+    font-size: clamp(0.875rem, 0.6vw + 0.78rem, 0.96rem);
   }
 }
 
