@@ -2510,14 +2510,23 @@ main {
   margin-top: 0;
 }
 
-.game-promo__subtitle {
+.game-promo .section__head > .game-promo__subtitle,
+#game-promo .game-promo__subtitle {
   margin: 10px 0 16px;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
   color: var(--accent);
   font-family: var(--font-body);
   font-size: clamp(1.25rem, 0.35vw + 1.18rem, 1.375rem);
   line-height: 1.3;
   font-weight: 600;
   text-wrap: pretty;
+}
+
+.game-promo__subtitle::before {
+  content: none;
+  display: none;
 }
 
 .game-promo__lead {
@@ -2703,7 +2712,8 @@ main {
     align-items: center;
   }
 
-  .game-promo__subtitle {
+  .game-promo .section__head > .game-promo__subtitle,
+  #game-promo .game-promo__subtitle {
     margin: 8px 0 14px;
     font-size: clamp(1.2rem, 3.5vw + 0.6rem, 1.3rem);
   }
@@ -2729,7 +2739,8 @@ main {
     gap: 5px;
   }
 
-  .game-promo__subtitle {
+  .game-promo .section__head > .game-promo__subtitle,
+  #game-promo .game-promo__subtitle {
     margin: 8px 0 14px;
     font-size: clamp(1.2rem, 3.5vw + 0.6rem, 1.3rem);
   }
