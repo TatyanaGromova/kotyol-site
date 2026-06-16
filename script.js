@@ -1407,3 +1407,53 @@ if (requestForm && formMessage) {
     requestForm.reset();
   });
 }
+
+(function initBoilerPicker() {
+  const picker = document.getElementById("boiler-picker");
+  if (!picker) return;
+
+  const options = [...picker.querySelectorAll(".boiler-picker__option")];
+  const cta = picker.querySelector(".boiler-picker__cta");
+  const requestSection = document.getElementById("request");
+  const commentField = document.querySelector('#requestForm textarea[name="comment"]');
+  const header = document.getElementById("siteHeader");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  let selectedArea = "";
+
+  const updateSelection = (nextValue) => {
+    selectedArea = nextValue;
+    options.forEach((option) => {
+      const isActive = option.dataset.area === nextValue;
+      option.classList.toggle("is-active", isActive);
+      option.setAttribute("aria-pressed", isActive ? "true" : "false");
+    });
+  };
+
+  options.forEach((option) => {
+    option.setAttribute("aria-pressed", "false");
+    option.addEventListener("click", () => updateSelection(option.dataset.area || ""));
+  });
+
+  cta?.addEventListener("click", () => {
+    if (commentField) {
+      commentField.value = selectedArea
+        ? `Нужен подбор котла. Площадь дома: ${selectedArea}`
+        : "Нужен подбор котла.";
+    }
+
+    if (requestSection) {
+      const offset = (header?.offsetHeight || 0) + 12;
+      const top = Math.max(
+        0,
+        requestSection.getBoundingClientRect().top + window.scrollY - offset
+      );
+      window.scrollTo({
+        top,
+        behavior: reduceMotion.matches ? "auto" : "smooth",
+      });
+    }
+
+    commentField?.focus({ preventScroll: true });
+  });
+})();
