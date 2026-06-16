@@ -542,6 +542,15 @@ main {
   line-height: 1.35;
   font-weight: 500;
 }
+
+.hero__subtitle-services-row {
+  display: inline;
+}
+
+.hero__subtitle-services-row + .hero__subtitle-services-row::before {
+  content: " • ";
+}
+
 .hero__subtitle-region {
   display: inline-block;
   margin-top: 8px;
@@ -4921,6 +4930,14 @@ main {
   .hero__subtitle {
     font-size: clamp(1rem, 0.5vw + 0.92rem, 1.125rem);
     margin-bottom: 10px;
+  }
+
+  .hero__subtitle-services-row {
+    display: block;
+  }
+
+  .hero__subtitle-services-row + .hero__subtitle-services-row::before {
+    content: none;
   }
 
   .hero__description {
