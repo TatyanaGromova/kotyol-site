@@ -2244,9 +2244,11 @@ main {
   margin-top: 12px;
 }
 
-.boiler-picker__subtitle {
+.boiler-picker .section__head .boiler-picker__subtitle {
   margin: 0;
   max-width: none;
+  margin-left: auto;
+  margin-right: auto;
   color: rgba(239, 245, 249, 0.94);
   font-size: var(--fs-body);
   line-height: var(--lh-body);
@@ -2254,13 +2256,13 @@ main {
   text-wrap: pretty;
 }
 
-.boiler-picker__note {
+.boiler-picker .section__head .boiler-picker__note {
   margin: 0;
   max-width: 36rem;
   margin-inline: auto;
-  color: rgba(230, 238, 244, 0.68);
+  color: rgba(230, 238, 244, 0.6);
   font-size: var(--fs-caption);
-  line-height: var(--lh-caption);
+  line-height: 1.4;
   font-weight: 400;
   text-wrap: pretty;
 }
