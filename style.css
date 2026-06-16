@@ -2185,8 +2185,11 @@ main {
 
 .boiler-picker__card {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border-radius: 30px;
-  padding: clamp(24px, 3.2vw, 34px);
+  padding: clamp(24px, 2.8vw, 32px);
   background: linear-gradient(145deg, rgba(10, 34, 51, 0.9), rgba(7, 24, 33, 0.9));
   border: 1px solid rgba(217, 122, 60, 0.24);
   box-shadow:
@@ -2215,37 +2218,49 @@ main {
 .boiler-picker .section__head {
   position: relative;
   z-index: 1;
-  margin-bottom: 0;
+  width: 100%;
+  max-width: 42rem;
+  margin: 0 auto clamp(22px, 2.6vw, 28px);
+  text-align: center;
 }
 
-.boiler-picker .section__head h2,
-.boiler-picker .section__head p {
+.boiler-picker .section__head h2 {
+  margin-bottom: 0;
   color: #f5f8fb;
 }
 
+.boiler-picker__intro {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+
 .boiler-picker__subtitle {
-  max-width: 760px;
-  margin: 0 auto 10px;
-  color: rgba(239, 245, 249, 0.95);
-  font-size: clamp(1rem, 0.28vw + 0.95rem, 1.16rem);
-  line-height: 1.4;
+  margin: 0;
+  max-width: none;
+  color: rgba(239, 245, 249, 0.94);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
   font-weight: 500;
   text-wrap: pretty;
 }
 
 .boiler-picker__note {
-  max-width: 700px;
-  margin: 12px auto 22px;
-  color: rgba(230, 238, 244, 0.56);
-  font-size: clamp(0.66rem, 0.16vw + 0.64rem, 0.74rem);
-  line-height: 1.45;
-  text-align: center;
+  margin: 0;
+  max-width: 36rem;
+  margin-inline: auto;
+  color: rgba(230, 238, 244, 0.68);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-caption);
+  font-weight: 400;
   text-wrap: pretty;
 }
 
 .boiler-picker__options {
   position: relative;
   z-index: 1;
+  width: 100%;
+  max-width: 920px;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
@@ -2256,8 +2271,8 @@ main {
   background: rgba(255, 255, 255, 0.9);
   color: var(--brand-text);
   border-radius: 16px;
-  min-height: 62px;
-  padding: 12px 14px;
+  min-height: 58px;
+  padding: 11px 14px;
   font-family: var(--font-body);
   font-size: clamp(0.95rem, 0.25vw + 0.9rem, 1.02rem);
   font-weight: 600;
@@ -2282,7 +2297,7 @@ main {
   display: block;
   position: relative;
   z-index: 1;
-  margin: 14px auto 0;
+  margin: 20px auto 0;
   min-height: 50px;
   padding-inline: clamp(24px, 2.2vw, 36px);
   box-shadow:
@@ -2321,7 +2336,16 @@ main {
 @media (max-width: 640px) {
   .boiler-picker__card {
     border-radius: 24px;
-    padding: 20px 16px calc(20px + env(safe-area-inset-bottom, 0px));
+    padding: 20px 16px calc(18px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .boiler-picker .section__head {
+    margin-bottom: 20px;
+  }
+
+  .boiler-picker__intro {
+    margin-top: 10px;
+    gap: 5px;
   }
 
   .boiler-picker__options {
@@ -2329,23 +2353,13 @@ main {
   }
 
   .boiler-picker__option {
-    min-height: 56px;
+    min-height: 54px;
   }
 
   .boiler-picker__cta {
     width: 100%;
-    margin-top: 14px;
-    margin-bottom: 6px;
-  }
-
-  .boiler-picker__subtitle {
-    font-size: clamp(0.98rem, 0.65vw + 0.9rem, 1.08rem);
-  }
-
-  .boiler-picker__note {
-    margin-top: 12px;
-    margin-bottom: 22px;
-    font-size: clamp(0.66rem, 0.42vw + 0.62rem, 0.74rem);
+    margin-top: 18px;
+    margin-bottom: 4px;
   }
 }
 
