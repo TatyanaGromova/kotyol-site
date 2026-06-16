@@ -2402,9 +2402,10 @@ main {
 /* Промо-блок мини-игры «Трубный маршрут» */
 .game-promo {
   background:
-    radial-gradient(circle at 14% 18%, rgba(217, 122, 60, 0.1), transparent 36%),
-    radial-gradient(circle at 88% 12%, rgba(217, 122, 60, 0.06), transparent 34%),
-    linear-gradient(180deg, #ffffff 0%, #f7f4f1 100%);
+    radial-gradient(circle at 14% 18%, rgba(217, 122, 60, 0.2), transparent 38%),
+    radial-gradient(circle at 88% 8%, rgba(217, 122, 60, 0.12), transparent 36%),
+    linear-gradient(135deg, var(--brand-dark), var(--brand-deep));
+  color: #f5f8fb;
   overflow-x: hidden;
 }
 
@@ -2416,22 +2417,22 @@ main {
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  max-width: 1180px;
-  margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(260px, 360px);
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
+  grid-template-rows: auto auto;
   grid-template-areas:
-    "intro visual"
-    "body visual";
+    "head visual"
+    "foot visual";
   align-items: center;
-  gap: clamp(16px, 2vw, 24px) clamp(28px, 4vw, 48px);
-  padding: clamp(24px, 2.8vw, 36px);
+  column-gap: clamp(24px, 3.5vw, 40px);
+  row-gap: clamp(22px, 2.6vw, 28px);
+  padding: clamp(24px, 2.8vw, 32px);
   border-radius: 30px;
   border: 1px solid rgba(217, 122, 60, 0.24);
-  background: linear-gradient(145deg, rgba(10, 34, 51, 0.92), rgba(7, 24, 33, 0.94));
+  background: linear-gradient(145deg, rgba(10, 34, 51, 0.9), rgba(7, 24, 33, 0.9));
   box-shadow:
-    0 22px 60px rgba(7, 24, 33, 0.36),
-    0 0 46px rgba(217, 122, 60, 0.14);
+    0 22px 58px rgba(7, 24, 33, 0.36),
+    0 0 42px rgba(217, 122, 60, 0.12);
   overflow: hidden;
 }
 
@@ -2441,61 +2442,68 @@ main {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at 88% 18%, rgba(217, 122, 60, 0.16), transparent 40%),
+    radial-gradient(circle at 90% 14%, rgba(217, 122, 60, 0.16), transparent 32%),
     repeating-linear-gradient(
       110deg,
       transparent 0,
-      transparent 60px,
-      rgba(217, 122, 60, 0.05) 60px,
-      rgba(217, 122, 60, 0.05) 62px
+      transparent 54px,
+      rgba(217, 122, 60, 0.06) 54px,
+      rgba(217, 122, 60, 0.06) 56px
     );
   opacity: 0.55;
 }
 
-.game-promo__intro,
-.game-promo__body,
+.game-promo__head,
+.game-promo__foot,
 .game-promo__visual {
   position: relative;
   z-index: 1;
   min-width: 0;
 }
 
-.game-promo__intro {
-  grid-area: intro;
-  align-self: end;
+.game-promo__head {
+  grid-area: head;
+  width: 100%;
+  max-width: 42rem;
+  margin: 0;
+  text-align: left;
 }
 
-.game-promo__body {
-  grid-area: body;
-  align-self: start;
+.game-promo__foot {
+  grid-area: foot;
+  width: 100%;
+  max-width: 42rem;
 }
 
 .game-promo__visual {
   grid-area: visual;
+  grid-row: 1 / -1;
   display: flex;
   justify-content: center;
   align-self: center;
 }
 
-.game-promo__intro h2 {
-  margin: 0;
+.game-promo__head h2 {
+  margin-bottom: 0;
   color: #f5f8fb;
-  font-size: var(--fs-h2);
-  line-height: var(--lh-h2);
+}
+
+.game-promo__intro {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.game-promo__subtitle {
+  margin: 0;
+  color: rgba(230, 238, 244, 0.82);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-weight: 500;
   text-wrap: pretty;
 }
 
-.game-promo__kicker {
-  margin: 10px 0 0;
-  color: var(--brand-copper);
-  font-family: var(--font-body);
-  font-size: var(--fs-caption);
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.game-promo__desc {
+.game-promo__lead {
   margin: 0;
   color: rgba(239, 245, 249, 0.94);
   font-size: var(--fs-body);
@@ -2505,10 +2513,12 @@ main {
 }
 
 .game-promo__note {
-  margin: 10px 0 0;
+  margin: 0;
+  max-width: 36rem;
   color: rgba(230, 238, 244, 0.68);
   font-size: var(--fs-caption);
   line-height: var(--lh-caption);
+  font-weight: 400;
   text-wrap: pretty;
 }
 
@@ -2516,7 +2526,6 @@ main {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 16px;
 }
 
 .game-promo__chip {
@@ -2535,13 +2544,27 @@ main {
 }
 
 .game-promo__cta {
+  display: inline-flex;
   margin-top: 20px;
+  min-height: 50px;
+  padding-inline: clamp(24px, 2.2vw, 36px);
+  box-shadow:
+    0 14px 34px rgba(217, 122, 60, 0.34),
+    0 0 26px rgba(217, 122, 60, 0.2);
+}
+
+@media (hover: hover) {
+  .game-promo__cta:hover {
+    box-shadow:
+      0 18px 44px rgba(217, 122, 60, 0.42),
+      0 0 34px rgba(217, 122, 60, 0.25);
+  }
 }
 
 .game-promo__screen {
-  width: min(100%, 300px);
+  width: min(100%, 280px);
   aspect-ratio: 9 / 16;
-  max-height: min(520px, 62vh);
+  max-height: min(480px, 58vh);
   border-radius: 26px;
   padding: 8px;
   border: 2px solid rgba(7, 24, 33, 0.9);
@@ -2557,7 +2580,7 @@ main {
 }
 
 .game-promo__screen.reveal--from-right {
-  transform: translate3d(28px, 0, 0) scale(0.97);
+  transform: translate3d(24px, 0, 0) scale(0.98);
 }
 
 .game-promo__screen.reveal--from-right.active {
@@ -2583,8 +2606,8 @@ main {
   background: #071821;
 }
 
-.game-promo__kicker.reveal { transition-delay: 70ms; }
-.game-promo__desc.reveal { transition-delay: 140ms; }
+.game-promo__subtitle.reveal { transition-delay: 70ms; }
+.game-promo__lead.reveal { transition-delay: 140ms; }
 .game-promo__note.reveal { transition-delay: 210ms; }
 .game-promo__chips .game-promo__chip.reveal:nth-child(1) { transition-delay: 280ms; }
 .game-promo__chips .game-promo__chip.reveal:nth-child(2) { transition-delay: 350ms; }
@@ -2595,22 +2618,29 @@ main {
 @media (max-width: 900px) {
   .game-promo__card {
     grid-template-columns: 1fr;
+    grid-template-rows: auto;
     grid-template-areas:
-      "intro"
+      "head"
       "visual"
-      "body";
-    gap: 20px;
-    padding: clamp(20px, 4vw, 28px);
+      "foot";
+    row-gap: 20px;
   }
 
-  .game-promo__intro,
-  .game-promo__body {
-    align-self: auto;
+  .game-promo__visual {
+    grid-row: auto;
+  }
+
+  .game-promo__head,
+  .game-promo__foot {
+    max-width: none;
+    text-align: center;
+  }
+
+  .game-promo__note {
+    margin-inline: auto;
   }
 
   .game-promo__screen {
-    width: min(100%, 280px);
-    max-height: min(480px, 58vh);
     margin-inline: auto;
   }
 }
@@ -2618,16 +2648,18 @@ main {
 @media (max-width: 640px) {
   .game-promo__card {
     border-radius: 24px;
-    padding: 20px 16px 24px;
+    padding: 20px 16px calc(18px + env(safe-area-inset-bottom, 0px));
+    row-gap: 18px;
   }
 
-  .game-promo__intro h2 {
-    font-size: clamp(1.5rem, 5vw + 0.5rem, 2rem);
+  .game-promo__intro {
+    margin-top: 10px;
+    gap: 5px;
   }
 
   .game-promo__chips {
+    justify-content: center;
     gap: 8px;
-    margin-top: 14px;
   }
 
   .game-promo__chip {
@@ -2636,8 +2668,10 @@ main {
   }
 
   .game-promo__cta {
+    display: flex;
     width: 100%;
     margin-top: 18px;
+    margin-bottom: 4px;
   }
 
   .game-promo__screen {
@@ -2648,12 +2682,6 @@ main {
 
   .game-promo__screen video {
     border-radius: 16px;
-  }
-}
-
-@media (max-width: 768px) {
-  #game-promo.section.game-promo {
-    padding-bottom: calc(var(--space-section-y-mobile) + 12px);
   }
 }
 
