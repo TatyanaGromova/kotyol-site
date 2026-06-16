@@ -2512,15 +2512,16 @@ main {
 
 .game-promo .section__head > .game-promo__subtitle,
 #game-promo .game-promo__subtitle {
-  margin: 10px 0 16px;
+  display: block;
+  width: 100%;
+  margin: 10px auto 16px;
   max-width: none;
-  margin-left: 0;
-  margin-right: 0;
   color: var(--accent);
   font-family: var(--font-body);
-  font-size: clamp(1.25rem, 0.35vw + 1.18rem, 1.375rem);
-  line-height: 1.3;
+  font-size: clamp(0.9375rem, 0.22vw + 0.88rem, 1.0625rem);
+  line-height: 1.35;
   font-weight: 600;
+  text-align: center;
   text-wrap: pretty;
 }
 
@@ -2714,8 +2715,8 @@ main {
 
   .game-promo .section__head > .game-promo__subtitle,
   #game-promo .game-promo__subtitle {
-    margin: 8px 0 14px;
-    font-size: clamp(1.2rem, 3.5vw + 0.6rem, 1.3rem);
+    margin: 8px auto 14px;
+    font-size: clamp(0.875rem, 2.2vw + 0.72rem, 1rem);
   }
 
   .game-promo__note {
@@ -2741,8 +2742,8 @@ main {
 
   .game-promo .section__head > .game-promo__subtitle,
   #game-promo .game-promo__subtitle {
-    margin: 8px 0 14px;
-    font-size: clamp(1.2rem, 3.5vw + 0.6rem, 1.3rem);
+    margin: 8px auto 14px;
+    font-size: clamp(0.875rem, 2.2vw + 0.72rem, 1rem);
   }
 
   .game-promo__chips {
