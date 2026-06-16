@@ -4985,6 +4985,15 @@ main {
     content: none;
   }
 
+  .hero__subtitle br {
+    display: none;
+  }
+
+  .hero__subtitle-region {
+    display: block;
+    margin-top: 4px;
+  }
+
   .hero__description {
     font-size: var(--fs-caption);
     line-height: var(--lh-caption);
