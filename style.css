@@ -2399,27 +2399,38 @@ main {
   }
 }
 
-/* Слайдер «Наши работы» */
+/* Промо-блок мини-игры «Трубный маршрут» */
 .game-promo {
   background:
-    radial-gradient(circle at 9% 18%, rgba(217, 122, 60, 0.2), transparent 38%),
-    radial-gradient(circle at 86% 14%, rgba(217, 122, 60, 0.12), transparent 36%),
-    linear-gradient(130deg, var(--brand-dark), var(--brand-deep));
-  color: #f5f8fb;
+    radial-gradient(circle at 14% 18%, rgba(217, 122, 60, 0.1), transparent 36%),
+    radial-gradient(circle at 88% 12%, rgba(217, 122, 60, 0.06), transparent 34%),
+    linear-gradient(180deg, #ffffff 0%, #f7f4f1 100%);
+  overflow-x: hidden;
+}
+
+.game-promo .container {
+  position: relative;
 }
 
 .game-promo__card {
   position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(240px, 0.8fr);
+  grid-template-columns: minmax(0, 1.1fr) minmax(260px, 360px);
+  grid-template-areas:
+    "intro visual"
+    "body visual";
   align-items: center;
-  gap: clamp(20px, 3vw, 34px);
-  padding: clamp(22px, 2.8vw, 34px);
+  gap: clamp(16px, 2vw, 24px) clamp(28px, 4vw, 48px);
+  padding: clamp(24px, 2.8vw, 36px);
   border-radius: 30px;
   border: 1px solid rgba(217, 122, 60, 0.24);
-  background: linear-gradient(145deg, rgba(10, 34, 51, 0.88), rgba(7, 24, 33, 0.9));
+  background: linear-gradient(145deg, rgba(10, 34, 51, 0.92), rgba(7, 24, 33, 0.94));
   box-shadow:
-    0 22px 60px rgba(7, 24, 33, 0.4),
+    0 22px 60px rgba(7, 24, 33, 0.36),
     0 0 46px rgba(217, 122, 60, 0.14);
   overflow: hidden;
 }
@@ -2430,48 +2441,75 @@ main {
   inset: 0;
   pointer-events: none;
   background:
+    radial-gradient(circle at 88% 18%, rgba(217, 122, 60, 0.16), transparent 40%),
     repeating-linear-gradient(
       110deg,
       transparent 0,
       transparent 60px,
-      rgba(217, 122, 60, 0.06) 60px,
-      rgba(217, 122, 60, 0.06) 62px
-    ),
-    radial-gradient(circle at 86% 20%, rgba(217, 122, 60, 0.16), transparent 42%);
+      rgba(217, 122, 60, 0.05) 60px,
+      rgba(217, 122, 60, 0.05) 62px
+    );
   opacity: 0.55;
 }
 
-.game-promo__content,
+.game-promo__intro,
+.game-promo__body,
 .game-promo__visual {
   position: relative;
   z-index: 1;
+  min-width: 0;
 }
 
-.game-promo__content h2 {
+.game-promo__intro {
+  grid-area: intro;
+  align-self: end;
+}
+
+.game-promo__body {
+  grid-area: body;
+  align-self: start;
+}
+
+.game-promo__visual {
+  grid-area: visual;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
+
+.game-promo__intro h2 {
   margin: 0;
   color: #f5f8fb;
+  font-size: var(--fs-h2);
+  line-height: var(--lh-h2);
+  text-wrap: pretty;
 }
 
-.game-promo__lead {
-  margin: 14px 0 0;
-  color: rgba(243, 248, 251, 0.96);
-  font-size: clamp(1.04rem, 0.52vw + 0.96rem, 1.22rem);
-  line-height: 1.4;
+.game-promo__kicker {
+  margin: 10px 0 0;
+  color: var(--brand-copper);
+  font-family: var(--font-body);
+  font-size: var(--fs-caption);
   font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .game-promo__desc {
-  margin: 12px 0 0;
-  color: rgba(229, 238, 244, 0.9);
+  margin: 0;
+  color: rgba(239, 245, 249, 0.94);
   font-size: var(--fs-body);
   line-height: var(--lh-body);
+  font-weight: 500;
+  text-wrap: pretty;
 }
 
 .game-promo__note {
   margin: 10px 0 0;
-  color: rgba(229, 238, 244, 0.72);
+  color: rgba(230, 238, 244, 0.68);
   font-size: var(--fs-caption);
   line-height: var(--lh-caption);
+  text-wrap: pretty;
 }
 
 .game-promo__chips {
@@ -2497,67 +2535,99 @@ main {
 }
 
 .game-promo__cta {
-  margin-top: 18px;
-  min-height: 50px;
-  box-shadow:
-    0 14px 34px rgba(217, 122, 60, 0.34),
-    0 0 26px rgba(217, 122, 60, 0.2);
-}
-
-.game-promo__visual {
-  display: flex;
-  justify-content: center;
+  margin-top: 20px;
 }
 
 .game-promo__screen {
-  width: min(100%, 360px);
-  aspect-ratio: 16 / 10;
-  border-radius: 22px;
-  padding: 10px;
-  border: 1px solid rgba(217, 122, 60, 0.3);
-  background: linear-gradient(160deg, rgba(245, 248, 251, 0.1), rgba(217, 122, 60, 0.12));
+  width: min(100%, 300px);
+  aspect-ratio: 9 / 16;
+  max-height: min(520px, 62vh);
+  border-radius: 26px;
+  padding: 8px;
+  border: 2px solid rgba(7, 24, 33, 0.9);
+  background: linear-gradient(160deg, rgba(7, 24, 33, 0.96), rgba(11, 34, 51, 0.92));
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.06),
-    0 12px 30px rgba(7, 24, 33, 0.42),
-    0 0 28px rgba(217, 122, 60, 0.16);
+    0 16px 40px rgba(7, 24, 33, 0.45),
+    0 0 36px rgba(217, 122, 60, 0.2);
+  overflow: hidden;
+  transition:
+    transform var(--duration-base) var(--ease-premium),
+    box-shadow var(--duration-base) ease;
 }
 
-.game-promo__screen img {
+.game-promo__screen.reveal--from-right {
+  transform: translate3d(28px, 0, 0) scale(0.97);
+}
+
+.game-promo__screen.reveal--from-right.active {
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+@media (hover: hover) {
+  .game-promo__screen.reveal--from-right.active:hover {
+    transform: translate3d(0, 0, 0) scale(1.02);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+      0 20px 48px rgba(7, 24, 33, 0.5),
+      0 0 48px rgba(217, 122, 60, 0.32);
+  }
+}
+
+.game-promo__screen video {
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: 14px;
-  object-fit: cover;
+  border-radius: 18px;
+  object-fit: contain;
+  background: #071821;
 }
+
+.game-promo__kicker.reveal { transition-delay: 70ms; }
+.game-promo__desc.reveal { transition-delay: 140ms; }
+.game-promo__note.reveal { transition-delay: 210ms; }
+.game-promo__chips .game-promo__chip.reveal:nth-child(1) { transition-delay: 280ms; }
+.game-promo__chips .game-promo__chip.reveal:nth-child(2) { transition-delay: 350ms; }
+.game-promo__chips .game-promo__chip.reveal:nth-child(3) { transition-delay: 420ms; }
+.game-promo__cta.reveal { transition-delay: 500ms; }
+.game-promo__screen.reveal { transition-delay: 120ms; }
 
 @media (max-width: 900px) {
   .game-promo__card {
     grid-template-columns: 1fr;
+    grid-template-areas:
+      "intro"
+      "visual"
+      "body";
+    gap: 20px;
+    padding: clamp(20px, 4vw, 28px);
   }
 
-  .game-promo__visual {
-    order: 2;
-    width: 100%;
+  .game-promo__intro,
+  .game-promo__body {
+    align-self: auto;
   }
 
   .game-promo__screen {
-    width: min(100%, 420px);
+    width: min(100%, 280px);
+    max-height: min(480px, 58vh);
+    margin-inline: auto;
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 640px) {
   .game-promo__card {
     border-radius: 24px;
-    padding: 20px 16px;
-    gap: 16px;
+    padding: 20px 16px 24px;
   }
 
-  .game-promo__lead {
-    margin-top: 12px;
+  .game-promo__intro h2 {
+    font-size: clamp(1.5rem, 5vw + 0.5rem, 2rem);
   }
 
   .game-promo__chips {
     gap: 8px;
+    margin-top: 14px;
   }
 
   .game-promo__chip {
@@ -2567,16 +2637,27 @@ main {
 
   .game-promo__cta {
     width: 100%;
-    margin-top: 16px;
+    margin-top: 18px;
+  }
+
+  .game-promo__screen {
+    width: min(100%, 260px);
+    border-radius: 24px;
+    max-height: min(440px, 52vh);
+  }
+
+  .game-promo__screen video {
+    border-radius: 16px;
   }
 }
 
-@media (max-width: 430px) {
-  .game-promo__visual {
-    display: none;
+@media (max-width: 768px) {
+  #game-promo.section.game-promo {
+    padding-bottom: calc(var(--space-section-y-mobile) + 12px);
   }
 }
 
+/* Слайдер «Наши работы» */
 .section--works {
   background:
     radial-gradient(circle at 12% 18%, rgba(217, 122, 60, 0.08), transparent 32%),
@@ -2853,8 +2934,7 @@ main {
 @media (min-width: 992px) {
   #planning.planning-section,
   #advantages.section--why,
-  #works.section.section--works,
-  #game-promo.section.game-promo {
+  #works.section.section--works {
     padding-top: 64px;
     padding-bottom: 64px;
   }
