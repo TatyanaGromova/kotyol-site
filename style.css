@@ -2223,13 +2223,19 @@ main {
   color: #f5f8fb;
 }
 
-.boiler-picker .section__head p {
-  color: rgba(230, 238, 244, 0.88);
+.boiler-picker__subtitle {
+  max-width: 760px;
+  margin: 0 auto 10px;
+  color: rgba(239, 245, 249, 0.95);
+  font-size: clamp(1rem, 0.28vw + 0.95rem, 1.16rem);
+  line-height: 1.4;
+  font-weight: 500;
+  text-wrap: pretty;
 }
 
 .boiler-picker__note {
   max-width: 700px;
-  margin: 14px auto 28px;
+  margin: 12px auto 24px;
   color: rgba(230, 238, 244, 0.78);
   font-size: clamp(0.875rem, 0.25vw + 0.82rem, 1rem);
   line-height: 1.45;
@@ -2275,7 +2281,20 @@ main {
 .boiler-picker__cta {
   position: relative;
   z-index: 1;
-  margin-top: 18px;
+  margin-top: 14px;
+  min-height: 50px;
+  padding-inline: clamp(24px, 2.2vw, 36px);
+  box-shadow:
+    0 14px 34px rgba(217, 122, 60, 0.34),
+    0 0 26px rgba(217, 122, 60, 0.2);
+}
+
+@media (hover: hover) {
+  .boiler-picker__cta:hover {
+    box-shadow:
+      0 18px 44px rgba(217, 122, 60, 0.42),
+      0 0 34px rgba(217, 122, 60, 0.25);
+  }
 }
 
 .boiler-picker__options .boiler-picker__option.reveal:nth-child(1) { transition-delay: 40ms; }
@@ -2316,6 +2335,10 @@ main {
     width: 100%;
     margin-top: 14px;
     margin-bottom: 6px;
+  }
+
+  .boiler-picker__subtitle {
+    font-size: clamp(0.98rem, 0.65vw + 0.9rem, 1.08rem);
   }
 
   .boiler-picker__note {
