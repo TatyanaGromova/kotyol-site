@@ -551,10 +551,6 @@ main {
   content: " • ";
 }
 
-.hero__subtitle-services-text--mobile {
-  display: none;
-}
-
 .hero__subtitle-region {
   display: inline-block;
   margin-top: 8px;
@@ -4989,14 +4985,6 @@ main {
 
   .hero__subtitle-services-row + .hero__subtitle-services-row::before {
     content: none;
-  }
-
-  .hero__subtitle-services-text--desktop {
-    display: none;
-  }
-
-  .hero__subtitle-services-text--mobile {
-    display: inline;
   }
 
   .hero__subtitle br {
