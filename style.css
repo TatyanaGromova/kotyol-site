@@ -9,6 +9,7 @@
   --color-text: var(--brand-text);
   --color-muted: var(--brand-muted);
   --color-accent: var(--brand-orange);
+  --color-check: #58d68d;
   --color-light-bg: var(--brand-light);
   --color-white: #ffffff;
   --color-text-on-dark-muted: #dde6ec;
@@ -682,7 +683,7 @@ main {
   line-height: var(--lh-body);
 }
 .trust-list i {
-  color: #58d68d;
+  color: var(--color-check);
   font-size: 1.125rem;
   flex-shrink: 0;
 }
@@ -2138,9 +2139,9 @@ main {
   line-height: var(--lh-body);
 }
 .official li::before {
-  content: "\F26E";
+  content: "\f270";
   font-family: "bootstrap-icons";
-  color: var(--accent);
+  color: var(--color-check);
   position: absolute;
   left: 0;
   top: 0;
@@ -2358,10 +2359,24 @@ main {
 
 .boiler-picker__advice-title {
   margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
   color: rgba(248, 235, 224, 0.98);
   font-size: var(--fs-body);
   line-height: 1.45;
   font-weight: 600;
+}
+
+.boiler-picker__advice-title::before {
+  content: "\f270";
+  font-family: "bootstrap-icons";
+  font-style: normal;
+  font-weight: normal;
+  color: var(--color-check);
+  font-size: 1.125rem;
+  line-height: 1.45;
+  flex-shrink: 0;
 }
 
 .boiler-picker__advice-note {
@@ -4311,10 +4326,24 @@ main {
 
 .request-form__task-hint-title {
   margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
   color: rgba(248, 235, 224, 0.98);
   font-size: clamp(0.875rem, 0.12vw + 0.84rem, 0.975rem);
   line-height: 1.45;
   font-weight: 600;
+}
+
+.request-form__task-hint-title::before {
+  content: "\f270";
+  font-family: "bootstrap-icons";
+  font-style: normal;
+  font-weight: normal;
+  color: var(--color-check);
+  font-size: 1.125rem;
+  line-height: 1.45;
+  flex-shrink: 0;
 }
 
 .request-form label:not(.consent-label) {
@@ -4384,7 +4413,7 @@ main {
   font-size: var(--fs-caption);
   line-height: var(--lh-caption);
 }
-.form-message { margin: 4px 0 0; color: #148057; font-weight: 700; min-height: 22px; }
+.form-message { margin: 4px 0 0; color: var(--color-check); font-weight: 700; min-height: 22px; }
 .form-message--error { color: #c0392b; }
 
 .footer__legal {

@@ -1501,7 +1501,7 @@ if (lightbox && lightboxImage && lightboxClose) {
       clearTaskHint();
       return;
     }
-    if (taskHintTitle) taskHintTitle.textContent = `✅ ${text}`;
+    if (taskHintTitle) taskHintTitle.textContent = text;
     taskHint.classList.add("is-visible");
     taskHint.setAttribute("aria-hidden", "false");
   };
@@ -1568,10 +1568,10 @@ if (lightbox && lightboxImage && lightboxClose) {
   const header = document.getElementById("siteHeader");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const recommendations = {
-    "До 100 м²": "✅ Обычно подходят котлы 10–12 кВт",
-    "100–150 м²": "✅ Обычно подходят котлы 12–18 кВт",
-    "150–250 м²": "✅ Обычно подходят котлы 18–24 кВт",
-    "Более 250 м²": "✅ Требуется индивидуальный расчёт мощности оборудования",
+    "До 100 м²": "Обычно подходят котлы 10–12 кВт",
+    "100–150 м²": "Обычно подходят котлы 12–18 кВт",
+    "150–250 м²": "Обычно подходят котлы 18–24 кВт",
+    "Более 250 м²": "Требуется индивидуальный расчёт мощности оборудования",
   };
 
   let selectedArea = "";
