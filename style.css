@@ -3543,11 +3543,12 @@ main {
 
 .objects-video__content p {
   margin: 0;
-  color: rgba(230, 238, 244, 0.88);
+  color: #64748b;
   font-weight: 500;
   font-size: var(--fs-body);
   line-height: var(--lh-body);
   text-wrap: pretty;
+  text-align: center;
 }
 
 .objects-video__content .btn {
