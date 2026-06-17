@@ -4434,7 +4434,7 @@ main {
 }
 
 .footer__legal a {
-  color: var(--color-text-on-dark-muted);
+  color: rgba(221, 230, 236, 0.68);
   font-size: var(--fs-caption);
   line-height: var(--lh-caption);
   text-decoration: underline;
@@ -4442,7 +4442,7 @@ main {
 }
 
 .footer__legal a:hover {
-  color: var(--color-white);
+  color: rgba(221, 230, 236, 0.88);
 }
 
 .legal-doc {
