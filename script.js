@@ -638,11 +638,64 @@ if (timeline) {
   timelineObserver.observe(timeline);
 }
 
-// Открытие первого FAQ по умолчанию для повышения вовлечения.
-const firstFaqItem = document.querySelector(".faq-list details");
-if (firstFaqItem) {
-  firstFaqItem.open = true;
-}
+// FAQ accordion with smooth height/opacity animation.
+(function initFaqAccordion() {
+  const faqList = document.getElementById("faqList");
+  if (!faqList) return;
+
+  const items = [...faqList.querySelectorAll(".faq-item")];
+
+  const openAnswer = (item, answer, trigger) => {
+    item.classList.add("is-open");
+    trigger.setAttribute("aria-expanded", "true");
+    answer.hidden = false;
+    answer.style.height = "0px";
+    answer.style.opacity = "0";
+    const targetHeight = answer.scrollHeight;
+    requestAnimationFrame(() => {
+      answer.style.height = `${targetHeight}px`;
+      answer.style.opacity = "1";
+    });
+    const onEnd = () => {
+      answer.style.height = "auto";
+      answer.removeEventListener("transitionend", onEnd);
+    };
+    answer.addEventListener("transitionend", onEnd);
+  };
+
+  const closeAnswer = (item, answer, trigger) => {
+    item.classList.remove("is-open");
+    trigger.setAttribute("aria-expanded", "false");
+    answer.style.height = `${answer.scrollHeight}px`;
+    answer.style.opacity = "1";
+    requestAnimationFrame(() => {
+      answer.style.height = "0px";
+      answer.style.opacity = "0";
+    });
+    const onEnd = () => {
+      answer.hidden = true;
+      answer.removeEventListener("transitionend", onEnd);
+    };
+    answer.addEventListener("transitionend", onEnd);
+  };
+
+  items.forEach((item) => {
+    const trigger = item.querySelector(".faq-item__question");
+    const answer = item.querySelector(".faq-item__answer");
+    if (!trigger || !answer) return;
+    trigger.setAttribute("aria-expanded", "false");
+    answer.hidden = true;
+
+    trigger.addEventListener("click", () => {
+      const isOpen = item.classList.contains("is-open");
+      if (isOpen) {
+        closeAnswer(item, answer, trigger);
+      } else {
+        openAnswer(item, answer, trigger);
+      }
+    });
+  });
+})();
 
 // Lightbox: галерея на странице, карточки «Наши работы» (если есть), слайдер «Наши работы».
 const lightbox = document.getElementById("lightbox");
