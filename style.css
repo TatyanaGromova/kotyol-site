@@ -578,6 +578,15 @@ main {
   font-weight: 600;
 }
 
+@media (min-width: 769px) {
+  .hero__slogan {
+    font-size: clamp(1.06rem, 0.26vw + 0.98rem, 1.22rem);
+    line-height: 1.45;
+    font-weight: 700;
+    text-shadow: 0 0 16px rgba(255, 107, 61, 0.34);
+  }
+}
+
 /* Печатающийся текст: только акцентный слоган в hero */
 .hero__slogan.hero-typing {
   position: relative;
@@ -4983,7 +4992,13 @@ main {
 
   .hero__subtitle {
     font-size: clamp(1rem, 0.5vw + 0.92rem, 1.125rem);
-    margin-bottom: 10px;
+    line-height: 1.45;
+    margin-bottom: 12px;
+  }
+
+  .hero__subtitle-services {
+    display: grid;
+    gap: 2px;
   }
 
   .hero__subtitle-services-row {
@@ -5000,18 +5015,20 @@ main {
 
   .hero__subtitle-region {
     display: block;
-    margin-top: 4px;
+    margin-top: 6px;
   }
 
   .hero__description {
     font-size: var(--fs-caption);
-    line-height: var(--lh-caption);
-    margin-bottom: 10px;
+    line-height: 1.55;
+    margin-bottom: 12px;
   }
 
   .hero__slogan {
-    font-size: var(--fs-caption);
-    line-height: var(--lh-caption);
+    font-size: clamp(1.03rem, 2.2vw + 0.68rem, 1.18rem);
+    line-height: 1.45;
+    font-weight: 700;
+    text-shadow: 0 0 16px rgba(255, 107, 61, 0.38);
     margin-bottom: 12px;
   }
 
