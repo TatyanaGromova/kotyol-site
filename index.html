@@ -980,9 +980,45 @@
 
     <section class="section request-block" id="request">
       <div class="container request-block__inner">
-        <div class="request-block__content reveal reveal--from-left">
-          <h2>Подберём котёл и рассчитаем отопление под ваш дом</h2>
-          <p>Оставьте заявку, и мы свяжемся с вами в ближайшее время</p>
+        <div class="request-block__card reveal reveal--from-left">
+          <div class="request-block__head">
+            <h2>Получите консультацию специалиста</h2>
+            <div class="request-block__intro">
+              <p class="request-block__subtitle">Выберите задачу, оставьте контакты — мы свяжемся с вами и подскажем дальнейшие действия.</p>
+            </div>
+          </div>
+          <fieldset class="request-form__tasks" id="requestTaskGroup">
+            <legend class="request-form__tasks-title">Чем можем помочь?</legend>
+            <div class="request-form__task-tabs" role="radiogroup" aria-label="Чем можем помочь?">
+              <label class="request-form__task-tab">
+                <input type="radio" name="task" value="Нужна консультация" form="requestForm" />
+                <span>Нужна консультация</span>
+              </label>
+              <label class="request-form__task-tab">
+                <input type="radio" name="task" value="Подбор котла" form="requestForm" />
+                <span>Подбор котла</span>
+              </label>
+              <label class="request-form__task-tab">
+                <input type="radio" name="task" value="Монтаж отопления" form="requestForm" />
+                <span>Монтаж отопления</span>
+              </label>
+              <label class="request-form__task-tab">
+                <input type="radio" name="task" value="Первый запуск котла" form="requestForm" />
+                <span>Первый запуск котла</span>
+              </label>
+              <label class="request-form__task-tab">
+                <input type="radio" name="task" value="Ремонт котла" form="requestForm" />
+                <span>Ремонт котла</span>
+              </label>
+              <label class="request-form__task-tab">
+                <input type="radio" name="task" value="Обслуживание котла" form="requestForm" />
+                <span>Обслуживание котла</span>
+              </label>
+            </div>
+            <div class="request-form__task-hint" id="requestTaskHint" aria-live="polite" aria-hidden="true">
+              <p class="request-form__task-hint-title"></p>
+            </div>
+          </fieldset>
         </div>
         <form class="request-form reveal reveal--from-right" id="requestForm">
           <label>Имя<input type="text" name="name" required placeholder="Введите имя" /></label>

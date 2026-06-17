@@ -1429,11 +1429,101 @@ if (lightbox && lightboxImage && lightboxClose) {
 })();
 
 // Обработка формы заявки.
-const requestForm = document.getElementById("requestForm");
-const formMessage = document.getElementById("formMessage");
+(function initRequestForm() {
+  const requestForm = document.getElementById("requestForm");
+  const formMessage = document.getElementById("formMessage");
+  if (!requestForm || !formMessage) return;
 
-if (requestForm && formMessage) {
+  const taskHint = document.getElementById("requestTaskHint");
+  const taskHintTitle = taskHint?.querySelector(".request-form__task-hint-title");
+  const taskInputs = [...document.querySelectorAll('#request input[name="task"]')];
   const consentCheckbox = requestForm.querySelector('[name="consent"]');
+
+  const TASK_HINTS = {
+    "Нужна консультация":
+      "Поможем разобраться в вашей ситуации и подскажем оптимальное решение.",
+    "Подбор котла":
+      "Подберём оборудование под площадь дома, горячую воду и бюджет.",
+    "Монтаж отопления":
+      "Рассчитаем систему отопления и подскажем оптимальное решение для дома.",
+    "Первый запуск котла":
+      "Проверим подключение, настроим оборудование и объясним режимы работы.",
+    "Ремонт котла":
+      "Опишите неисправность — подскажем дальнейшие действия и возможность выезда.",
+    "Обслуживание котла":
+      "Подберём удобное время для сервисного обслуживания и проверки оборудования.",
+  };
+
+  const DEFAULT_TASK = "Нужна консультация";
+
+  const getSelectedTask = () => {
+    const checked = taskInputs.find((input) => input.checked);
+    return checked?.value || DEFAULT_TASK;
+  };
+
+  const getCommentField = () => requestForm.querySelector('textarea[name="comment"]');
+
+  const stripTaskLine = (comment) =>
+    comment.trim().replace(/^Задача:\s*.+?(?:\n\n|\n|$)/, "").trim();
+
+  const syncTaskToComment = () => {
+    const commentField = getCommentField();
+    if (!commentField) return;
+
+    const checked = taskInputs.find((input) => input.checked);
+    if (!checked) return;
+
+    const taskLine = `Задача: ${checked.value}`;
+    const userText = stripTaskLine(commentField.value);
+    commentField.value = userText ? `${taskLine}\n\n${userText}` : taskLine;
+  };
+
+  const ensureTaskInComment = () => {
+    const commentField = getCommentField();
+    if (!commentField) return;
+
+    const taskLine = `Задача: ${getSelectedTask()}`;
+    const userText = stripTaskLine(commentField.value);
+    commentField.value = userText ? `${taskLine}\n\n${userText}` : taskLine;
+  };
+
+  const clearTaskHint = () => {
+    if (!taskHint) return;
+    if (taskHintTitle) taskHintTitle.textContent = "";
+    taskHint.classList.remove("is-visible");
+    taskHint.setAttribute("aria-hidden", "true");
+  };
+
+  const updateTaskHint = (task) => {
+    if (!taskHint) return;
+    const text = TASK_HINTS[task];
+    if (!text) {
+      clearTaskHint();
+      return;
+    }
+    if (taskHintTitle) taskHintTitle.textContent = `✅ ${text}`;
+    taskHint.classList.add("is-visible");
+    taskHint.setAttribute("aria-hidden", "false");
+  };
+
+  const setRequestTask = (taskValue) => {
+    const target = taskInputs.find((input) => input.value === taskValue);
+    if (!target) return;
+    target.checked = true;
+    updateTaskHint(taskValue);
+    syncTaskToComment();
+  };
+
+  window.setRequestFormTask = setRequestTask;
+
+  taskInputs.forEach((input) => {
+    input.addEventListener("change", () => {
+      if (input.checked) {
+        updateTaskHint(input.value);
+        syncTaskToComment();
+      }
+    });
+  });
 
   const clearFormMessage = () => {
     formMessage.textContent = "";
@@ -1455,11 +1545,14 @@ if (requestForm && formMessage) {
       return;
     }
 
+    ensureTaskInComment();
+
     formMessage.classList.remove("form-message--error");
     formMessage.textContent = "Спасибо! Мы свяжемся с вами в ближайшее время.";
     requestForm.reset();
+    clearTaskHint();
   });
-}
+})();
 
 (function initBoilerPicker() {
   const picker = document.getElementById("boiler-picker");
@@ -1530,6 +1623,8 @@ if (requestForm && formMessage) {
         ? `Нужен подбор котла. Площадь дома: ${selectedArea}`
         : "Нужен подбор котла.";
     }
+
+    window.setRequestFormTask?.("Подбор котла");
 
     if (requestSection) {
       const offset = (header?.offsetHeight || 0) + 12;
