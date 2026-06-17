@@ -1454,11 +1454,17 @@ if (lightbox && lightboxImage && lightboxClose) {
       "Подберём удобное время для сервисного обслуживания и проверки оборудования.",
   };
 
-  const DEFAULT_TASK = "Нужна консультация";
+  const LEAD_ENDPOINT =
+    "https://script.google.com/macros/s/AKfycbxChDBBT-U3jU3eCGQkFkuV4hk2dwA09HsMXWrDWPj1E3IlOpZBCDJx-EzO6FviNORY5w/exec";
 
-  const getSelectedTask = () => {
+  const nameField = requestForm.querySelector('[name="name"]');
+  const phoneField = requestForm.querySelector('[name="phone"]');
+  const submitButton = requestForm.querySelector('button[type="submit"]');
+  const submitButtonDefaultText = submitButton?.textContent?.trim() || "Отправить заявку";
+
+  const getSelectedService = () => {
     const checked = taskInputs.find((input) => input.checked);
-    return checked?.value || DEFAULT_TASK;
+    return checked?.value || "";
   };
 
   const getCommentField = () => requestForm.querySelector('textarea[name="comment"]');
@@ -1478,13 +1484,47 @@ if (lightbox && lightboxImage && lightboxClose) {
     commentField.value = userText ? `${taskLine}\n\n${userText}` : taskLine;
   };
 
-  const ensureTaskInComment = () => {
-    const commentField = getCommentField();
-    if (!commentField) return;
+  const resetTaskSelection = () => {
+    taskInputs.forEach((input) => {
+      input.checked = false;
+    });
+    clearTaskHint();
+  };
 
-    const taskLine = `Задача: ${getSelectedTask()}`;
-    const userText = stripTaskLine(commentField.value);
-    commentField.value = userText ? `${taskLine}\n\n${userText}` : taskLine;
+  const showFormError = (message, focusTarget) => {
+    formMessage.textContent = message;
+    formMessage.classList.add("form-message--error");
+    focusTarget?.focus?.();
+  };
+
+  const submitSiteLead = async (payload) => {
+    const body = JSON.stringify(payload);
+
+    try {
+      const response = await fetch(LEAD_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body,
+      });
+
+      if (response.ok) {
+        return true;
+      }
+    } catch (error) {
+      // Пробуем no-cors для GitHub Pages / file:// и других окружений.
+    }
+
+    try {
+      await fetch(LEAD_ENDPOINT, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body,
+      });
+      return true;
+    } catch (error) {
+      return false;
+    }
   };
 
   const clearTaskHint = () => {
@@ -1534,23 +1574,78 @@ if (lightbox && lightboxImage && lightboxClose) {
     if (consentCheckbox.checked) clearFormMessage();
   });
 
-  requestForm.addEventListener("submit", (event) => {
+  requestForm.addEventListener("submit", async (event) => {
     event.preventDefault();
+    clearFormMessage();
 
-    if (!consentCheckbox?.checked) {
-      formMessage.textContent =
-        "Чтобы отправить заявку, подтвердите согласие на обработку персональных данных.";
-      formMessage.classList.add("form-message--error");
-      consentCheckbox?.focus();
+    const name = nameField?.value.trim() || "";
+    const phone = phoneField?.value.trim() || "";
+    const service = getSelectedService();
+    const commentField = getCommentField();
+    const comment = stripTaskLine(commentField?.value || "");
+
+    if (!service) {
+      document.getElementById("requestTaskGroup")?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+      showFormError("Выберите, чем мы можем помочь.");
       return;
     }
 
-    ensureTaskInComment();
+    if (!name) {
+      showFormError("Введите имя.", nameField);
+      return;
+    }
+
+    if (!phone) {
+      showFormError("Введите номер телефона.", phoneField);
+      return;
+    }
+
+    if (!consentCheckbox?.checked) {
+      showFormError(
+        "Чтобы отправить заявку, подтвердите согласие на обработку персональных данных.",
+        consentCheckbox
+      );
+      return;
+    }
+
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Отправляем...";
+    }
+
+    const payload = {
+      type: "siteLead",
+      name,
+      phone,
+      service,
+      comment,
+      consent: true,
+      source: "site",
+      userAgent: navigator.userAgent,
+    };
+
+    const isSent = await submitSiteLead(payload);
+
+    if (submitButton) {
+      submitButton.disabled = false;
+      submitButton.textContent = submitButtonDefaultText;
+    }
+
+    if (!isSent) {
+      showFormError(
+        "Не удалось отправить заявку. Попробуйте ещё раз или свяжитесь с нами по телефону."
+      );
+      return;
+    }
 
     formMessage.classList.remove("form-message--error");
-    formMessage.textContent = "Спасибо! Мы свяжемся с вами в ближайшее время.";
+    formMessage.textContent =
+      "Заявка отправлена. Мы свяжемся с вами в ближайшее время.";
     requestForm.reset();
-    clearTaskHint();
+    resetTaskSelection();
   });
 })();
 
