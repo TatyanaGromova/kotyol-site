@@ -555,6 +555,12 @@
             <button type="button" class="boiler-picker__option reveal" data-area="150–250 м²">150–250 м²</button>
             <button type="button" class="boiler-picker__option reveal" data-area="Более 250 м²">Более 250 м²</button>
           </div>
+          <div class="boiler-picker__advice" id="boilerPickerAdvice" aria-live="polite" aria-hidden="true">
+            <p class="boiler-picker__advice-title"></p>
+            <p class="boiler-picker__advice-note">
+              Точный подбор зависит от утепления дома, количества санузлов и расхода горячей воды.
+            </p>
+          </div>
           <button type="button" class="btn btn--accent boiler-picker__cta reveal">Получить подбор котла</button>
         </div>
       </div>
@@ -880,6 +886,7 @@
           <label>Имя<input type="text" name="name" required placeholder="Введите имя" /></label>
           <label>Телефон<input type="tel" name="phone" required placeholder="+7 (___) ___-__-__" /></label>
           <label>Комментарий<textarea name="comment" rows="4" placeholder="Опишите задачу"></textarea></label>
+          <input type="hidden" name="houseArea" id="requestHouseArea" value="" />
           <label class="consent-label">
             <input type="checkbox" name="consent" id="requestConsent" value="1" />
             <span>Я даю <a href="./soglasie-na-obrabotku-personalnyh-dannyh.html">согласие на обработку персональных данных</a> и ознакомлен(а) с <a href="./politika-konfidentsialnosti.html">Политикой обработки персональных данных</a>.</span>

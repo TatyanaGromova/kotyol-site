@@ -1414,12 +1414,22 @@ if (requestForm && formMessage) {
 
   const options = [...picker.querySelectorAll(".boiler-picker__option")];
   const cta = picker.querySelector(".boiler-picker__cta");
+  const adviceCard = picker.querySelector("#boilerPickerAdvice");
+  const adviceTitle = adviceCard?.querySelector(".boiler-picker__advice-title");
   const requestSection = document.getElementById("request");
   const commentField = document.querySelector('#requestForm textarea[name="comment"]');
+  const houseAreaField = document.querySelector('#requestForm input[name="houseArea"]');
   const header = document.getElementById("siteHeader");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const recommendations = {
+    "До 100 м²": "✅ Обычно подходят котлы 10–12 кВт",
+    "100–150 м²": "✅ Обычно подходят котлы 12–18 кВт",
+    "150–250 м²": "✅ Обычно подходят котлы 18–24 кВт",
+    "Более 250 м²": "✅ Требуется индивидуальный расчёт мощности оборудования",
+  };
 
   let selectedArea = "";
+  let adviceShowTimer = null;
 
   const updateSelection = (nextValue) => {
     selectedArea = nextValue;
@@ -1428,6 +1438,28 @@ if (requestForm && formMessage) {
       option.classList.toggle("is-active", isActive);
       option.setAttribute("aria-pressed", isActive ? "true" : "false");
     });
+
+    if (adviceCard && adviceTitle) {
+      if (adviceShowTimer) {
+        clearTimeout(adviceShowTimer);
+        adviceShowTimer = null;
+      }
+      const nextRecommendation = recommendations[nextValue];
+      if (nextRecommendation) {
+        adviceTitle.textContent = nextRecommendation;
+        adviceCard.classList.remove("is-visible");
+        adviceCard.setAttribute("aria-hidden", "true");
+        const revealDelay = reduceMotion.matches ? 0 : 100;
+        adviceShowTimer = window.setTimeout(() => {
+          adviceCard.classList.add("is-visible");
+          adviceCard.setAttribute("aria-hidden", "false");
+          adviceShowTimer = null;
+        }, revealDelay);
+      } else {
+        adviceCard.classList.remove("is-visible");
+        adviceCard.setAttribute("aria-hidden", "true");
+      }
+    }
   };
 
   options.forEach((option) => {
@@ -1436,6 +1468,10 @@ if (requestForm && formMessage) {
   });
 
   cta?.addEventListener("click", () => {
+    if (houseAreaField) {
+      houseAreaField.value = selectedArea || "";
+    }
+
     if (commentField) {
       commentField.value = selectedArea
         ? `Нужен подбор котла. Площадь дома: ${selectedArea}`
