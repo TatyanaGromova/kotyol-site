@@ -4186,10 +4186,13 @@ main {
 
 .request-block__subtitle {
   margin: 0;
-  color: rgba(239, 245, 249, 0.94);
-  font-size: clamp(0.9375rem, 0.15vw + 0.9rem, 1rem);
-  line-height: 1.5;
-  font-weight: 500;
+  max-width: 36rem;
+  margin-left: 0;
+  margin-right: 0;
+  color: rgba(230, 238, 244, 0.6);
+  font-size: var(--fs-caption);
+  line-height: 1.4;
+  font-weight: 400;
   text-wrap: pretty;
 }
 
