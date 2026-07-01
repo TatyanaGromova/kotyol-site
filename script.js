@@ -1088,9 +1088,11 @@ if (lightbox && lightboxImage && lightboxClose) {
   function scrollThumbsToActive() {
     const active = thumbs[idx];
     if (!active || !thumbsBar) return;
-    const nextLeft = active.offsetLeft + active.offsetWidth / 2 - thumbsBar.clientWidth / 2;
+    const barWidth = thumbsBar.clientWidth;
+    const maxScroll = Math.max(0, thumbsBar.scrollWidth - barWidth);
+    const target = active.offsetLeft - (barWidth - active.offsetWidth) / 2;
     thumbsBar.scrollTo({
-      left: Math.max(0, nextLeft),
+      left: Math.min(maxScroll, Math.max(0, target)),
       behavior: reduce ? "auto" : "smooth",
     });
   }
